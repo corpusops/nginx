@@ -1,4 +1,28 @@
-nginx (1.10.2-zesty-debian0-ubuntu208) zesty; urgency=medium
+nginx (1.10.2-zesty-debian0-ubuntu212) zesty; urgency=medium
+
+  * packaging for zesty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:17:30 +0100
+
+nginx (1.10.2-zesty-debian0-ubuntu211) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:17:04 +0100
+
+nginx (1.10.2-yakkety-debian0-ubuntu210) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:16:53 +0100
+
+nginx (1.10.2-xenial-debian0-ubuntu209) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:16:37 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu208) trusty; urgency=medium
 
   * packaging for zesty
 
