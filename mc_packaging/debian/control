@@ -275,7 +275,7 @@ Description: Stream module for Nginx
 Package: libnginx-mod-http-perl
 Architecture: any
 Depends: ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
-Replaces: nginx-extras (<< 1.9.14-1)
+Replaces: nginx-common (<< 1.10.1)
 Description: Perl module for Nginx
  Embed Perl runtime into nginx.
  .
