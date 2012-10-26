@@ -1,15 +1,9 @@
 #!/usr/bin/perl -w
-
-use Config;
-
-my $vendorarch = substr($Config{vendorarch}, 1);
-print "debian/build-extras/objs/src/http/modules/perl/blib/arch/auto/nginx/* $vendorarch/auto/nginx\n";
-print "debian/build-extras/objs/src/http/modules/perl/blib/lib/nginx.pm $vendorarch\n";
+print "contrib/vim/* usr/share/vim/addons\n";
 print "debian/conf/* etc/nginx\n";
 print "debian/ufw/nginx etc/ufw/applications.d\n";
-print "docs/html/index.html usr/share/nginx/html/\n";
 print "debian/vim/nginx.yaml usr/share/vim/registry\n";
-print "contrib/vim/* usr/share/vim/addons\n";
+print "docs/html/index.html usr/share/nginx/html/\n";
 print "debian/build-extras/objs/nginx usr/sbin\n";
 print "debian/build-full/objs/nginx usr/sbin\n";
 print "debian/build-light/objs/nginx usr/sbin\n";

@@ -20,12 +20,12 @@ force=$2
             #--with-cc=gcc46 \
             #--with-cc=clang \
             #--without-http_referer_module \
-            #--with-http_v2_module \
             #--with-http_spdy_module \
 
 time ngx-build $force $version \
             --with-ipv6 \
             --with-cc-opt="-I$PCRE_INC -I$OPENSSL_INC" \
+            --with-http_v2_module \
             --with-http_realip_module \
             --with-http_ssl_module \
             --add-module=$root/../ndk-nginx-module \
@@ -51,6 +51,8 @@ time ngx-build $force $version \
                 --add-module=$root/../coolkit-nginx-module \
                 --add-module=$root/../redis2-nginx-module \
                 --add-module=$root/t/data/fake-module \
+                --add-module=$root/t/data/fake-shm-module \
+                --add-module=$root/t/data/fake-delayed-load-module \
                 --with-http_gunzip_module \
                 --with-http_dav_module \
           --with-select_module \

@@ -26,6 +26,7 @@
 #include "ngx_http_lua_shdict.h"
 #include "ngx_http_lua_ssl_certby.h"
 #include "ngx_http_lua_lex.h"
+#include "api/ngx_http_lua_api.h"
 
 
 typedef struct ngx_http_lua_block_parser_ctx_s
@@ -78,13 +79,13 @@ ngx_http_lua_shared_dict(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     ngx_http_lua_shdict_ctx_t  *ctx;
     ssize_t                     size;
 
-    if (lmcf->shm_zones == NULL) {
-        lmcf->shm_zones = ngx_palloc(cf->pool, sizeof(ngx_array_t));
-        if (lmcf->shm_zones == NULL) {
+    if (lmcf->shdict_zones == NULL) {
+        lmcf->shdict_zones = ngx_palloc(cf->pool, sizeof(ngx_array_t));
+        if (lmcf->shdict_zones == NULL) {
             return NGX_CONF_ERROR;
         }
 
-        if (ngx_array_init(lmcf->shm_zones, cf->pool, 2,
+        if (ngx_array_init(lmcf->shdict_zones, cf->pool, 2,
                            sizeof(ngx_shm_zone_t *))
             != NGX_OK)
         {
@@ -120,10 +121,9 @@ ngx_http_lua_shared_dict(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     ctx->name = name;
     ctx->main_conf = lmcf;
     ctx->log = &cf->cycle->new_log;
-    ctx->cycle = cf->cycle;
 
-    zone = ngx_shared_memory_add(cf, &name, (size_t) size,
-                                 &ngx_http_lua_module);
+    zone = ngx_http_lua_shared_memory_add(cf, &name, (size_t) size,
+                                          &ngx_http_lua_module);
     if (zone == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -140,7 +140,7 @@ ngx_http_lua_shared_dict(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     zone->init = ngx_http_lua_shdict_init_zone;
     zone->data = ctx;
 
-    zp = ngx_array_push(lmcf->shm_zones);
+    zp = ngx_array_push(lmcf->shdict_zones);
     if (zp == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -459,7 +459,7 @@ ngx_http_lua_rewrite_by_lua(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     return "does not work with " NGINX_VER;
 #endif
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -569,7 +569,7 @@ ngx_http_lua_access_by_lua(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
     dd("enter");
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -681,7 +681,7 @@ ngx_http_lua_content_by_lua(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
     dd("enter");
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -802,7 +802,7 @@ ngx_http_lua_log_by_lua(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
     dd("enter");
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -912,7 +912,7 @@ ngx_http_lua_header_filter_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,
 
     dd("enter");
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -1012,7 +1012,7 @@ ngx_http_lua_body_filter_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,
 
     dd("enter");
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -1110,7 +1110,7 @@ ngx_http_lua_init_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,
 
     dd("enter");
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -1177,7 +1177,7 @@ ngx_http_lua_init_worker_by_lua(ngx_conf_t *cf, ngx_command_t *cmd,
 
     dd("enter");
 
-    /*  must specifiy a content handler */
+    /*  must specify a content handler */
     if (cmd->post == NULL) {
         return NGX_CONF_ERROR;
     }

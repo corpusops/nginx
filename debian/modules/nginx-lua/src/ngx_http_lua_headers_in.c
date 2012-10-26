@@ -693,6 +693,11 @@ ngx_http_lua_set_input_header(ngx_http_request_t *r, ngx_str_t key,
     }
 #endif
 
+    if (r->headers_out.status == 400 || r->headers_in.headers.last == NULL) {
+        /* must be a 400 Bad Request */
+        return NGX_OK;
+    }
+
     return hv.handler(r, &hv, &value);
 }
 

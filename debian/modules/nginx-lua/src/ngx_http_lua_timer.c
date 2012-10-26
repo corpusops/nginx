@@ -190,7 +190,7 @@ ngx_http_lua_ngx_timer_at(lua_State *L)
 
     co = lua_newthread(vm);
 
-    /* L stack: time func [args] thread */
+    /* L stack: time func [args] */
 
     ngx_http_lua_probe_user_coroutine_create(r, L, co);
 
@@ -603,7 +603,7 @@ ngx_http_lua_abort_pending_timers(ngx_event_t *ev)
 
     cur = ngx_event_timer_rbtree.root;
 
-    /* XXX nginx does not guarentee the parent of root is meaningful,
+    /* XXX nginx does not guarantee the parent of root is meaningful,
      * so we temporarily override it to simplify tree traversal. */
     temp = cur->parent;
     cur->parent = NULL;
