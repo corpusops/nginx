@@ -4,25 +4,27 @@ cd "$(dirname $0)/.."
 export W="${PWD}"
 export PACKAGE="nginx"
 export PPA="${PACKAGE}"
-#export PPA="foo"
 export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
-#export REPO=""
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
 export KEY="${KEY:-0x5616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
-export VER="1.10.0"
+export VER="1.10.2"
 export FLAVORS="vivid trusty precise"
-export FLAVORS="trusty vivid wily xenial"
-export RELEASES="${RELEASES:-"experimental|stable|unstable|precise|trusty|utopic|vivid|oneric|wily|xenial"}"
+export FLAVORS="trusty xenial yakkety zesty"
+export RELEASES="${RELEASES:-"experimental|yakkety|zesty|stable|unstable|precise|trusty|utopic|vivid|oneric|wily|xenial"}"
 if [ "x${VER}" = "x" ];then echo unknownversion;exit -1;fi
+if echo $VER | grep -q 1.10; then
+    export DEBIAN_REMOTE=origin/master
+else
+    export DEBIAN_REMOTE=origin/experimental
+fi
 if [ "x${REPO}" != "x" ];then
     if [ ! -e "${W}/../debian-up" ];then
         git clone "${REPO}" "${W}/../debian-up";
     fi
-    cd "${W}/"../debian-up && rm -rf * && git fetch --all && git reset --hard origin/master
-    rsync -av --delete --exclude="*.makina.*" --exclude=nginx-echo\
+    cd "${W}/"../debian-up && rm -rf * && git fetch --all && git reset --hard $DEBIAN_REMOTE
+    rsync -av --delete --exclude="*.makina.*" \
         --exclude=po/\
-        --exclude=nginx-cache-purge\
         --exclude=changelog\
         "${W}/../debian-up/debian/" "${W}/debian/"
 fi
@@ -32,98 +34,60 @@ fi
 #
 # CUSTOM MERGE CODE HERE
 # <>
+ldap_url=https://github.com/kvspb/nginx-auth-ldap.git
+#lua_url=https://github.com/openresty/lua-nginx-module.git
 if [ ! -e "${W}/../nginx-auth-ldap" ];then
     git clone https://github.com/kvspb/nginx-auth-ldap.git "${W}/../nginx-auth-ldap"
 fi
 if [ ! -e "${W}/../nginx-lua" ];then
     git clone https://github.com/openresty/lua-nginx-module.git "${W}/../nginx-lua"
 fi
-cd "${W}/../nginx-auth-ldap" && git fetch --all && git reset --hard origin/master
-cd "${W}/../nginx-lua" && git fetch --all && git reset --hard origin/master
+cd "${W}/../nginx-auth-ldap" && git config --replace-all remote.origin.url $ldap_url && git fetch --all && git reset --hard origin/master
+cd "${W}/../nginx-lua"       && git config --replace-all remote.origin.url $lua_url && git fetch --all && git reset --hard origin/master
 cd "${W}"
 rsync -azv --delete --delete-excluded --exclude=.git ../nginx-auth-ldap/ debian/modules/nginx-auth-ldap/
 rsync -azv --delete --delete-excluded --exclude=.git ../nginx-lua/ debian/modules/nginx-lua/
 rm -rf debian/modules/nginx-auth-ldap/.git
-rm -rf debian/modules/nginx-lua/.git
 rm -rf debian/nginx*upstart
+rm -rf debian/modules/nginx-lua/.git
+rm -rf debian/patches/modules/nginx-lua/
 /usr/bin/python << EOF
-TOADD  = '''
-common_configure_flags := \\\\
-            --with-cc-opt="\$(debian_cflags)" \\\\
-            --with-ld-opt="\$(debian_ldflags)" \\\\
-            --prefix=/usr/share/nginx \\\\
-            --conf-path=/etc/nginx/nginx.conf \\\\
-            --http-log-path=/var/log/nginx/access.log \\\\
-            --error-log-path=/var/log/nginx/error.log \\\\
-            --lock-path=/var/lock/nginx.lock \\\\
-            --pid-path=/run/nginx.pid \\\\
-            --http-client-body-temp-path=/var/lib/nginx/body \\\\
-            --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \\\\
-            --http-proxy-temp-path=/var/lib/nginx/proxy \\\\
-            --http-scgi-temp-path=/var/lib/nginx/scgi \\\\
-            --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \\\\
-            --with-debug \\\\
-            --with-http_addition_module \\\\
-            --with-http_auth_request_module \\\\
-            --with-http_dav_module \\\\
-            --with-http_flv_module \\\\
-            --with-http_geoip_module \\\\
-            --with-http_gzip_static_module \\\\
-            --with-http_image_filter_module \\\\
-            --with-http_mp4_module \\\\
-            --with-http_perl_module \\\\
-            --with-http_random_index_module \\\\
-            --with-http_realip_module \\\\
-            --with-http_secure_link_module \\\\
-            --with-http_v2_module \\\\
-            --with-threads \\\\
-            --with-stream \\\\
-            --with-stream_ssl_module \\\\
-            --with-http_ssl_module \\\\
-            --with-http_stub_status_module \\\\
-            --with-http_sub_module \\\\
-            --with-http_xslt_module \\\\
-            --with-ipv6 \\\\
-            --with-mail \\\\
-            --with-mail_ssl_module \\\\
-            --with-pcre-jit \\\\
-            --add-module=\$(MODULESDIR)/headers-more-nginx-module \\\\
-            --add-module=\$(MODULESDIR)/nginx-auth-pam \\\\
-            --add-module=\$(MODULESDIR)/nginx-auth-ldap \\\\
-            --add-module=\$(MODULESDIR)/nginx-cache-purge \\\\
-            --add-module=\$(MODULESDIR)/nginx-dav-ext-module \\\\
-            --add-module=\$(MODULESDIR)/nginx-development-kit \\\\
-            --add-module=\$(MODULESDIR)/nginx-echo \\\\
-            --add-module=\$(MODULESDIR)/nginx-http-push \\\\
-            --add-module=\$(MODULESDIR)/nginx-upload-progress \\\\
-            --add-module=\$(MODULESDIR)/nginx-upstream-fair \\\\
-            --add-module=\$(MODULESDIR)/nginx-lua \\\\
-            --add-module=\$(MODULESDIR)/ngx-fancyindex \\\\
-            --add-module=\$(MODULESDIR)/ngx_http_substitutions_filter_module
-
-
-light_configure_flags := \$(common_configure_flags)
-full_configure_flags := \$(common_configure_flags)
-extras_configure_flags := \$(common_configure_flags)
-
-'''.splitlines()
+TOADDpre = open('mc_packaging/makefile.in.pre').read().splitlines()
+TOADDpost = open('mc_packaging/makefile.in.post').read().splitlines()
 with open('debian/rules') as fic:
     lines = fic.read().splitlines()
-    content = []
+    content, contentd = [], []
     skip = False
+    no_common_skip = False
+    no_common_skipped = []
     for l in lines[:]:
-        if l.startswith('common_configure_flags :='):
+        if '_configure_flags :=' in l:
             skip = True
+            if 'common' not in l:
+                no_common_skip = True
         if l.startswith('%:'):
-            for a in TOADD:
-                content.append(a)
             skip = False
+        if l.startswith('%:'):
+            content.extend(TOADDpre[:])
+            content.extend(no_common_skipped)
+            content.extend(TOADDpost[:])
+            #contentd.extend(TOADDpre[:])
+            #contentd.extend(no_common_skipped)
+            skip = False
+            no_common_skip = False
+        if no_common_skip:
+            no_common_skipped.append(l)
         if not skip:
             content.append(l)
-content.append('override_dh_usrlocal:')
-content.append('\techo disabling\n')
-with open('debian/rules', 'w') as fic:
-    fic.write('\n'.join(content))
+            #contentd.append(l)
+for c, suf in (
+    (content, ''),
+    #(contentd, '.to_diff'
+):
+    c.append('\noverride_dh_usrlocal:')
+    c.append('\techo disabling\n')
+    with open('debian/rules'+suf, 'w') as fic:
+        fic.write('\n'.join(c))
 EOF
 cd debian
 sed "s/-lldap\"/-lldap -llber\"/g" -i ${W}/debian/modules/nginx-auth-ldap/config
@@ -140,13 +104,13 @@ sed -re 's/dh_strip --package=libnginx-mod-\$\(\*\) --automatic-dbgsym/'\
 
 # assemble
 for i in postrm preinst;do
-    ls ../../debian-up/debian/*.${i}|grep -v makina|xargs cat|grep -v "exit 0" > nginx-makina.${i}.u
+    ls ../../debian-up/debian/*.${i}|egrep -v 'libnginx|makina'|xargs cat|grep -v "exit 0" > nginx-makina.${i}.u
     cat nginx-makina.${i}.u | uniq > nginx-makina.${i}
     rm -f nginx-makina.${i}.u
     echo "exit 0">>nginx-makina.${i}
 done
-for i in dirs manpages examples manpages docs install lintian-overrides;do
-    ls ../../debian-up/debian/*.${i}|grep -v makina|xargs cat>nginx-makina.${i}.u
+for i in dirs examples manpages docs install lintian-overrides;do
+    ls ../../debian-up/debian/*.${i}|egrep -v 'libnginx|makina'|xargs cat>nginx-makina.${i}.u
     cat nginx-makina.${i}.u | uniq  > nginx-makina.${i}
     rm -f nginx-makina.${i}.u
     cp nginx-makina.${i} nginx-makina.${i}.in

@@ -1,4 +1,28 @@
-nginx (1.10.0-xenial-debian0-ubuntu135) xenial; urgency=medium
+nginx (1.10.0-xenial-debian0-ubuntu139) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 14:16:10 +0100
+
+nginx (1.10.0-xenial-debian0-ubuntu138) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 14:15:52 +0100
+
+nginx (1.10.0-wily-debian0-ubuntu137) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 14:15:25 +0100
+
+nginx (1.10.0-vivid-debian0-ubuntu136) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 14:15:06 +0100
+
+nginx (1.10.0-trusty-debian0-ubuntu135) trusty; urgency=medium
 
   * packaging for xenial
 
