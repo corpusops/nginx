@@ -1,0 +1,15 @@
+etc/nginx
+etc/nginx/sites-available
+etc/nginx/sites-enabled
+etc/nginx/conf.d
+etc/ufw/applications.d
+usr/share/nginx
+var/log/nginx
+var/lib/nginx
+usr/sbin
+usr/lib/perl5/auto/nginx
+usr/sbin
+usr/sbin
+usr/sbin
+usr/share/nginx-naxsi/naxsi-ui
+usr/sbin
