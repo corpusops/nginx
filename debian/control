@@ -29,7 +29,6 @@ Package: nginx
 Architecture: all
 Depends: nginx-full   (>= ${source:Version}) |
          nginx-light  (>= ${source:Version}) |
-         dh-systemd (>= 1.5),
          nginx-extras (>= ${source:Version}) |
          nginx-naxsi  (>= ${source:Version}) ,
          nginx-common (>= ${source:Version}) ,
@@ -37,6 +36,7 @@ Depends: nginx-full   (>= ${source:Version}) |
          nginx-light  (<< ${source:Version}.1~) |
          nginx-extras (<< ${source:Version}.1~) |
          nginx-naxsi  (<< ${source:Version}.1~) ,
+         dh-systemd (>= 1.5),
          ${misc:Depends}
          ${misc:Depends}
 Description: small, powerful, scalable web/proxy server
