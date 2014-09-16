@@ -519,6 +519,11 @@ ngx_http_upstream_init_request(ngx_http_request_t *r)
             return;
         }
 
+        if (rc == NGX_ERROR) {
+            ngx_http_finalize_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
+            return;
+        }
+
         if (rc != NGX_DECLINED) {
             ngx_http_finalize_request(r, rc);
             return;
@@ -691,6 +696,14 @@ found:
         ngx_http_upstream_finalize_request(r, u,
                                            NGX_HTTP_INTERNAL_SERVER_ERROR);
         return;
+    }
+
+    u->peer.start_time = ngx_current_msec;
+
+    if (u->conf->next_upstream_tries
+        && u->peer.tries > u->conf->next_upstream_tries)
+    {
+        u->peer.tries = u->conf->next_upstream_tries;
     }
 
     ngx_http_upstream_connect(r, u);
@@ -3416,6 +3429,7 @@ static void
 ngx_http_upstream_next(ngx_http_request_t *r, ngx_http_upstream_t *u,
     ngx_uint_t ft_type)
 {
+    ngx_msec_t  timeout;
     ngx_uint_t  status, state;
 
     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
@@ -3485,9 +3499,12 @@ ngx_http_upstream_next(ngx_http_request_t *r, ngx_http_upstream_t *u,
 
     if (status) {
         u->state->status = status;
+        timeout = u->conf->next_upstream_timeout;
 
-        if (u->peer.tries == 0 || !(u->conf->next_upstream & ft_type)) {
-
+        if (u->peer.tries == 0
+            || !(u->conf->next_upstream & ft_type)
+            || (timeout && ngx_current_msec - u->peer.start_time >= timeout))
+        {
 #if (NGX_HTTP_CACHE)
 
             if (u->cache_status == NGX_HTTP_CACHE_EXPIRED
@@ -4973,7 +4990,7 @@ ngx_http_upstream_server(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         if (ngx_strncmp(value[i].data, "weight=", 7) == 0) {
 
             if (!(uscf->flags & NGX_HTTP_UPSTREAM_WEIGHT)) {
-                goto invalid;
+                goto not_supported;
             }
 
             weight = ngx_atoi(&value[i].data[7], value[i].len - 7);
@@ -4988,7 +5005,7 @@ ngx_http_upstream_server(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         if (ngx_strncmp(value[i].data, "max_fails=", 10) == 0) {
 
             if (!(uscf->flags & NGX_HTTP_UPSTREAM_MAX_FAILS)) {
-                goto invalid;
+                goto not_supported;
             }
 
             max_fails = ngx_atoi(&value[i].data[10], value[i].len - 10);
@@ -5003,7 +5020,7 @@ ngx_http_upstream_server(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         if (ngx_strncmp(value[i].data, "fail_timeout=", 13) == 0) {
 
             if (!(uscf->flags & NGX_HTTP_UPSTREAM_FAIL_TIMEOUT)) {
-                goto invalid;
+                goto not_supported;
             }
 
             s.len = value[i].len - 13;
@@ -5021,7 +5038,7 @@ ngx_http_upstream_server(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         if (ngx_strcmp(value[i].data, "backup") == 0) {
 
             if (!(uscf->flags & NGX_HTTP_UPSTREAM_BACKUP)) {
-                goto invalid;
+                goto not_supported;
             }
 
             us->backup = 1;
@@ -5032,7 +5049,7 @@ ngx_http_upstream_server(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         if (ngx_strcmp(value[i].data, "down") == 0) {
 
             if (!(uscf->flags & NGX_HTTP_UPSTREAM_DOWN)) {
-                goto invalid;
+                goto not_supported;
             }
 
             us->down = 1;
@@ -5070,6 +5087,14 @@ invalid:
 
     ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
                        "invalid parameter \"%V\"", &value[i]);
+
+    return NGX_CONF_ERROR;
+
+not_supported:
+
+    ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
+                       "balancing method does not support parameter \"%V\"",
+                       &value[i]);
 
     return NGX_CONF_ERROR;
 }
