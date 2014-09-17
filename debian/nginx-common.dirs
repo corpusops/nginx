@@ -7,8 +7,6 @@ usr/share/nginx
 var/log/nginx
 var/lib/nginx
 usr/sbin
-usr/lib/perl5/auto/nginx
-usr/sbin
 usr/sbin
 usr/sbin
 usr/share/nginx-naxsi/naxsi-ui
