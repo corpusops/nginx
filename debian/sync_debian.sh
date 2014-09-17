@@ -138,6 +138,8 @@ sed "s/-lldap\"/-lldap -llber\"/g" -i $W/debian/modules/nginx-auth-ldap/config
 cp -f ../../debian-up/debian/nginx-naxsi-ui.nginx-naxsi-ui.init nginx-common.nginx-naxsi-ui.init
 rm -f nginx-common.install nginx-common.install.in nginx-makina.install.in
 cp -f nginx-makina.install nginx-common.install
+cp -f nginx-makina.install.raw nginx-makina.install
+cp -f nginx-makina.install.raw nginx-common.install
 
 echo "3.0 (native)">$W/debian/source/format
 ## make release tarball
