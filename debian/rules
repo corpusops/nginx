@@ -169,11 +169,11 @@ common_configure_flags := \
     --add-module=$(MODULESDIR)/nginx-development-kit \
     --add-module=$(MODULESDIR)/nginx-echo \
     --add-module=$(MODULESDIR)/nginx-http-push \
-    --add-module=$(MODULESDIR)/nginx-lua \
     --add-module=$(MODULESDIR)/nginx-upload-progress \
     --add-module=$(MODULESDIR)/nginx-upstream-fair \
     --add-module=$(MODULESDIR)/ngx-fancyindex \
     --add-module=$(MODULESDIR)/ngx_http_substitutions_filter_module
+
 light_configure_flags := $(common_configure_flags)
 full_configure_flags := $(common_configure_flags)
 extras_configure_flags := $(common_configure_flags)

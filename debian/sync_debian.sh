@@ -125,6 +125,13 @@ for j in doc full light extras naxsi naxsi-ui;do
         echo > nginx-${j}.${i}
     done
 done
+cp nginx-makina.install nginx-makina.install.in
+echo "#!/usr/bin/perl -w">nginx-makina.install
+echo '#!/usr/bin/perl -w' > nginx-makina.install
+cat nginx-makina.install.in |\
+    grep -v "bin/perl" \
+    | sed -e 's/^html\(.*\)/print "html\1\\n";/g' \
+    | sed -e 's/^debian\(.*\)/print "debian\1\\n";/g'>>nginx-makina.install
 cp -f control.in control
 sed "s/-lldap\"/-lldap -llber\"/g" -i $W/debian/modules/nginx-auth-ldap/config
 cp -f ../../debian-up/debian/nginx-naxsi-ui.nginx-naxsi-ui.init nginx-common.nginx-naxsi-ui.init

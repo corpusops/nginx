@@ -128,7 +128,24 @@ ngx_http_lua_ngx_req_raw_header(lua_State *L)
            + line_break_len <= b->pos)
     {
         first = b;
-        size += b->pos - mr->request_line.data;
+
+        if (mr->header_in == b) {
+            size += mr->header_in->pos - mr->request_line.data;
+
+        } else {
+            /* the subsequent part of the header is in the large header
+             * buffers */
+#if 1
+            p = b->pos;
+            size += p - mr->request_line.data;
+
+            /* skip truncated header entries (if any) */
+            while (b->pos > b->start && b->pos[-1] != LF) {
+                b->pos--;
+                size--;
+            }
+#endif
+        }
     }
 
     dd("size: %d", (int) size);
@@ -154,7 +171,11 @@ ngx_http_lua_ngx_req_raw_header(lua_State *L)
                 first = b;
             }
 
-            dd("adding size %d", (int) (b->pos - b->start));
+            if (b == mr->header_in) {
+                size += mr->header_in->pos - b->start;
+                break;
+            }
+
             size += b->pos - b->start;
         }
     }
@@ -168,11 +189,13 @@ ngx_http_lua_ngx_req_raw_header(lua_State *L)
     last = data;
 
     b = c->buffer;
-    found = 0;
-
     if (first == b) {
-        found = 1;
-        pos = b->pos;
+        if (mr->header_in == b) {
+            pos = mr->header_in->pos;
+
+        } else {
+            pos = b->pos;
+        }
 
         if (no_req_line) {
             last = ngx_copy(data,
@@ -184,13 +207,6 @@ ngx_http_lua_ngx_req_raw_header(lua_State *L)
         } else {
             last = ngx_copy(data, mr->request_line.data,
                             pos - mr->request_line.data);
-        }
-
-        if (b != mr->header_in) {
-            /* skip truncated header entries (if any) */
-            while (last > data && last[-1] != LF) {
-                last--;
-            }
         }
 
         i = 0;
@@ -211,6 +227,7 @@ ngx_http_lua_ngx_req_raw_header(lua_State *L)
     }
 
     if (hc->nbusy) {
+        found = (b == c->buffer);
         for (i = 0; i < hc->nbusy; i++) {
             b = hc->busy[i];
 
@@ -225,7 +242,12 @@ ngx_http_lua_ngx_req_raw_header(lua_State *L)
 
             p = last;
 
-            pos = b->pos;
+            if (b == mr->header_in) {
+                pos = mr->header_in->pos;
+
+            } else {
+                pos = b->pos;
+            }
 
             if (b == first) {
                 dd("request line: %.*s", (int) mr->request_line.len,
