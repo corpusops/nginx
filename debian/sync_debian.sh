@@ -3,7 +3,7 @@ set -ex
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
 VER=${VER:-1.7.5}
 KEY="${KEY:-0x5616F8C2}"
-FLAVORS="trusty saucy precise"
+FLAVORS="trusty precise"
 cd $(dirname $0)/..
 W=$PWD
 cd $W/..
