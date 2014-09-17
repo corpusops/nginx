@@ -1,4 +1,5 @@
 debian/nginx-makina.install.in
+debian/nginx-common.install.in
 debian/modules/nginx-auth-ldap/
 .pc
 debian/modules/nginx-lua/.gitignore

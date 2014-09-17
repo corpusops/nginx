@@ -113,7 +113,7 @@ cat nginx-makina.lintian-overrides.in|sed -re "s/[^:]+:(.*)/nginx-makina:\1/g" |
 rm -f nginx*makina*.in
 # same nginx compile for
 for j in common;do
-    for i in dirs manpages docs examples install lintian-overrides \
+    for i in dirs manpages docs examples lintian-overrides \
              manpages postrm preinst;do
         cp -v nginx-makina.$i nginx-$j.$i
     done
@@ -125,13 +125,14 @@ for j in doc full light extras naxsi naxsi-ui;do
         echo > nginx-${j}.${i}
     done
 done
-cp nginx-makina.install nginx-makina.install.in
-echo "#!/usr/bin/perl -w">nginx-makina.install
-echo '#!/usr/bin/perl -w' > nginx-makina.install
-cat nginx-makina.install.in |\
-    grep -v "bin/perl" \
-    | sed -e 's/^html\(.*\)/print "html\1\\n";/g' \
-    | sed -e 's/^debian\(.*\)/print "debian\1\\n";/g'>>nginx-makina.install
+for i in nginx-common.install nginx-makina.install;do
+    cp ${i} ${i}.in
+    echo "#!/usr/bin/perl -w">$i
+    cat ${i}.in |\
+        grep -v "bin/perl" \
+        | sed -e 's/^html\(.*\)/print "html\1\\n";/g' \
+        | sed -e 's/^debian\(.*\)/print "debian\1\\n";/g'>>$i
+done
 cp -f control.in control
 sed "s/-lldap\"/-lldap -llber\"/g" -i $W/debian/modules/nginx-auth-ldap/config
 cp -f ../../debian-up/debian/nginx-naxsi-ui.nginx-naxsi-ui.init nginx-common.nginx-naxsi-ui.init

@@ -1,18 +1,4 @@
-debian/conf/* etc/nginx
-debian/ufw/nginx etc/ufw/applications.d
-html/* usr/share/nginx/html/
 #!/usr/bin/perl -w
-
-use Config;
-
-my $vendorarch = substr($Config{vendorarch}, 1);
-print "debian/build-extras/objs/src/http/modules/perl/blib/arch/auto/nginx/* $vendorarch/auto/nginx\n";
-print "debian/build-extras/objs/src/http/modules/perl/blib/lib/nginx.pm $vendorarch\n";
-
-print "debian/build-extras/objs/nginx usr/sbin\n";
-debian/build-full/objs/nginx usr/sbin
-debian/build-light/objs/nginx usr/sbin
-debian/build-naxsi/objs/nginx usr/sbin
-debian/modules/naxsi/contrib/naxsi-ui/* usr/share/nginx-naxsi/naxsi-ui
-debian/naxsi-ui-extract usr/sbin
-debian/naxsi-ui-intercept usr/sbin
+print "debian/conf/* etc/nginx\n";
+print "debian/ufw/nginx etc/ufw/applications.d\n";
+print "html/* usr/share/nginx/html/\n";
