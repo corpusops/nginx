@@ -1,4 +1,0 @@
-#!/usr/bin/perl -w
-print "debian/conf/* etc/nginx\n";
-print "debian/ufw/nginx etc/ufw/applications.d\n";
-print "html/* usr/share/nginx/html/\n";

@@ -136,6 +136,7 @@ done
 cp -f control.in control
 sed "s/-lldap\"/-lldap -llber\"/g" -i $W/debian/modules/nginx-auth-ldap/config
 cp -f ../../debian-up/debian/nginx-naxsi-ui.nginx-naxsi-ui.init nginx-common.nginx-naxsi-ui.init
+rm -f nginx-common.install nginx-common.install.in nginx-makina.install.in
 
 echo "3.0 (native)">$W/debian/source/format
 ## make release tarball
@@ -177,4 +178,4 @@ cd $W
 for i in $CHANGES;do
     dput nginx ../$i
 done
-# vim:set et sts=4 ts=4 tw=80:
+# vim:set et sts=4 ts=4 tw=0:
