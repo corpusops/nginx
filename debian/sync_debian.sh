@@ -16,7 +16,7 @@ fi
 cd $W/../debian-up && git fetch --all && git reset --hard origin/master
 cd $W/../nginx-auth-ldap && git fetch --all && git reset --hard origin/master
 cd $W
-rsync -azv --exclude=changelog ../debian-up/debian/ debian/
+rsync -azv --exclude=changelog --exclude=nginx-lua ../debian-up/debian/ debian/
 rsync -azv ../nginx-auth-ldap/    debian/modules/nginx-auth-ldap/
 /usr/bin/python << EOF
 TOADD  = '''
