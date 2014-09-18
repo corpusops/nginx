@@ -171,6 +171,7 @@ common_configure_flags := \
     --add-module=$(MODULESDIR)/nginx-http-push \
     --add-module=$(MODULESDIR)/nginx-upload-progress \
     --add-module=$(MODULESDIR)/nginx-upstream-fair \
+    --add-module=$(MODULESDIR)/nginx-lua \
     --add-module=$(MODULESDIR)/ngx-fancyindex \
     --add-module=$(MODULESDIR)/ngx_http_substitutions_filter_module
 
