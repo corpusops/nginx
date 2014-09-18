@@ -19,8 +19,6 @@ cd $W
 #rsync -azv --exclude=changelog --exclude=nginx-lua ../debian-up/debian/ debian/
 rsync -azv --exclude=changelog ../debian-up/debian/ debian/
 rsync -azv ../nginx-auth-ldap/    debian/modules/nginx-auth-ldap/
-#XXX: do not build with 1.7.5
-# --add-module=\$(MODULESDIR)/nginx-lua \\\\
 /usr/bin/python << EOF
 TOADD  = '''
 common_configure_flags := \\\\
@@ -70,6 +68,7 @@ common_configure_flags := \\\\
     --add-module=\$(MODULESDIR)/nginx-http-push \\\\
     --add-module=\$(MODULESDIR)/nginx-upload-progress \\\\
     --add-module=\$(MODULESDIR)/nginx-upstream-fair \\\\
+    --add-module=\$(MODULESDIR)/nginx-lua \\\\
     --add-module=\$(MODULESDIR)/ngx-fancyindex \\\\
     --add-module=\$(MODULESDIR)/ngx_http_substitutions_filter_module
 

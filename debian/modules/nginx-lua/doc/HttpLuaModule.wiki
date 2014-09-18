@@ -3422,7 +3422,7 @@ Does an internal redirect to <code>uri</code> with <code>args</code>.
     ngx.exec('/some-location?a=3&b=5', 'c=6');
 </geshi>
 
-Named locations are also supported, but query strings are ignored. For example,
+Named locations are also supported (but the second <code>args</code> argument is currently ignored). For example,
 
 <geshi lang="nginx">
     location /foo {
@@ -4327,7 +4327,7 @@ Curly braces can also be used to disambiguate variable names from the background
 
 <geshi lang="lua">
     local newstr, n, err = ngx.re.sub("hello, 1234", "[0-9]", "${0}00")
-        -- newstr == "hello, 10034"
+        -- newstr == "hello, 100234"
         -- n == 1
 </geshi>
 
