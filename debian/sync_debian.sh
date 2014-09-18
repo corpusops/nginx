@@ -13,12 +13,19 @@ fi
 if [ ! -e nginx-auth-ldap ];then
     git clone https://github.com/kvspb/nginx-auth-ldap.git
 fi
+if [ ! -e nginx-lua/.git ];then
+    git clone https://github.com/openresty/lua-nginx-module.git nginx-lua
+fi
 cd $W/../debian-up && git fetch --all && git reset --hard origin/master
 cd $W/../nginx-auth-ldap && git fetch --all && git reset --hard origin/master
+cd $W/../nginx-lua && git fetch --all && git reset --hard origin/master
 cd $W
 #rsync -azv --exclude=changelog --exclude=nginx-lua ../debian-up/debian/ debian/
 rsync -azv --exclude=changelog ../debian-up/debian/ debian/
-rsync -azv ../nginx-auth-ldap/    debian/modules/nginx-auth-ldap/
+rsync -azv --delete ../nginx-auth-ldap/    debian/modules/nginx-auth-ldap/
+rsync -azv --delete ../nginx-lua/    debian/modules/nginx-lua/
+rm -rf debian/modules/nginx-auth-ldap/.git
+rm -rf debian/modules/nginx-lua/.git
 /usr/bin/python << EOF
 TOADD  = '''
 common_configure_flags := \\\\
