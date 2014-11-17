@@ -6,7 +6,3 @@ debian/build-extras/objs/src/http/modules/perl/blib/lib/nginx.pm usr/lib/perl5
 debian/build-extras/objs/nginx usr/sbin
 debian/build-full/objs/nginx usr/sbin
 debian/build-light/objs/nginx usr/sbin
-debian/build-naxsi/objs/nginx usr/sbin
-debian/modules/naxsi/contrib/naxsi-ui/* usr/share/nginx-naxsi/naxsi-ui
-debian/naxsi-ui-extract usr/sbin
-debian/naxsi-ui-intercept usr/sbin

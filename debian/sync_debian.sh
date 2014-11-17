@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 set -ex
+cd $(dirname $0)/..
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
-VER=${VER:-1.7.7}
+pwd
+VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
+if [ "x${VER}" = "x" ];then
+    echo unknownversion
+    exit -1
+fi
 KEY="${KEY:-0x5616F8C2}"
 FLAVORS="trusty precise"
-cd $(dirname $0)/..
+sed -i -re "1 s/nginx \([0-9].[0-9].[0-9]/nginx (${VER}/g" debian/changelog
 W=$PWD
 cd $W/..
 if [ ! -e debian-up ];then
