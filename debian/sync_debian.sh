@@ -16,7 +16,7 @@ fi
 if [ ! -e nginx-lua/.git ];then
     git clone https://github.com/openresty/lua-nginx-module.git nginx-lua
 fi
-cd $W/../debian-up && git fetch --all && git reset --hard origin/master
+cd $W/../debian-up && rm -rf * && git fetch --all && git reset --hard origin/master
 cd $W/../nginx-auth-ldap && git fetch --all && git reset --hard origin/master
 cd $W/../nginx-lua && git fetch --all && git reset --hard origin/master
 cd $W
@@ -65,7 +65,6 @@ common_configure_flags := \\\\
     --with-mail_ssl_module \\\\
     --with-pcre-jit \\\\
     --add-module=\$(MODULESDIR)/headers-more-nginx-module \\\\
-    --add-module=\$(MODULESDIR)/naxsi/naxsi_src \\\\
     --add-module=\$(MODULESDIR)/nginx-auth-pam \\\\
     --add-module=\$(MODULESDIR)/nginx-auth-ldap \\\\
     --add-module=\$(MODULESDIR)/nginx-cache-purge \\\\
@@ -79,10 +78,11 @@ common_configure_flags := \\\\
     --add-module=\$(MODULESDIR)/ngx-fancyindex \\\\
     --add-module=\$(MODULESDIR)/ngx_http_substitutions_filter_module
 
+
 light_configure_flags := \$(common_configure_flags)
 full_configure_flags := \$(common_configure_flags)
 extras_configure_flags := \$(common_configure_flags)
-naxsi_configure_flags := \$(common_configure_flags)
+
 '''.splitlines()
 with open('debian/rules') as fic:
     lines = fic.read().splitlines()
@@ -96,8 +96,10 @@ with open('debian/rules') as fic:
 with open('debian/rules', 'w') as fic:
     fic.write('\n'.join(content))
 EOF
+#    --add-module=\$(MODULESDIR)/naxsi/naxsi_src \\\\
+#naxsi_configure_flags := \$(common_configure_flags)
 cd debian
-sed "s/FLAVOURS :=.*/FLAVOURS := full light extras naxsi/g" -i rules
+sed "s/FLAVOURS :=.*/FLAVOURS := full light extras/g" -i rules
 #sed  "/dh_installlogrotate --package nginx-common --name=nginx/ {
 #a\	dh_installlogrotate --package nginx-naxsi --name=nginx
 #a\	dh_installlogrotate --package nginx-full --name=nginx
@@ -125,7 +127,7 @@ for j in common;do
     done
 done
 # make those packages, dummy packages
-for j in doc full light extras naxsi naxsi-ui;do
+for j in doc full light extras;do
     for i in dirs manpages docs examples install lintian-overrides \
              manpages postrm preinst;do
         echo > nginx-${j}.${i}
@@ -141,7 +143,7 @@ for i in nginx-common.install nginx-makina.install;do
 done
 cp -f control.in control
 sed "s/-lldap\"/-lldap -llber\"/g" -i $W/debian/modules/nginx-auth-ldap/config
-cp -f ../../debian-up/debian/nginx-naxsi-ui.nginx-naxsi-ui.init nginx-common.nginx-naxsi-ui.init
+#cp -f ../../debian-up/debian/nginx-naxsi-ui.nginx-naxsi-ui.init nginx-common.nginx-naxsi-ui.init
 rm -f nginx-common.install nginx-common.install.in nginx-makina.install.in
 cp -f nginx-makina.install nginx-common.install
 cp -f nginx-makina.install.raw nginx-makina.install

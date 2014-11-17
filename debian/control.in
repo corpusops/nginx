@@ -30,12 +30,10 @@ Architecture: all
 Depends: nginx-full   (>= ${source:Version}) |
          nginx-light  (>= ${source:Version}) |
          nginx-extras (>= ${source:Version}) |
-         nginx-naxsi  (>= ${source:Version}) ,
          nginx-common (>= ${source:Version}) ,
          nginx-full   (<< ${source:Version}.1~) |
          nginx-light  (<< ${source:Version}.1~) |
          nginx-extras (<< ${source:Version}.1~) |
-         nginx-naxsi  (<< ${source:Version}.1~) ,
          dh-systemd (>= 1.5),
          ${misc:Depends}
          ${misc:Depends}
@@ -134,7 +132,7 @@ Package: nginx-light
 Architecture: any
 Priority: extra
 Depends: nginx-common   (>= ${source:Version}) |
-Replaces: nginx-full, nginx-naxsi
+Replaces: nginx-full
 Breaks: nginx (<< 1.4.5-1)
 Provides: httpd, httpd-cgi, nginx
 Suggests: nginx-doc (= ${source:Version})
@@ -213,57 +211,3 @@ Description: nginx web/proxy server (extended version) - debugging symbols
  debugging issues that you may find. It should not be required for normal
  operation.
 
-Package: nginx-naxsi
-Architecture: any
-Priority: extra
-Breaks: nginx (<< 1.4.5-1),
-        nginx-naxsi-ui (<< 1.4.5-1)
-Provides: httpd, httpd-cgi, nginx
-Depends: nginx-common   (>= ${source:Version}) |
-Description: nginx web/proxy server (version with naxsi)
- Nginx ("engine X") is a high-performance web and reverse proxy server
- created by Igor Sysoev. It can be used both as a standalone web server
- and as a proxy to reduce the load on back-end HTTP or mail servers.
- .
- This package provides a version of nginx with the basic modules, plus
- the naxsi Web Application Firewall module.
- .
- STANDARD HTTP MODULES: Core, Access, Auth Basic, Auto Index, Browser,
- Charset, Core, Empty GIF, FastCGI, Geo, Gzip, Headers, Index,
- Limit Requests, Limit Zone, Log, Map, Memcached, Proxy, Referer,
- Rewrite, Split Clients, SSI, Upstream, User ID.
- .
- OPTIONAL HTTP MODULES: Auth Request, Debug, IPv6, Real IP, SSL, Stub Status.
- .
- THIRD PARTY MODULES: Naxsi, Cache Purge, Upstream Fair.
-
-Package: nginx-naxsi-dbg
-Architecture: any
-Section: debug
-Priority: extra
-Depends: nginx-common   (>= ${source:Version}) |
-Description: nginx web/proxy server (version with naxsi) - debugging symbols
- Nginx ("engine X") is a high-performance web and reverse proxy server
- created by Igor Sysoev. It can be used both as a standalone web server
- and as a proxy to reduce the load on back-end HTTP or mail servers.
- .
- This package provides debugging symbols for nginx-naxsi, to assist in
- debugging issues that you may find. It should not be required for normal
- operation.
-
-Package: nginx-naxsi-ui
-Architecture: all
-Priority: extra
-Depends: nginx-common   (>= ${source:Version}) |
-Replaces: nginx-full, nginx-light
-Description: nginx web/proxy server - naxsi configuration front-end
- Nginx ("engine X") is a high-performance web and reverse proxy server
- created by Igor Sysoev. It can be used both as a standalone web server
- and as a proxy to reduce the load on back-end HTTP or mail servers.
- .
- This package provides the autolearning daemon and web user interface for
- nginx's naxsi module.
- .
- It includes an interceptor (listening on TCP port 8080), which monitors
- HTTP requests from naxsi, and an extractor (running on TCP port 8081),
- which reads the database and prints reports about blocked requests.

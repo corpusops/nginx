@@ -1314,7 +1314,43 @@ ngx_http_lua_socket_tcp_sslhandshake(lua_State *L)
         }
     }
 
-    u->ssl_name = name;
+    dd("found sni name: %.*s %p", (int) name.len, name.data, name.data);
+
+    if (name.len == 0) {
+        u->ssl_name.len = 0;
+
+    } else {
+        if (u->ssl_name.data) {
+            /* buffer already allocated */
+
+            if (u->ssl_name.len >= name.len) {
+                /* reuse it */
+                ngx_memcpy(u->ssl_name.data, name.data, name.len);
+                u->ssl_name.len = name.len;
+
+            } else {
+                ngx_free(u->ssl_name.data);
+                goto new_ssl_name;
+            }
+
+        } else {
+
+new_ssl_name:
+
+            u->ssl_name.data = ngx_alloc(name.len, ngx_cycle->log);
+            if (u->ssl_name.data == NULL) {
+                u->ssl_name.len = 0;
+
+                lua_pushnil(L);
+                lua_pushliteral(L, "no memory");
+                return 2;
+            }
+
+            ngx_memcpy(u->ssl_name.data, name.data, name.len);
+            u->ssl_name.len = name.len;
+        }
+    }
+
     u->write_co_ctx = coctx;
 
     rc = ngx_ssl_handshake(c);
@@ -2651,8 +2687,10 @@ ngx_http_lua_socket_tcp_handler(ngx_event_t *ev)
     r = u->request;
     c = r->connection;
 
-    ctx = c->log->data;
-    ctx->current_request = r;
+    if (c->fd != -1) {  /* not a fake connection */
+        ctx = c->log->data;
+        ctx->current_request = r;
+    }
 
     ngx_log_debug3(NGX_LOG_DEBUG_HTTP, c->log, 0,
                    "lua tcp socket handler for \"%V?%V\", wev %d", &r->uri,
@@ -3313,6 +3351,14 @@ ngx_http_lua_socket_tcp_finalize(ngx_http_request_t *r,
     if (u->peer.free) {
         u->peer.free(&u->peer, u->peer.data, 0);
     }
+
+#if (NGX_HTTP_SSL)
+    if (u->ssl_name.data) {
+        ngx_free(u->ssl_name.data);
+        u->ssl_name.data = NULL;
+        u->ssl_name.len = 0;
+    }
+#endif
 
     c = u->peer.connection;
     if (c) {

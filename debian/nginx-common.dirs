@@ -6,8 +6,6 @@ etc/ufw/applications.d
 usr/share/nginx
 var/log/nginx
 var/lib/nginx
+var/www/html
 usr/sbin
-usr/sbin
-usr/sbin
-usr/share/nginx-naxsi/naxsi-ui
 usr/sbin
