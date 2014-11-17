@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
-VER=${VER:-1.7.5}
+VER=${VER:-1.7.7}
 KEY="${KEY:-0x5616F8C2}"
 FLAVORS="trusty precise"
 cd $(dirname $0)/..
