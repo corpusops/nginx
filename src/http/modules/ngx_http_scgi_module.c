@@ -12,15 +12,22 @@
 
 
 typedef struct {
+    ngx_array_t               *flushes;
+    ngx_array_t               *lengths;
+    ngx_array_t               *values;
+    ngx_uint_t                 number;
+    ngx_hash_t                 hash;
+} ngx_http_scgi_params_t;
+
+
+typedef struct {
     ngx_http_upstream_conf_t   upstream;
 
-    ngx_array_t               *flushes;
-    ngx_array_t               *params_len;
-    ngx_array_t               *params;
+    ngx_http_scgi_params_t     params;
+#if (NGX_HTTP_CACHE)
+    ngx_http_scgi_params_t     params_cache;
+#endif
     ngx_array_t               *params_source;
-
-    ngx_hash_t                 headers_hash;
-    ngx_uint_t                 header_params;
 
     ngx_array_t               *scgi_lengths;
     ngx_array_t               *scgi_values;
@@ -43,8 +50,9 @@ static void ngx_http_scgi_finalize_request(ngx_http_request_t *r, ngx_int_t rc);
 static void *ngx_http_scgi_create_loc_conf(ngx_conf_t *cf);
 static char *ngx_http_scgi_merge_loc_conf(ngx_conf_t *cf, void *parent,
     void *child);
-static ngx_int_t ngx_http_scgi_merge_params(ngx_conf_t *cf,
-    ngx_http_scgi_loc_conf_t *conf, ngx_http_scgi_loc_conf_t *prev);
+static ngx_int_t ngx_http_scgi_init_params(ngx_conf_t *cf,
+    ngx_http_scgi_loc_conf_t *conf, ngx_http_scgi_params_t *params,
+    ngx_keyval_t *default_params);
 
 static char *ngx_http_scgi_pass(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
 static char *ngx_http_scgi_store(ngx_conf_t *cf, ngx_command_t *cmd,
@@ -274,6 +282,13 @@ static ngx_command_t ngx_http_scgi_commands[] = {
       ngx_conf_set_msec_slot,
       NGX_HTTP_LOC_CONF_OFFSET,
       offsetof(ngx_http_scgi_loc_conf_t, upstream.cache_lock_timeout),
+      NULL },
+
+    { ngx_string("scgi_cache_lock_age"),
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_TAKE1,
+      ngx_conf_set_msec_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(ngx_http_scgi_loc_conf_t, upstream.cache_lock_age),
       NULL },
 
     { ngx_string("scgi_cache_revalidate"),
@@ -572,6 +587,7 @@ ngx_http_scgi_create_request(ngx_http_request_t *r)
     ngx_chain_t                  *cl, *body;
     ngx_list_part_t              *part;
     ngx_table_elt_t              *header, **ignored;
+    ngx_http_scgi_params_t       *params;
     ngx_http_script_code_pt       code;
     ngx_http_script_engine_t      e, le;
     ngx_http_scgi_loc_conf_t     *scf;
@@ -596,13 +612,19 @@ ngx_http_scgi_create_request(ngx_http_request_t *r)
 
     scf = ngx_http_get_module_loc_conf(r, ngx_http_scgi_module);
 
-    if (scf->params_len) {
+#if (NGX_HTTP_CACHE)
+    params = r->upstream->cacheable ? &scf->params_cache : &scf->params;
+#else
+    params = &scf->params;
+#endif
+
+    if (params->lengths) {
         ngx_memzero(&le, sizeof(ngx_http_script_engine_t));
 
-        ngx_http_script_flush_no_cacheable_variables(r, scf->flushes);
+        ngx_http_script_flush_no_cacheable_variables(r, params->flushes);
         le.flushed = 1;
 
-        le.ip = scf->params_len->elts;
+        le.ip = params->lengths->elts;
         le.request = r;
 
         while (*(uintptr_t *) le.ip) {
@@ -631,7 +653,7 @@ ngx_http_scgi_create_request(ngx_http_request_t *r)
         allocated = 0;
         lowcase_key = NULL;
 
-        if (scf->header_params) {
+        if (params->number) {
             n = 0;
             part = &r->headers_in.headers.part;
 
@@ -661,7 +683,7 @@ ngx_http_scgi_create_request(ngx_http_request_t *r)
                 i = 0;
             }
 
-            if (scf->header_params) {
+            if (params->number) {
                 if (allocated < header[i].key.len) {
                     allocated = header[i].key.len + 16;
                     lowcase_key = ngx_pnalloc(r->pool, allocated);
@@ -686,7 +708,7 @@ ngx_http_scgi_create_request(ngx_http_request_t *r)
                     lowcase_key[n] = ch;
                 }
 
-                if (ngx_hash_find(&scf->headers_hash, hash, lowcase_key, n)) {
+                if (ngx_hash_find(&params->hash, hash, lowcase_key, n)) {
                     ignored[header_params++] = &header[i];
                     continue;
                 }
@@ -714,15 +736,15 @@ ngx_http_scgi_create_request(ngx_http_request_t *r)
     b->last = ngx_sprintf(b->last, "%ui:CONTENT_LENGTH%Z%V%Z",
                           len, &content_length);
 
-    if (scf->params_len) {
+    if (params->lengths) {
         ngx_memzero(&e, sizeof(ngx_http_script_engine_t));
 
-        e.ip = scf->params->elts;
+        e.ip = params->values->elts;
         e.pos = b->last;
         e.request = r;
         e.flushed = 1;
 
-        le.ip = scf->params_len->elts;
+        le.ip = params->lengths->elts;
 
         while (*(uintptr_t *) le.ip) {
 
@@ -1133,6 +1155,7 @@ ngx_http_scgi_create_loc_conf(ngx_conf_t *cf)
     conf->upstream.cache_valid = NGX_CONF_UNSET_PTR;
     conf->upstream.cache_lock = NGX_CONF_UNSET;
     conf->upstream.cache_lock_timeout = NGX_CONF_UNSET_MSEC;
+    conf->upstream.cache_lock_age = NGX_CONF_UNSET_MSEC;
     conf->upstream.cache_revalidate = NGX_CONF_UNSET;
 #endif
 
@@ -1159,6 +1182,7 @@ ngx_http_scgi_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
     ngx_http_scgi_loc_conf_t *conf = child;
 
     size_t                        size;
+    ngx_int_t                     rc;
     ngx_hash_init_t               hash;
     ngx_http_core_loc_conf_t     *clcf;
 
@@ -1392,6 +1416,9 @@ ngx_http_scgi_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
     ngx_conf_merge_msec_value(conf->upstream.cache_lock_timeout,
                               prev->upstream.cache_lock_timeout, 5000);
 
+    ngx_conf_merge_msec_value(conf->upstream.cache_lock_age,
+                              prev->upstream.cache_lock_age, 5000);
+
     ngx_conf_merge_value(conf->upstream.cache_revalidate,
                               prev->upstream.cache_revalidate, 0);
 
@@ -1432,69 +1459,67 @@ ngx_http_scgi_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
         }
     }
 
-    if (ngx_http_scgi_merge_params(cf, conf, prev) != NGX_OK) {
+    if (conf->params_source == NULL) {
+        conf->params = prev->params;
+#if (NGX_HTTP_CACHE)
+        conf->params_cache = prev->params_cache;
+#endif
+        conf->params_source = prev->params_source;
+    }
+
+    rc = ngx_http_scgi_init_params(cf, conf, &conf->params, NULL);
+    if (rc != NGX_OK) {
         return NGX_CONF_ERROR;
     }
+
+#if (NGX_HTTP_CACHE)
+
+    if (conf->upstream.cache) {
+        rc = ngx_http_scgi_init_params(cf, conf, &conf->params_cache,
+                                       ngx_http_scgi_cache_headers);
+        if (rc != NGX_OK) {
+            return NGX_CONF_ERROR;
+        }
+    }
+
+#endif
 
     return NGX_CONF_OK;
 }
 
 
 static ngx_int_t
-ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
-    ngx_http_scgi_loc_conf_t *prev)
+ngx_http_scgi_init_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
+    ngx_http_scgi_params_t *params, ngx_keyval_t *default_params)
 {
     u_char                       *p;
     size_t                        size;
     uintptr_t                    *code;
     ngx_uint_t                    i, nsrc;
-    ngx_array_t                   headers_names;
-#if (NGX_HTTP_CACHE)
-    ngx_array_t                   params_merged;
-#endif
+    ngx_array_t                   headers_names, params_merged;
+    ngx_keyval_t                 *h;
     ngx_hash_key_t               *hk;
     ngx_hash_init_t               hash;
-    ngx_http_upstream_param_t    *src;
+    ngx_http_upstream_param_t    *src, *s;
     ngx_http_script_compile_t     sc;
     ngx_http_script_copy_code_t  *copy;
 
-    if (conf->params_source == NULL) {
-        conf->params_source = prev->params_source;
-
-        if (prev->headers_hash.buckets
-#if (NGX_HTTP_CACHE)
-            && ((conf->upstream.cache == NULL)
-                == (prev->upstream.cache == NULL))
-#endif
-           )
-        {
-            conf->flushes = prev->flushes;
-            conf->params_len = prev->params_len;
-            conf->params = prev->params;
-            conf->headers_hash = prev->headers_hash;
-            conf->header_params = prev->header_params;
-
-            return NGX_OK;
-        }
-    }
-
-    if (conf->params_source == NULL
-#if (NGX_HTTP_CACHE)
-        && (conf->upstream.cache == NULL)
-#endif
-       )
-    {
-        conf->headers_hash.buckets = (void *) 1;
+    if (params->hash.buckets) {
         return NGX_OK;
     }
 
-    conf->params_len = ngx_array_create(cf->pool, 64, 1);
-    if (conf->params_len == NULL) {
+    if (conf->params_source == NULL && default_params == NULL) {
+        params->hash.buckets = (void *) 1;
+        return NGX_OK;
+    }
+
+    params->lengths = ngx_array_create(cf->pool, 64, 1);
+    if (params->lengths == NULL) {
         return NGX_ERROR;
     }
 
-    conf->params = ngx_array_create(cf->pool, 512, 1);
-    if (conf->params == NULL) {
+    params->values = ngx_array_create(cf->pool, 512, 1);
+    if (params->values == NULL) {
         return NGX_ERROR;
     }
 
@@ -1513,12 +1538,7 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
         nsrc = 0;
     }
 
-#if (NGX_HTTP_CACHE)
-
-    if (conf->upstream.cache) {
-        ngx_keyval_t               *h;
-        ngx_http_upstream_param_t  *s;
-
+    if (default_params) {
         if (ngx_array_init(&params_merged, cf->temp_pool, 4,
                            sizeof(ngx_http_upstream_param_t))
             != NGX_OK)
@@ -1536,7 +1556,7 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
             *s = src[i];
         }
 
-        h = ngx_http_scgi_cache_headers;
+        h = default_params;
 
         while (h->key.len) {
 
@@ -1567,8 +1587,6 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
         nsrc = params_merged.nelts;
     }
 
-#endif
-
     for (i = 0; i < nsrc; i++) {
 
         if (src[i].key.len > sizeof("HTTP_") - 1
@@ -1589,7 +1607,7 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
             }
         }
 
-        copy = ngx_array_push_n(conf->params_len,
+        copy = ngx_array_push_n(params->lengths,
                                 sizeof(ngx_http_script_copy_code_t));
         if (copy == NULL) {
             return NGX_ERROR;
@@ -1598,7 +1616,7 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
         copy->code = (ngx_http_script_code_pt) ngx_http_script_copy_len_code;
         copy->len = src[i].key.len + 1;
 
-        copy = ngx_array_push_n(conf->params_len,
+        copy = ngx_array_push_n(params->lengths,
                                 sizeof(ngx_http_script_copy_code_t));
         if (copy == NULL) {
             return NGX_ERROR;
@@ -1612,7 +1630,7 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
                 + src[i].key.len + 1 + sizeof(uintptr_t) - 1)
                & ~(sizeof(uintptr_t) - 1);
 
-        copy = ngx_array_push_n(conf->params, size);
+        copy = ngx_array_push_n(params->values, size);
         if (copy == NULL) {
             return NGX_ERROR;
         }
@@ -1628,15 +1646,15 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
 
         sc.cf = cf;
         sc.source = &src[i].value;
-        sc.flushes = &conf->flushes;
-        sc.lengths = &conf->params_len;
-        sc.values = &conf->params;
+        sc.flushes = &params->flushes;
+        sc.lengths = &params->lengths;
+        sc.values = &params->values;
 
         if (ngx_http_script_compile(&sc) != NGX_OK) {
             return NGX_ERROR;
         }
 
-        code = ngx_array_push_n(conf->params_len, sizeof(uintptr_t));
+        code = ngx_array_push_n(params->lengths, sizeof(uintptr_t));
         if (code == NULL) {
             return NGX_ERROR;
         }
@@ -1644,7 +1662,7 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
         *code = (uintptr_t) NULL;
 
 
-        code = ngx_array_push_n(conf->params, sizeof(uintptr_t));
+        code = ngx_array_push_n(params->values, sizeof(uintptr_t));
         if (code == NULL) {
             return NGX_ERROR;
         }
@@ -1652,23 +1670,16 @@ ngx_http_scgi_merge_params(ngx_conf_t *cf, ngx_http_scgi_loc_conf_t *conf,
         *code = (uintptr_t) NULL;
     }
 
-    code = ngx_array_push_n(conf->params_len, sizeof(uintptr_t));
+    code = ngx_array_push_n(params->lengths, sizeof(uintptr_t));
     if (code == NULL) {
         return NGX_ERROR;
     }
 
     *code = (uintptr_t) NULL;
 
-    code = ngx_array_push_n(conf->params, sizeof(uintptr_t));
-    if (code == NULL) {
-        return NGX_ERROR;
-    }
+    params->number = headers_names.nelts;
 
-    *code = (uintptr_t) NULL;
-
-    conf->header_params = headers_names.nelts;
-
-    hash.hash = &conf->headers_hash;
+    hash.hash = &params->hash;
     hash.key = ngx_hash_key_lc;
     hash.max_size = 512;
     hash.bucket_size = 64;
