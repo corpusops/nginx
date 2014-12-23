@@ -11,6 +11,11 @@
 
 
 typedef struct {
+    ngx_array_t                    caches;  /* ngx_http_file_cache_t * */
+} ngx_http_fastcgi_main_conf_t;
+
+
+typedef struct {
     ngx_array_t                   *flushes;
     ngx_array_t                   *lengths;
     ngx_array_t                   *values;
@@ -155,6 +160,7 @@ static void ngx_http_fastcgi_finalize_request(ngx_http_request_t *r,
     ngx_int_t rc);
 
 static ngx_int_t ngx_http_fastcgi_add_variables(ngx_conf_t *cf);
+static void *ngx_http_fastcgi_create_main_conf(ngx_conf_t *cf);
 static void *ngx_http_fastcgi_create_loc_conf(ngx_conf_t *cf);
 static char *ngx_http_fastcgi_merge_loc_conf(ngx_conf_t *cf,
     void *parent, void *child);
@@ -368,8 +374,8 @@ static ngx_command_t  ngx_http_fastcgi_commands[] = {
     { ngx_string("fastcgi_cache_path"),
       NGX_HTTP_MAIN_CONF|NGX_CONF_2MORE,
       ngx_http_file_cache_set_slot,
-      0,
-      0,
+      NGX_HTTP_MAIN_CONF_OFFSET,
+      offsetof(ngx_http_fastcgi_main_conf_t, caches),
       &ngx_http_fastcgi_module },
 
     { ngx_string("fastcgi_cache_bypass"),
@@ -536,7 +542,7 @@ static ngx_http_module_t  ngx_http_fastcgi_module_ctx = {
     ngx_http_fastcgi_add_variables,        /* preconfiguration */
     NULL,                                  /* postconfiguration */
 
-    NULL,                                  /* create main configuration */
+    ngx_http_fastcgi_create_main_conf,     /* create main configuration */
     NULL,                                  /* init main configuration */
 
     NULL,                                  /* create server configuration */
@@ -635,10 +641,13 @@ static ngx_path_init_t  ngx_http_fastcgi_temp_path = {
 static ngx_int_t
 ngx_http_fastcgi_handler(ngx_http_request_t *r)
 {
-    ngx_int_t                     rc;
-    ngx_http_upstream_t          *u;
-    ngx_http_fastcgi_ctx_t       *f;
-    ngx_http_fastcgi_loc_conf_t  *flcf;
+    ngx_int_t                      rc;
+    ngx_http_upstream_t           *u;
+    ngx_http_fastcgi_ctx_t        *f;
+    ngx_http_fastcgi_loc_conf_t   *flcf;
+#if (NGX_HTTP_CACHE)
+    ngx_http_fastcgi_main_conf_t  *fmcf;
+#endif
 
     if (ngx_http_upstream_create(r) != NGX_OK) {
         return NGX_HTTP_INTERNAL_SERVER_ERROR;
@@ -667,8 +676,12 @@ ngx_http_fastcgi_handler(ngx_http_request_t *r)
     u->conf = &flcf->upstream;
 
 #if (NGX_HTTP_CACHE)
+    fmcf = ngx_http_get_module_main_conf(r, ngx_http_fastcgi_module);
+
+    u->caches = &fmcf->caches;
     u->create_key = ngx_http_fastcgi_create_key;
 #endif
+
     u->create_request = ngx_http_fastcgi_create_request;
     u->reinit_request = ngx_http_fastcgi_reinit_request;
     u->process_header = ngx_http_fastcgi_process_header;
@@ -2337,6 +2350,29 @@ ngx_http_fastcgi_add_variables(ngx_conf_t *cf)
 
 
 static void *
+ngx_http_fastcgi_create_main_conf(ngx_conf_t *cf)
+{
+    ngx_http_fastcgi_main_conf_t  *conf;
+
+    conf = ngx_pcalloc(cf->pool, sizeof(ngx_http_fastcgi_main_conf_t));
+    if (conf == NULL) {
+        return NULL;
+    }
+
+#if (NGX_HTTP_CACHE)
+    if (ngx_array_init(&conf->caches, cf->pool, 4,
+                       sizeof(ngx_http_file_cache_t *))
+        != NGX_OK)
+    {
+        return NULL;
+    }
+#endif
+
+    return conf;
+}
+
+
+static void *
 ngx_http_fastcgi_create_loc_conf(ngx_conf_t *cf)
 {
     ngx_http_fastcgi_loc_conf_t  *conf;
@@ -2352,6 +2388,7 @@ ngx_http_fastcgi_create_loc_conf(ngx_conf_t *cf)
      *     conf->upstream.bufs.num = 0;
      *     conf->upstream.ignore_headers = 0;
      *     conf->upstream.next_upstream = 0;
+     *     conf->upstream.cache_zone = NULL;
      *     conf->upstream.cache_use_stale = 0;
      *     conf->upstream.cache_methods = 0;
      *     conf->upstream.temp_path = NULL;
@@ -2390,7 +2427,7 @@ ngx_http_fastcgi_create_loc_conf(ngx_conf_t *cf)
     conf->upstream.pass_request_body = NGX_CONF_UNSET;
 
 #if (NGX_HTTP_CACHE)
-    conf->upstream.cache = NGX_CONF_UNSET_PTR;
+    conf->upstream.cache = NGX_CONF_UNSET;
     conf->upstream.cache_min_uses = NGX_CONF_UNSET_UINT;
     conf->upstream.cache_bypass = NGX_CONF_UNSET_PTR;
     conf->upstream.no_cache = NGX_CONF_UNSET_PTR;
@@ -2432,14 +2469,24 @@ ngx_http_fastcgi_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
     ngx_hash_init_t               hash;
     ngx_http_core_loc_conf_t     *clcf;
 
-    if (conf->upstream.store != 0) {
+#if (NGX_HTTP_CACHE)
+
+    if (conf->upstream.store > 0) {
+        conf->upstream.cache = 0;
+    }
+
+    if (conf->upstream.cache > 0) {
+        conf->upstream.store = 0;
+    }
+
+#endif
+
+    if (conf->upstream.store == NGX_CONF_UNSET) {
         ngx_conf_merge_value(conf->upstream.store,
                               prev->upstream.store, 0);
 
-        if (conf->upstream.store_lengths == NULL) {
-            conf->upstream.store_lengths = prev->upstream.store_lengths;
-            conf->upstream.store_values = prev->upstream.store_values;
-        }
+        conf->upstream.store_lengths = prev->upstream.store_lengths;
+        conf->upstream.store_values = prev->upstream.store_values;
     }
 
     ngx_conf_merge_uint_value(conf->upstream.store_access,
@@ -2601,13 +2648,18 @@ ngx_http_fastcgi_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
 
 #if (NGX_HTTP_CACHE)
 
-    ngx_conf_merge_ptr_value(conf->upstream.cache,
-                              prev->upstream.cache, NULL);
+    if (conf->upstream.cache == NGX_CONF_UNSET) {
+        ngx_conf_merge_value(conf->upstream.cache,
+                              prev->upstream.cache, 0);
 
-    if (conf->upstream.cache && conf->upstream.cache->data == NULL) {
+        conf->upstream.cache_zone = prev->upstream.cache_zone;
+        conf->upstream.cache_value = prev->upstream.cache_value;
+    }
+
+    if (conf->upstream.cache_zone && conf->upstream.cache_zone->data == NULL) {
         ngx_shm_zone_t  *shm_zone;
 
-        shm_zone = conf->upstream.cache;
+        shm_zone = conf->upstream.cache_zone;
 
         ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
                            "\"fastcgi_cache\" zone \"%V\" is unknown",
@@ -2697,20 +2749,20 @@ ngx_http_fastcgi_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
         return NGX_CONF_ERROR;
     }
 
-    if (conf->upstream.upstream == NULL) {
-        conf->upstream.upstream = prev->upstream.upstream;
-    }
+    clcf = ngx_http_conf_get_module_loc_conf(cf, ngx_http_core_module);
 
-    if (conf->fastcgi_lengths == NULL) {
+    if (clcf->noname
+        && conf->upstream.upstream == NULL && conf->fastcgi_lengths == NULL)
+    {
+        conf->upstream.upstream = prev->upstream.upstream;
         conf->fastcgi_lengths = prev->fastcgi_lengths;
         conf->fastcgi_values = prev->fastcgi_values;
     }
 
-    if (conf->upstream.upstream || conf->fastcgi_lengths) {
-        clcf = ngx_http_conf_get_module_loc_conf(cf, ngx_http_core_module);
-        if (clcf->handler == NULL && clcf->lmt_excpt) {
-            clcf->handler = ngx_http_fastcgi_handler;
-        }
+    if (clcf->lmt_excpt && clcf->handler == NULL
+        && (conf->upstream.upstream || conf->fastcgi_lengths))
+    {
+        clcf->handler = ngx_http_fastcgi_handler;
     }
 
 #if (NGX_PCRE)
@@ -3206,9 +3258,7 @@ ngx_http_fastcgi_store(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     ngx_str_t                  *value;
     ngx_http_script_compile_t   sc;
 
-    if (flcf->upstream.store != NGX_CONF_UNSET
-        || flcf->upstream.store_lengths)
-    {
+    if (flcf->upstream.store != NGX_CONF_UNSET) {
         return "is duplicate";
     }
 
@@ -3220,17 +3270,14 @@ ngx_http_fastcgi_store(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     }
 
 #if (NGX_HTTP_CACHE)
-
-    if (flcf->upstream.cache != NGX_CONF_UNSET_PTR
-        && flcf->upstream.cache != NULL)
-    {
+    if (flcf->upstream.cache > 0) {
         return "is incompatible with \"fastcgi_cache\"";
     }
-
 #endif
 
+    flcf->upstream.store = 1;
+
     if (ngx_strcmp(value[1].data, "on") == 0) {
-        flcf->upstream.store = 1;
         return NGX_CONF_OK;
     }
 
@@ -3262,26 +3309,53 @@ ngx_http_fastcgi_cache(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 {
     ngx_http_fastcgi_loc_conf_t *flcf = conf;
 
-    ngx_str_t  *value;
+    ngx_str_t                         *value;
+    ngx_http_complex_value_t           cv;
+    ngx_http_compile_complex_value_t   ccv;
 
     value = cf->args->elts;
 
-    if (flcf->upstream.cache != NGX_CONF_UNSET_PTR) {
+    if (flcf->upstream.cache != NGX_CONF_UNSET) {
         return "is duplicate";
     }
 
     if (ngx_strcmp(value[1].data, "off") == 0) {
-        flcf->upstream.cache = NULL;
+        flcf->upstream.cache = 0;
         return NGX_CONF_OK;
     }
 
-    if (flcf->upstream.store > 0 || flcf->upstream.store_lengths) {
+    if (flcf->upstream.store > 0) {
         return "is incompatible with \"fastcgi_store\"";
     }
 
-    flcf->upstream.cache = ngx_shared_memory_add(cf, &value[1], 0,
-                                                 &ngx_http_fastcgi_module);
-    if (flcf->upstream.cache == NULL) {
+    flcf->upstream.cache = 1;
+
+    ngx_memzero(&ccv, sizeof(ngx_http_compile_complex_value_t));
+
+    ccv.cf = cf;
+    ccv.value = &value[1];
+    ccv.complex_value = &cv;
+
+    if (ngx_http_compile_complex_value(&ccv) != NGX_OK) {
+        return NGX_CONF_ERROR;
+    }
+
+    if (cv.lengths != NULL) {
+
+        flcf->upstream.cache_value = ngx_palloc(cf->pool,
+                                             sizeof(ngx_http_complex_value_t));
+        if (flcf->upstream.cache_value == NULL) {
+            return NGX_CONF_ERROR;
+        }
+
+        *flcf->upstream.cache_value = cv;
+
+        return NGX_CONF_OK;
+    }
+
+    flcf->upstream.cache_zone = ngx_shared_memory_add(cf, &value[1], 0,
+                                                      &ngx_http_fastcgi_module);
+    if (flcf->upstream.cache_zone == NULL) {
         return NGX_CONF_ERROR;
     }
 

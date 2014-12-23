@@ -177,6 +177,8 @@ ngx_http_file_cache_new(ngx_http_request_t *r)
     c->file.log = r->connection->log;
     c->file.fd = NGX_INVALID_FILE;
 
+    c->last_modified = -1;
+
     return NGX_OK;
 }
 
@@ -2030,6 +2032,8 @@ ngx_http_file_cache_valid(ngx_array_t *cache_valid, ngx_uint_t status)
 char *
 ngx_http_file_cache_set_slot(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 {
+    char  *confp = conf;
+
     off_t                   max_size;
     u_char                 *last, *p;
     time_t                  inactive;
@@ -2038,7 +2042,8 @@ ngx_http_file_cache_set_slot(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     ngx_int_t               loader_files;
     ngx_msec_t              loader_sleep, loader_threshold;
     ngx_uint_t              i, n;
-    ngx_http_file_cache_t  *cache;
+    ngx_array_t            *caches;
+    ngx_http_file_cache_t  *cache, **ce;
 
     cache = ngx_pcalloc(cf->pool, sizeof(ngx_http_file_cache_t));
     if (cache == NULL) {
@@ -2249,6 +2254,15 @@ ngx_http_file_cache_set_slot(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
     cache->inactive = inactive;
     cache->max_size = max_size;
+
+    caches = (ngx_array_t *) (confp + cmd->offset);
+
+    ce = ngx_array_push(caches);
+    if (ce == NULL) {
+        return NGX_CONF_ERROR;
+    }
+
+    *ce = cache;
 
     return NGX_CONF_OK;
 }
