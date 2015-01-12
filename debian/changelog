@@ -1,3 +1,27 @@
+nginx (1.7.9-ubuntu35~preciseubuntu64) precise; urgency=medium
+
+  * packaging for precise
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 12 Jan 2015 14:15:32 +0100
+
+nginx (1.7.9-ubuntu35~preciseubuntu63) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 12 Jan 2015 14:15:21 +0100
+
+nginx (1.7.9-ubuntu35~preciseubuntu62) precise; urgency=medium
+
+  * packaging for precise
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 12 Jan 2015 13:40:24 +0100
+
+nginx (1.7.9-ubuntu35~preciseubuntu61) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 12 Jan 2015 13:40:10 +0100
+
 nginx (1.7.9-ubuntu35~preciseubuntu60) precise; urgency=medium
 
   * packaging for precise
