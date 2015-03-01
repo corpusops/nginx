@@ -13,6 +13,7 @@ FLAVORS="trusty precise"
 sed -i -re "1 s/nginx \([0-9].[0-9].[0-9]/nginx (${VER}/g" debian/changelog
 W=$PWD
 cd $W/..
+set -x
 if [ ! -e debian-up ];then
     git clone git://anonscm.debian.org/collab-maint/nginx.git debian-up
 fi
@@ -22,6 +23,7 @@ fi
 if [ ! -e nginx-lua/.git ];then
     git clone https://github.com/openresty/lua-nginx-module.git nginx-lua
 fi
+set +x
 cd $W/../debian-up && rm -rf * && git fetch --all && git reset --hard origin/master
 cd $W/../nginx-auth-ldap && git fetch --all && git reset --hard origin/master
 cd $W/../nginx-lua && git fetch --all && git reset --hard origin/master

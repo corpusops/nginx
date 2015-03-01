@@ -18,7 +18,7 @@ README for Modules versions
 
  nginx-echo
   https://github.com/agentzh/echo-nginx-module
-  Version: v0.57
+  Version: v0.56
 
  nginx-lua
   Homepage: https://github.com/openresty/lua-nginx-module
@@ -42,7 +42,7 @@ README for Modules versions
 
  nginx-cache-purge
   Homepage: http://labs.frickle.com/nginx_ngx_cache_purge/
-  Version: 2.3
+  Version: 2.1
 
  nginx-dav-ext-module
   Homepage: https://github.com/arut/nginx-dav-ext-module
@@ -55,7 +55,3 @@ README for Modules versions
  ngx_http_substitutions_filter_module
   Homepage: https://github.com/yaoweibin/ngx_http_substitutions_filter_module
   Version: v0.6.4
-
- nginx-auth-ldap
-  Homepage:
-  Version: master/2014/09/02
