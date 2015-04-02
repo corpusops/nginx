@@ -1,50 +1,8 @@
-nginx (1.7.11-ubuntu35) precise; urgency=medium
-
-  * packaging for precise
-
- -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:13:18 +0200
-
-nginx (1.7.111110-ubuntu35~preciseubuntu70) trusty; urgency=medium
+nginx (1.7.11-debian0~precise65) trusty; urgency=medium
 
   * packaging for trusty
 
- -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:12:22 +0200
-
-nginx (1.7.111110-ubuntu35~preciseubuntu71) precise; urgency=medium
-
-  * packaging for precise
-
- -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:13:18 +0200
-
-nginx (1.7.111110-ubuntu35~preciseubuntu70) trusty; urgency=medium
-
-  * packaging for trusty
-
- -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:12:22 +0200
-
-nginx (1.7.111110-ubuntu35~preciseubuntu69) trusty; urgency=medium
-
-  * packaging for trusty
-
- -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:11:53 +0200
-
-nginx (1.7.11110-ubuntu35~preciseubuntu68) trusty; urgency=medium
-
-  * packaging for trusty
-
- -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:11:27 +0200
-
-nginx (1.7.1110-ubuntu35~preciseubuntu67) trusty; urgency=medium
-
-  * packaging for trusty
-
- -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:08:55 +0200
-
-nginx (1.7.110-ubuntu35~preciseubuntu66) precise; urgency=medium
-
-  * packaging for precise
-
- -- kiorky <kiorky@cryptelium.net>  Sun, 01 Mar 2015 15:36:52 +0100
+ -- kiorky <kiorky@cryptelium.net>  Sun, 01 Mar 2015 15:36:16 +0100 
 
 nginx (1.7.10-ubuntu35~preciseubuntu65) trusty; urgency=medium
 
