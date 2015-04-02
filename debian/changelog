@@ -1,3 +1,15 @@
+nginx (1.7.11-debian0~precise65ubuntu2) precise; urgency=medium
+
+  * packaging for precise
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:20:37 +0200
+
+nginx (1.7.11-debian0~precise65ubuntu1) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 02 Apr 2015 20:20:18 +0200
+
 nginx (1.7.11-debian0~precise65) trusty; urgency=medium
 
   * packaging for trusty
