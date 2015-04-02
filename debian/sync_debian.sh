@@ -10,7 +10,7 @@ if [ "x${VER}" = "x" ];then
 fi
 KEY="${KEY:-0x5616F8C2}"
 FLAVORS="trusty precise"
-sed -i -re "1 s/nginx \([0-9].[0-9].[0-9]/nginx (${VER}/g" debian/changelog
+sed -i -re "1 s/nginx \([0-9].[0-9]+.[0-9]+/nginx (${VER}/g" debian/changelog
 W=$PWD
 cd $W/..
 set -x
