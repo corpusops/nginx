@@ -9,7 +9,7 @@ if [ "x${VER}" = "x" ];then
     exit -1
 fi
 KEY="${KEY:-0x5616F8C2}"
-FLAVORS="trusty precise"
+FLAVORS="vivid trusty precise"
 sed -i -re "1 s/nginx \([0-9].[0-9]+.[0-9]+/nginx (${VER}/g" debian/changelog
 W=$PWD
 cd $W/..
