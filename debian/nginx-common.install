@@ -1,8 +1,8 @@
 debian/conf/* etc/nginx
 debian/ufw/nginx etc/ufw/applications.d\
 html/* usr/share/nginx/html
-debian/build-extras/objs/src/http/modules/perl/blib/arch/auto/nginx/* usr/lib/perl5/auto/nginx
-debian/build-extras/objs/src/http/modules/perl/blib/lib/nginx.pm usr/lib/perl5
+debian/build-extras/objs/src/http/modules/perl/blib/arch/auto/nginx/nginx.so usr/share/perl5
+debian/build-extras/objs/src/http/modules/perl/blib/lib/nginx.pm usr/share/perl5
 debian/build-extras/objs/nginx usr/sbin
 debian/build-full/objs/nginx usr/sbin
 debian/build-light/objs/nginx usr/sbin

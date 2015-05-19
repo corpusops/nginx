@@ -101,7 +101,8 @@ with open('debian/rules') as fic:
             for a in TOADD:
                 content.append(a)
         content.append(l)
-
+content.append('override_dh_usrlocal:')
+content.append('\techo disabling\n')
 with open('debian/rules', 'w') as fic:
     fic.write('\n'.join(content))
 EOF
@@ -166,7 +167,6 @@ echo "3.0 (native)">$W/debian/source/format
 #cd $W/../upstream
 #tar cjf ../nginx_${VER}.orig.tar.bz2 . --exclude=.git
 #rm -rf ../upstream
-
 cd $W
 CHANGES=""
 if [ -e $HOME/.gnupg/.gpg-agent-info ];then

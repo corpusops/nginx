@@ -208,3 +208,5 @@ config.arch.%:
 
 clean.%:
 	rm -rf $(BUILDDIR_$*)
+override_dh_usrlocal:
+	echo disabling
