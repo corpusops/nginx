@@ -8,5 +8,5 @@ git merge v1.7.10
 
 - Run debian/sync_debian.sh to grab back release stuff & upload ppa candidate
 ```
-debian/sync_debian.sh
+mc_packaging/sync_debian.sh
 ```

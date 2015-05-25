@@ -1,8 +1,17 @@
-debian/conf/* etc/nginx
-debian/ufw/nginx etc/ufw/applications.d\
-html/* usr/share/nginx/html
-debian/build-extras/objs/src/http/modules/perl/blib/arch/auto/nginx/nginx.so usr/share/perl5
-debian/build-extras/objs/src/http/modules/perl/blib/lib/nginx.pm usr/share/perl5
-debian/build-extras/objs/nginx usr/sbin
-debian/build-full/objs/nginx usr/sbin
-debian/build-light/objs/nginx usr/sbin
+#!/usr/bin/perl -w
+print "debian/conf/* etc/nginx\n";
+print "debian/ufw/nginx etc/ufw/applications.d\n";
+print "debian/index.html usr/share/nginx/html/\n";
+print "debian/vim/nginx.yaml usr/share/vim/registry\n";
+print "contrib/vim/* usr/share/vim/addons\n";
+print "debian/ngx-conf/ngx-conf usr/sbin/ngx-conf\n";
+
+use Config;
+
+my $vendorarch = substr($Config{vendorarch}, 1);
+print "debian/build-extras/objs/src/http/modules/perl/blib/arch/auto/nginx/* $vendorarch/auto/nginx\n";
+print "debian/build-extras/objs/src/http/modules/perl/blib/lib/nginx.pm $vendorarch\n";
+
+print "debian/build-extras/objs/nginx usr/sbin\n";
+print "debian/build-full/objs/nginx usr/sbin\n";
+print "debian/build-light/objs/nginx usr/sbin\n";
