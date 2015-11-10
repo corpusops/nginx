@@ -126,13 +126,6 @@ static ngx_command_t  ngx_event_core_commands[] = {
       0,
       NULL },
 
-    { ngx_string("connections"),
-      NGX_EVENT_CONF|NGX_CONF_TAKE1,
-      ngx_event_connections,
-      0,
-      0,
-      NULL },
-
     { ngx_string("use"),
       NGX_EVENT_CONF|NGX_CONF_TAKE1,
       ngx_event_use,
@@ -677,6 +670,15 @@ ngx_event_process_init(ngx_cycle_t *cycle)
         }
     }
 
+#else
+
+    if (ngx_timer_resolution && !(ngx_event_flags & NGX_USE_TIMER_EVENT)) {
+        ngx_log_error(NGX_LOG_WARN, cycle->log, 0,
+                      "the \"timer_resolution\" directive is not supported "
+                      "with the configured event method, ignored");
+        ngx_timer_resolution = 0;
+    }
+
 #endif
 
     cycle->connections =
@@ -731,6 +733,12 @@ ngx_event_process_init(ngx_cycle_t *cycle)
 
     ls = cycle->listening.elts;
     for (i = 0; i < cycle->listening.nelts; i++) {
+
+#if (NGX_HAVE_REUSEPORT)
+        if (ls[i].reuseport && ls[i].worker != ngx_worker) {
+            continue;
+        }
+#endif
 
         c = ngx_get_connection(ls[i].fd, cycle->log);
 
@@ -812,7 +820,12 @@ ngx_event_process_init(ngx_cycle_t *cycle)
 
         rev->handler = ngx_event_accept;
 
-        if (ngx_use_accept_mutex) {
+        if (ngx_use_accept_mutex
+#if (NGX_HAVE_REUSEPORT)
+            && !ls[i].reuseport
+#endif
+           )
+        {
             continue;
         }
 
@@ -923,8 +936,9 @@ ngx_events_block(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
     *cf = pcf;
 
-    if (rv != NGX_CONF_OK)
+    if (rv != NGX_CONF_OK) {
         return rv;
+    }
 
     for (i = 0; ngx_modules[i]; i++) {
         if (ngx_modules[i]->type != NGX_EVENT_MODULE) {
@@ -954,12 +968,6 @@ ngx_event_connections(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
     if (ecf->connections != NGX_CONF_UNSET_UINT) {
         return "is duplicate";
-    }
-
-    if (ngx_strcmp(cmd->name.data, "connections") == 0) {
-        ngx_conf_log_error(NGX_LOG_WARN, cf, 0,
-                           "the \"connections\" directive is deprecated, "
-                           "use the \"worker_connections\" directive instead");
     }
 
     value = cf->args->elts;

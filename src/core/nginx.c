@@ -10,6 +10,7 @@
 #include <nginx.h>
 
 
+static void ngx_show_version_info();
 static ngx_int_t ngx_add_inherited_sockets(ngx_cycle_t *cycle);
 static ngx_int_t ngx_get_options(int argc, char *const *argv);
 static ngx_int_t ngx_process_options(ngx_cycle_t *cycle);
@@ -176,9 +177,11 @@ static char **ngx_os_environ;
 int ngx_cdecl
 main(int argc, char *const *argv)
 {
-    ngx_int_t         i;
+    ngx_buf_t        *b;
     ngx_log_t        *log;
+    ngx_uint_t        i;
     ngx_cycle_t      *cycle, init_cycle;
+    ngx_conf_dump_t  *cd;
     ngx_core_conf_t  *ccf;
 
     ngx_debug_init();
@@ -192,62 +195,7 @@ main(int argc, char *const *argv)
     }
 
     if (ngx_show_version) {
-        ngx_write_stderr("nginx version: " NGINX_VER_BUILD NGX_LINEFEED);
-
-        if (ngx_show_help) {
-            ngx_write_stderr(
-                "Usage: nginx [-?hvVtq] [-s signal] [-c filename] "
-                             "[-p prefix] [-g directives]" NGX_LINEFEED
-                             NGX_LINEFEED
-                "Options:" NGX_LINEFEED
-                "  -?,-h         : this help" NGX_LINEFEED
-                "  -v            : show version and exit" NGX_LINEFEED
-                "  -V            : show version and configure options then exit"
-                                   NGX_LINEFEED
-                "  -t            : test configuration and exit" NGX_LINEFEED
-                "  -q            : suppress non-error messages "
-                                   "during configuration testing" NGX_LINEFEED
-                "  -s signal     : send signal to a master process: "
-                                   "stop, quit, reopen, reload" NGX_LINEFEED
-#ifdef NGX_PREFIX
-                "  -p prefix     : set prefix path (default: "
-                                   NGX_PREFIX ")" NGX_LINEFEED
-#else
-                "  -p prefix     : set prefix path (default: NONE)" NGX_LINEFEED
-#endif
-                "  -c filename   : set configuration file (default: "
-                                   NGX_CONF_PATH ")" NGX_LINEFEED
-                "  -g directives : set global directives out of configuration "
-                                   "file" NGX_LINEFEED NGX_LINEFEED
-                );
-        }
-
-        if (ngx_show_configure) {
-
-#ifdef NGX_COMPILER
-            ngx_write_stderr("built by " NGX_COMPILER NGX_LINEFEED);
-#endif
-
-#if (NGX_SSL)
-            if (SSLeay() == SSLEAY_VERSION_NUMBER) {
-                ngx_write_stderr("built with " OPENSSL_VERSION_TEXT
-                                 NGX_LINEFEED);
-            } else {
-                ngx_write_stderr("built with " OPENSSL_VERSION_TEXT
-                                 " (running with ");
-                ngx_write_stderr((char *) (uintptr_t)
-                                 SSLeay_version(SSLEAY_VERSION));
-                ngx_write_stderr(")" NGX_LINEFEED);
-            }
-#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
-            ngx_write_stderr("TLS SNI support enabled" NGX_LINEFEED);
-#else
-            ngx_write_stderr("TLS SNI support disabled" NGX_LINEFEED);
-#endif
-#endif
-
-            ngx_write_stderr("configure arguments:" NGX_CONFIGURE NGX_LINEFEED);
-        }
+        ngx_show_version_info();
 
         if (!ngx_test_config) {
             return 0;
@@ -333,6 +281,23 @@ main(int argc, char *const *argv)
                            cycle->conf_file.data);
         }
 
+        if (ngx_dump_config) {
+            cd = cycle->config_dump.elts;
+
+            for (i = 0; i < cycle->config_dump.nelts; i++) {
+
+                ngx_write_stdout("# configuration file ");
+                (void) ngx_write_fd(ngx_stdout, cd[i].name.data,
+                                    cd[i].name.len);
+                ngx_write_stdout(":" NGX_LINEFEED);
+
+                b = cd[i].buffer;
+
+                (void) ngx_write_fd(ngx_stdout, b->pos, b->last - b->pos);
+                ngx_write_stdout(NGX_LINEFEED);
+            }
+        }
+
         return 0;
     }
 
@@ -395,6 +360,69 @@ main(int argc, char *const *argv)
     }
 
     return 0;
+}
+
+
+static void
+ngx_show_version_info()
+{
+    ngx_write_stderr("nginx version: " NGINX_VER_BUILD NGX_LINEFEED);
+
+    if (ngx_show_help) {
+        ngx_write_stderr(
+            "Usage: nginx [-?hvVtTq] [-s signal] [-c filename] "
+                         "[-p prefix] [-g directives]" NGX_LINEFEED
+                         NGX_LINEFEED
+            "Options:" NGX_LINEFEED
+            "  -?,-h         : this help" NGX_LINEFEED
+            "  -v            : show version and exit" NGX_LINEFEED
+            "  -V            : show version and configure options then exit"
+                               NGX_LINEFEED
+            "  -t            : test configuration and exit" NGX_LINEFEED
+            "  -T            : test configuration, dump it and exit"
+                               NGX_LINEFEED
+            "  -q            : suppress non-error messages "
+                               "during configuration testing" NGX_LINEFEED
+            "  -s signal     : send signal to a master process: "
+                               "stop, quit, reopen, reload" NGX_LINEFEED
+#ifdef NGX_PREFIX
+            "  -p prefix     : set prefix path (default: " NGX_PREFIX ")"
+                               NGX_LINEFEED
+#else
+            "  -p prefix     : set prefix path (default: NONE)" NGX_LINEFEED
+#endif
+            "  -c filename   : set configuration file (default: " NGX_CONF_PATH
+                               ")" NGX_LINEFEED
+            "  -g directives : set global directives out of configuration "
+                               "file" NGX_LINEFEED NGX_LINEFEED
+        );
+    }
+
+    if (ngx_show_configure) {
+
+#ifdef NGX_COMPILER
+        ngx_write_stderr("built by " NGX_COMPILER NGX_LINEFEED);
+#endif
+
+#if (NGX_SSL)
+        if (SSLeay() == SSLEAY_VERSION_NUMBER) {
+            ngx_write_stderr("built with " OPENSSL_VERSION_TEXT NGX_LINEFEED);
+        } else {
+            ngx_write_stderr("built with " OPENSSL_VERSION_TEXT
+                             " (running with ");
+            ngx_write_stderr((char *) (uintptr_t)
+                             SSLeay_version(SSLEAY_VERSION));
+            ngx_write_stderr(")" NGX_LINEFEED);
+        }
+#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
+        ngx_write_stderr("TLS SNI support enabled" NGX_LINEFEED);
+#else
+        ngx_write_stderr("TLS SNI support disabled" NGX_LINEFEED);
+#endif
+#endif
+
+        ngx_write_stderr("configure arguments:" NGX_CONFIGURE NGX_LINEFEED);
+    }
 }
 
 
@@ -687,6 +715,11 @@ ngx_get_options(int argc, char *const *argv)
 
             case 't':
                 ngx_test_config = 1;
+                break;
+
+            case 'T':
+                ngx_test_config = 1;
+                ngx_dump_config = 1;
                 break;
 
             case 'q':
@@ -1113,7 +1146,7 @@ ngx_set_user(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         return NGX_CONF_OK;
     }
 
-    value = (ngx_str_t *) cf->args->elts;
+    value = cf->args->elts;
 
     ccf->username = (char *) value[1].data;
 
@@ -1319,7 +1352,7 @@ ngx_set_worker_processes(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         return "is duplicate";
     }
 
-    value = (ngx_str_t *) cf->args->elts;
+    value = cf->args->elts;
 
     if (ngx_strcmp(value[1].data, "auto") == 0) {
         ccf->worker_processes = ngx_ncpu;

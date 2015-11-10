@@ -19,6 +19,7 @@ CORE_DEPS="src/core/nginx.h \
            src/core/ngx_queue.h \
            src/core/ngx_string.h \
            src/core/ngx_parse.h \
+           src/core/ngx_parse_time.h \
            src/core/ngx_inet.h \
            src/core/ngx_file.h \
            src/core/ngx_crc.h \
@@ -53,6 +54,7 @@ CORE_SRCS="src/core/nginx.c \
            src/core/ngx_output_chain.c \
            src/core/ngx_string.c \
            src/core/ngx_parse.c \
+           src/core/ngx_parse_time.c \
            src/core/ngx_inet.c \
            src/core/ngx_file.c \
            src/core/ngx_crc32.c \
@@ -303,7 +305,6 @@ HTTP_SRCS="src/http/ngx_http.c \
            src/http/ngx_http_script.c \
            src/http/ngx_http_upstream.c \
            src/http/ngx_http_upstream_round_robin.c \
-           src/http/ngx_http_parse_time.c \
            src/http/modules/ngx_http_static_module.c \
            src/http/modules/ngx_http_index_module.c \
            src/http/modules/ngx_http_chunked_filter_module.c \
@@ -316,13 +317,17 @@ HTTP_POSTPONE_FILTER_SRCS=src/http/ngx_http_postpone_filter_module.c
 HTTP_FILE_CACHE_SRCS=src/http/ngx_http_file_cache.c
 
 
-HTTP_SPDY_MODULE=ngx_http_spdy_module
-HTTP_SPDY_FILTER_MODULE=ngx_http_spdy_filter_module
-HTTP_SPDY_DEPS="src/http/ngx_http_spdy.h \
-                src/http/ngx_http_spdy_module.h"
-HTTP_SPDY_SRCS="src/http/ngx_http_spdy.c \
-                src/http/ngx_http_spdy_module.c \
-                src/http/ngx_http_spdy_filter_module.c"
+HTTP_V2_MODULE=ngx_http_v2_module
+HTTP_V2_FILTER_MODULE=ngx_http_v2_filter_module
+HTTP_V2_INCS="src/http/v2"
+HTTP_V2_DEPS="src/http/v2/ngx_http_v2.h \
+              src/http/v2/ngx_http_v2_module.h"
+HTTP_V2_SRCS="src/http/v2/ngx_http_v2.c \
+              src/http/v2/ngx_http_v2_table.c \
+              src/http/v2/ngx_http_v2_huff_decode.c \
+              src/http/v2/ngx_http_v2_huff_encode.c \
+              src/http/v2/ngx_http_v2_module.c \
+              src/http/v2/ngx_http_v2_filter_module.c"
 
 
 HTTP_CHARSET_FILTER_MODULE=ngx_http_charset_filter_module
@@ -566,6 +571,12 @@ STREAM_SRCS="src/stream/ngx_stream.c \
 STREAM_SSL_MODULE="ngx_stream_ssl_module"
 STREAM_SSL_DEPS="src/stream/ngx_stream_ssl_module.h"
 STREAM_SSL_SRCS="src/stream/ngx_stream_ssl_module.c"
+
+STREAM_LIMIT_CONN_MODULE=ngx_stream_limit_conn_module
+STREAM_LIMIT_CONN_SRCS=src/stream/ngx_stream_limit_conn_module.c
+
+STREAM_ACCESS_MODULE=ngx_stream_access_module
+STREAM_ACCESS_SRCS=src/stream/ngx_stream_access_module.c
 
 STREAM_UPSTREAM_HASH_MODULE=ngx_stream_upstream_hash_module
 STREAM_UPSTREAM_HASH_SRCS=src/stream/ngx_stream_upstream_hash_module.c
