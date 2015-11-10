@@ -1,2 +1,3 @@
-man/nginx.8
-debian/ngx-conf/ngx-conf.1
+debian/build-extras/objs/nginx.8
+debian/build-full/objs/nginx.8
+debian/build-light/objs/nginx.8

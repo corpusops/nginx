@@ -1,10 +1,9 @@
 #!/usr/bin/perl -w
 print "debian/conf/* etc/nginx\n";
 print "debian/ufw/nginx etc/ufw/applications.d\n";
-print "debian/index.html usr/share/nginx/html/\n";
+print "docs/html/index.html usr/share/nginx/html/\n";
 print "debian/vim/nginx.yaml usr/share/vim/registry\n";
 print "contrib/vim/* usr/share/vim/addons\n";
-print "debian/ngx-conf/ngx-conf usr/sbin/ngx-conf\n";
 
 use Config;
 

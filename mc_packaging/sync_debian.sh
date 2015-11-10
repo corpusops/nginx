@@ -10,8 +10,9 @@ export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
 export KEY="${KEY:-0x5616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
+export VER="1.9.6"
 export FLAVORS="vivid trusty precise"
-export FLAVORS="trusty vivid"
+export FLAVORS="trusty vivid wily"
 export RELEASES="${RELEASES:-"experimental|stable|unstable|precise|trusty|utopic|vivid|oneric|wily"}"
 if [ "x${VER}" = "x" ];then echo unknownversion;exit -1;fi
 if [ "x${REPO}" != "x" ];then
@@ -40,62 +41,65 @@ fi
 cd "${W}/../nginx-auth-ldap" && git fetch --all && git reset --hard origin/master
 cd "${W}/../nginx-lua" && git fetch --all && git reset --hard origin/master
 cd "${W}"
-rsync -azv --delete ../nginx-auth-ldap/ debian/modules/nginx-auth-ldap/
-rsync -azv --delete ../nginx-lua/ debian/modules/nginx-lua/
+rsync -azv --delete --delete-excluded --exclude=.git ../nginx-auth-ldap/ debian/modules/nginx-auth-ldap/
+rsync -azv --delete --delete-excluded --exclude=.git ../nginx-lua/ debian/modules/nginx-lua/
 rm -rf debian/modules/nginx-auth-ldap/.git
 rm -rf debian/modules/nginx-lua/.git
 rm -rf debian/nginx*upstart
 /usr/bin/python << EOF
 TOADD  = '''
 common_configure_flags := \\\\
-    --with-cc-opt="\$(debian_cflags)" \\\\
-    --with-ld-opt="\$(debian_ldflags)" \\\\
-    --prefix=/usr/share/nginx \\\\
-    --conf-path=/etc/nginx/nginx.conf \\\\
-    --http-log-path=/var/log/nginx/access.log \\\\
-    --error-log-path=/var/log/nginx/error.log \\\\
-    --lock-path=/var/lock/nginx.lock \\\\
-    --pid-path=/run/nginx.pid \\\\
-    --http-client-body-temp-path=/var/lib/nginx/body \\\\
-    --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \\\\
-    --http-proxy-temp-path=/var/lib/nginx/proxy \\\\
-    --http-scgi-temp-path=/var/lib/nginx/scgi \\\\
-    --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \\\\
-    --with-debug \\\\
-    --with-http_addition_module \\\\
-    --with-http_auth_request_module \\\\
-    --with-http_dav_module \\\\
-    --with-http_flv_module \\\\
-    --with-http_geoip_module \\\\
-    --with-http_gzip_static_module \\\\
-    --with-http_image_filter_module \\\\
-    --with-http_mp4_module \\\\
-    --with-http_perl_module \\\\
-    --with-http_random_index_module \\\\
-    --with-http_realip_module \\\\
-    --with-http_secure_link_module \\\\
-    --with-http_spdy_module \\\\
-    --with-http_ssl_module \\\\
-    --with-http_stub_status_module \\\\
-    --with-http_sub_module \\\\
-    --with-http_xslt_module \\\\
-    --with-ipv6 \\\\
-    --with-mail \\\\
-    --with-mail_ssl_module \\\\
-    --with-pcre-jit \\\\
-    --add-module=\$(MODULESDIR)/headers-more-nginx-module \\\\
-    --add-module=\$(MODULESDIR)/nginx-auth-pam \\\\
-    --add-module=\$(MODULESDIR)/nginx-auth-ldap \\\\
-    --add-module=\$(MODULESDIR)/nginx-cache-purge \\\\
-    --add-module=\$(MODULESDIR)/nginx-dav-ext-module \\\\
-    --add-module=\$(MODULESDIR)/nginx-development-kit \\\\
-    --add-module=\$(MODULESDIR)/nginx-echo \\\\
-    --add-module=\$(MODULESDIR)/nginx-http-push \\\\
-    --add-module=\$(MODULESDIR)/nginx-upload-progress \\\\
-    --add-module=\$(MODULESDIR)/nginx-upstream-fair \\\\
-    --add-module=\$(MODULESDIR)/nginx-lua \\\\
-    --add-module=\$(MODULESDIR)/ngx-fancyindex \\\\
-    --add-module=\$(MODULESDIR)/ngx_http_substitutions_filter_module
+            --with-cc-opt="\$(debian_cflags)" \\\\
+            --with-ld-opt="\$(debian_ldflags)" \\\\
+            --prefix=/usr/share/nginx \\\\
+            --conf-path=/etc/nginx/nginx.conf \\\\
+            --http-log-path=/var/log/nginx/access.log \\\\
+            --error-log-path=/var/log/nginx/error.log \\\\
+            --lock-path=/var/lock/nginx.lock \\\\
+            --pid-path=/run/nginx.pid \\\\
+            --http-client-body-temp-path=/var/lib/nginx/body \\\\
+            --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \\\\
+            --http-proxy-temp-path=/var/lib/nginx/proxy \\\\
+            --http-scgi-temp-path=/var/lib/nginx/scgi \\\\
+            --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \\\\
+            --with-debug \\\\
+            --with-http_addition_module \\\\
+            --with-http_auth_request_module \\\\
+            --with-http_dav_module \\\\
+            --with-http_flv_module \\\\
+            --with-http_geoip_module \\\\
+            --with-http_gzip_static_module \\\\
+            --with-http_image_filter_module \\\\
+            --with-http_mp4_module \\\\
+            --with-http_perl_module \\\\
+            --with-http_random_index_module \\\\
+            --with-http_realip_module \\\\
+            --with-http_secure_link_module \\\\
+            --with-http_v2_module \\\\
+            --with-threads \\\\
+            --with-stream \\\\
+            --with-stream_ssl_module \\\\
+            --with-http_ssl_module \\\\
+            --with-http_stub_status_module \\\\
+            --with-http_sub_module \\\\
+            --with-http_xslt_module \\\\
+            --with-ipv6 \\\\
+            --with-mail \\\\
+            --with-mail_ssl_module \\\\
+            --with-pcre-jit \\\\
+            --add-module=\$(MODULESDIR)/headers-more-nginx-module \\\\
+            --add-module=\$(MODULESDIR)/nginx-auth-pam \\\\
+            --add-module=\$(MODULESDIR)/nginx-auth-ldap \\\\
+            --add-module=\$(MODULESDIR)/nginx-cache-purge \\\\
+            --add-module=\$(MODULESDIR)/nginx-dav-ext-module \\\\
+            --add-module=\$(MODULESDIR)/nginx-development-kit \\\\
+            --add-module=\$(MODULESDIR)/nginx-echo \\\\
+            --add-module=\$(MODULESDIR)/nginx-http-push \\\\
+            --add-module=\$(MODULESDIR)/nginx-upload-progress \\\\
+            --add-module=\$(MODULESDIR)/nginx-upstream-fair \\\\
+            --add-module=\$(MODULESDIR)/nginx-lua \\\\
+            --add-module=\$(MODULESDIR)/ngx-fancyindex \\\\
+            --add-module=\$(MODULESDIR)/ngx_http_substitutions_filter_module
 
 
 light_configure_flags := \$(common_configure_flags)
@@ -106,11 +110,16 @@ extras_configure_flags := \$(common_configure_flags)
 with open('debian/rules') as fic:
     lines = fic.read().splitlines()
     content = []
+    skip = False
     for l in lines[:]:
+        if l.startswith('common_configure_flags :='):
+            skip = True
         if l.startswith('%:'):
             for a in TOADD:
                 content.append(a)
-        content.append(l)
+            skip = False
+        if not skip:
+            content.append(l)
 content.append('override_dh_usrlocal:')
 content.append('\techo disabling\n')
 with open('debian/rules', 'w') as fic:
@@ -119,13 +128,21 @@ EOF
 cd debian
 sed "s/-lldap\"/-lldap -llber\"/g" -i ${W}/debian/modules/nginx-auth-ldap/config
 sed "s/FLAVOURS :=.*/FLAVOURS := full light extras/g" -i rules
+sed -re "s/\\$.CURDIR.\/configure/\$(CURDIR)\/auto\/configure/g" -i rules
+sed -re "s/\\$.CURDIR.\/man/\$(CURDIR)\/docs\/man/g" -i rules
+sed -re "s/\\$.CURDIR.\/html/\$(CURDIR)\/docs\/html/g" -i rules
+sed -re "s/\.\/configure/.\/auto\/configure/g" -i rules
 # assemble
 for i in postrm preinst;do
-    ls ../../debian-up/debian/*.${i}|grep -v makina|xargs cat|grep -v "exit 0"> nginx-makina.${i}
+    ls ../../debian-up/debian/*.${i}|grep -v makina|xargs cat|grep -v "exit 0" > nginx-makina.${i}.u
+    cat nginx-makina.${i}.u | uniq > nginx-makina.${i}
+    rm -f nginx-makina.${i}.u
     echo "exit 0">>nginx-makina.${i}
 done
 for i in dirs manpages examples manpages docs install lintian-overrides;do
-    ls ../../debian-up/debian/*.${i}|grep -v makina|xargs cat>nginx-makina.${i}
+    ls ../../debian-up/debian/*.${i}|grep -v makina|xargs cat>nginx-makina.${i}.u
+    cat nginx-makina.${i}.u | uniq  > nginx-makina.${i}
+    rm -f nginx-makina.${i}.u
     cp nginx-makina.${i} nginx-makina.${i}.in
 done
 cat nginx-makina.lintian-overrides.in|sed -re "s/[^:]+:(.*)/nginx-makina:\1/g" | sort -u > nginx-makina.lintian-overrides
@@ -138,6 +155,8 @@ for j in common;do
     done
 done
 # make those packages, dummy packages
+# get one prerm for our global package
+cp nginx-light.prerm nginx-makina.prerm
 for j in doc full light extras;do
     for i in dirs postinstall prerm manpages\
                   docs examples install lintian-overrides \
@@ -164,6 +183,8 @@ for i in postinst preinst prerm postrm install docs manpages examples;do
         fi
     done
 done
+sed -re "s/\"html\/index.html/\"docs\/html\/index.html/g" -i nginx*
+sed -i -re "/README/ d" nginx-makina*
 #
 echo "3.0 (native)">"${W}/debian/source/format"
 cd "${W}"
