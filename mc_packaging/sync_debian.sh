@@ -184,7 +184,7 @@ for i in postinst preinst prerm postrm install docs manpages examples;do
     done
 done
 sed -re "s/\"html\/index.html/\"docs\/html\/index.html/g" -i nginx*
-sed -i -re "/README/ d" nginx-makina*
+sed -i -re "/README/ d" nginx-*
 #
 echo "3.0 (native)">"${W}/debian/source/format"
 cd "${W}"
