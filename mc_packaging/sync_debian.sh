@@ -10,7 +10,7 @@ export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
 export KEY="${KEY:-0x5616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
-export VER="1.9.6"
+export VER="1.9.9"
 export FLAVORS="vivid trusty precise"
 export FLAVORS="trusty vivid wily"
 export RELEASES="${RELEASES:-"experimental|stable|unstable|precise|trusty|utopic|vivid|oneric|wily"}"
@@ -185,6 +185,8 @@ for i in postinst preinst prerm postrm install docs manpages examples;do
 done
 sed -re "s/\"html\/index.html/\"docs\/html\/index.html/g" -i nginx*
 sed -i -re "/README/ d" nginx-*
+# dnsmasq bug with insserv !
+rm "${W}/debian/nginx-common.nginx.init"
 #
 echo "3.0 (native)">"${W}/debian/source/format"
 cd "${W}"
