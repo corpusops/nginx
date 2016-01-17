@@ -22,7 +22,6 @@ nginx-common (1.6.2-5) unstable; urgency=medium
   don't forget to re-enable it if your site depends on it.
 
   In this release we also include a summary of important changes since wheezy
-  at /usr/share/doc/nginx-common/README.Debian.
 
  -- Christos Trochalakis <yatiohi@ideopolis.gr>  Sun, 02 Nov 2014 09:10:09 +0200
 
