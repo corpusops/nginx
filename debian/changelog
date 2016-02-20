@@ -1,4 +1,28 @@
-nginx (1.9.9-wily-debian0-ubuntu94) wily; urgency=medium
+nginx (1.9.9-xenial-debian0-ubuntu98) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:32:24 +0100
+
+nginx (1.9.9-xenial-debian0-ubuntu97) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:32:15 +0100
+
+nginx (1.9.9-wily-debian0-ubuntu96) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:32:05 +0100
+
+nginx (1.9.9-vivid-debian0-ubuntu95) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:31:49 +0100
+
+nginx (1.9.9-trusty-debian0-ubuntu94) trusty; urgency=medium
 
   * packaging for wily
 
