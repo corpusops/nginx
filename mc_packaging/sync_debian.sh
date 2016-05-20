@@ -10,10 +10,10 @@ export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
 export KEY="${KEY:-0x5616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
-export VER="1.9.14"
+export VER="1.10.0"
 export FLAVORS="vivid trusty precise"
 export FLAVORS="trusty vivid wily xenial"
-export RELEASES="${RELEASES:-"experimental|stable|unstable|precise|trusty|utopic|vivid|oneric|wily"}"
+export RELEASES="${RELEASES:-"experimental|stable|unstable|precise|trusty|utopic|vivid|oneric|wily|xenial"}"
 if [ "x${VER}" = "x" ];then echo unknownversion;exit -1;fi
 if [ "x${REPO}" != "x" ];then
     if [ ! -e "${W}/../debian-up" ];then
@@ -132,6 +132,12 @@ sed -re "s/\\$.CURDIR.\/configure/\$(CURDIR)\/auto\/configure/g" -i rules
 sed -re "s/\\$.CURDIR.\/man/\$(CURDIR)\/docs\/man/g" -i rules
 sed -re "s/\\$.CURDIR.\/html/\$(CURDIR)\/docs\/html/g" -i rules
 sed -re "s/\.\/configure/.\/auto\/configure/g" -i rules
+
+# handle both one which support --automatic-dbgsym and the one which does not
+sed -re 's/dh_strip --package=libnginx-mod-\$\(\*\) --automatic-dbgsym/'\
+'dh_strip --package=libnginx-mod-$(*) --automatic-dbgsym'\
+' || dh_strip --package=libnginx-mod-$(*)/g' -i rules
+
 # assemble
 for i in postrm preinst;do
     ls ../../debian-up/debian/*.${i}|grep -v makina|xargs cat|grep -v "exit 0" > nginx-makina.${i}.u
@@ -200,7 +206,7 @@ mkfifo "${logfile}.pipe"
 tee < "${logfile}.pipe" "$logfile" &
 exec 1> "${logfile}.pipe" 2> "${logfile}.pipe"
 for i in $FLAVORS;do
-    sed  -i -re "1 s/${PACKAGE} \([0-9].[0-9]+.[0-9]+(-(${RELEASES}))?([^)]*\).*)((${RELEASES});)(.*)/${PACKAGE} (${VER}-${i}\3${i};\6/g" debian/changelog
+    sed  -i -re "1 s/${PACKAGE} \([0-9]+.[0-9]+.[0-9]+(-(${RELEASES}))?([^)]*\).*)((${RELEASES});)(.*)/${PACKAGE} (${VER}-${i}\3${i};\6/g" debian/changelog
     dch -i -D "${i}" "packaging for ${i}"
     debuild -k${KEY} -S -sa --lintian-opts -i
 done
