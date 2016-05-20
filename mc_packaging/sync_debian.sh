@@ -186,7 +186,7 @@ done
 sed -re "s/\"html\/index.html/\"docs\/html\/index.html/g" -i nginx*
 sed -i -re "/README/ d" nginx-*
 # dnsmasq bug with insserv !
-rm "${W}/debian/nginx-common.nginx.init"
+# rm "${W}/debian/nginx-common.nginx.init"
 #
 echo "3.0 (native)">"${W}/debian/source/format"
 cd "${W}"

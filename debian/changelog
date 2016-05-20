@@ -1,4 +1,64 @@
-nginx (1.9.14-wily-xenial-debian0-ubuntu102) wily; urgency=medium
+nginx (1.9.14-trusty-xenial-xenial-debian0-ubuntu112) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 20:52:32 +0200
+
+nginx (1.9.14-trusty-xenial-xenial-debian0-ubuntu111) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 20:48:02 +0200
+
+nginx (1.9.14-xenial-xenial-debian0-ubuntu110) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:38:20 +0200
+
+nginx (1.9.14-xenial-xenial-debian0-ubuntu109) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:38:12 +0200
+
+nginx (1.9.14-wily-xenial-debian0-ubuntu108) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:38:03 +0200
+
+nginx (1.9.14-vivid-xenial-debian0-ubuntu107) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:55 +0200
+
+nginx (1.9.14-trusty-xenial-debian0-ubuntu106) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:51 +0200
+
+nginx (1.9.14-vivid-xenial-debian0-ubuntu105) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:43 +0200
+
+nginx (1.9.14-trusty-xenial-debian0-ubuntu104) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:20 +0200
+
+nginx (1.9.14-vivid-xenial-debian0-ubuntu103) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:08 +0200
+
+nginx (1.9.14-trusty-xenial-debian0-ubuntu102) trusty; urgency=medium
 
   * packaging for wily
 

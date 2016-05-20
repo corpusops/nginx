@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 export DH_VERBOSE=1
 
-export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all,-pie
 debian_cflags:=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
 debian_ldflags:=$(shell dpkg-buildflags --get LDFLAGS)
 
@@ -11,6 +11,7 @@ DEBIAN_NGINX_PERL_LDFLAGS:= $(shell DEB_BUILD_MAINT_OPTIONS=hardening=+all,-pie 
 export DEBIAN_NGINX_PERL_LDFLAGS
 
 FLAVOURS := full light extras
+DYN_MODS := http-geoip http-image-filter http-xslt-filter mail stream http-auth-pam http-lua http-perl http-ndk
 
 MODULESDIR = $(CURDIR)/debian/modules
 BASEDIR = $(CURDIR)
@@ -91,9 +92,13 @@ extras_configure_flags := $(common_configure_flags)
 
 override_dh_auto_configure: $(foreach flavour,$(FLAVOURS),config.arch.$(flavour))
 override_dh_auto_build:     $(foreach flavour,$(FLAVOURS),build.arch.$(flavour))
-override_dh_strip:          $(foreach flavour,$(FLAVOURS),strip.arch.$(flavour))
+override_dh_strip:          $(foreach flavour,$(FLAVOURS),strip.arch.$(flavour)) $(foreach mod,$(DYN_MODS),strip.mods.$(mod))
 override_dh_clean:          $(foreach flavour,$(FLAVOURS),clean.$(flavour))
 	dh_clean
+
+override_dh_install:
+	dh_install
+	DH_AUTOSCRIPTDIR=$(CURDIR)/debian/autoscripts debian/dh_nginx
 
 override_dh_installinit:
 	dh_installinit --no-restart-on-upgrade --no-start --name=nginx
@@ -109,6 +114,9 @@ build.arch.%:
 
 strip.arch.%:
 	dh_strip --package=nginx-$(*) --dbg-package=nginx-$(*)-dbg
+
+strip.mods.%:
+	dh_strip --package=libnginx-mod-$(*) --automatic-dbgsym
 
 config.arch.%:
 	dh_testdir

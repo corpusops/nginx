@@ -1,3 +1,4 @@
 nginx-makina: dir-or-file-in-var-www var/www/html/
 nginx-makina: spelling-error-in-binary usr/sbin/nginx tEH the
+nginx-makina: wrong-section-according-to-package-name libnginx-mod-http-perl => perl
 # /var/www/html is the default document root
