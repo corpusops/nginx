@@ -58,9 +58,10 @@ Description: small, powerful, scalable web/proxy server - documentation
  This package provides extra documentation to help unleash the power of Nginx.
 
 Package: nginx-common
-Architecture: all
 # mc: this package is now arch-dependant
+#Architecture: any
 #Multi-Arch: foreign
+Architecture: all
 Depends: lsb-base (>= 3.0-6), ${misc:Depends},
          libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-http-cache-purge (= ${binary:Version}),
