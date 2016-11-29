@@ -59,10 +59,10 @@ Description: small, powerful, scalable web/proxy server - documentation
 
 Package: nginx-common
 # mc: this package is now arch-dependant
-#Architecture: any
-#Multi-Arch: foreign
-Architecture: all
-Depends: lsb-base (>= 3.0-6), ${misc:Depends},
+# Multi-Arch: foreign
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends},
+         lsb-base (>= 3.0-6), ${perl:Depends},
          libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-http-cache-purge (= ${binary:Version}),
          libnginx-mod-http-dav-ext (= ${binary:Version}),
@@ -84,8 +84,6 @@ Depends: lsb-base (>= 3.0-6), ${misc:Depends},
          python-twisted-web,
          po-debconf,
          dh-systemd (>= 1.5),
-         ${perl:Depends},
-         ${shlibs:Depends},
          dbconfig-common
 Replaces: nginx (<< 0.8.54-4),
           nginx-extras (<< 0.8.54-4),
