@@ -59,7 +59,8 @@ Description: small, powerful, scalable web/proxy server - documentation
 
 Package: nginx-common
 Architecture: all
-Multi-Arch: foreign
+# mc: this package is now arch-dependant
+#Multi-Arch: foreign
 Depends: lsb-base (>= 3.0-6), ${misc:Depends},
          libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-http-cache-purge (= ${binary:Version}),
