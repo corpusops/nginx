@@ -1,6 +1,6 @@
 Name: nginx
 Version: 1.10.3
-Release: 1
+Release: 2
 Summary: High performance web server
 URL: http://nginx.org/
 Vendor: corpusops
@@ -182,3 +182,6 @@ make %{?_smp_mflags}
 %postun
 
 %changelog
+* Thu Feb 23 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.10.3-2
+- new package built with tito
+
