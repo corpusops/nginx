@@ -1,0 +1,21 @@
+* Tue Feb 14 2017 Konstantin Pavlov <thresh@nginx.com>
+- njs module updated to 0.1.9
+
+* Tue Jan 24 2017 Konstantin Pavlov <thresh@nginx.com>
+- njs module updated to 0.1.8
+
+* Tue Dec 27 2016 Konstantin Pavlov <thresh@nginx.com>
+- njs module updated to 0.1.7
+
+* Tue Dec 13 2016 Konstantin Pavlov <thresh@nginx.com>
+- njs module updated to 0.1.6
+
+* Tue Nov 15 2016 Konstantin Pavlov <thresh@nginx.com>
+- base version updated to 1.11.6
+
+* Mon Oct 24 2016 Andrei Belov <defan@nginx.com>
+- njs module updated to 0.1.4
+
+* Mon Oct 10 2016 Andrei Belov <defan@nginx.com>
+- base version updated to 1.11.5
+- njs module updated to 0.1.3

@@ -1,0 +1,26 @@
+FROM centos:7
+RUN yum update -y && yum install -y epel-release
+RUN yum install -y tito &&\
+    mkdir -p ~/src/rpm &&\
+    cd ~/src/rpm &&\
+    mkdir BUILD RPMS SOURCES SPECS SRPMS &&\
+    mkdir RPMS/{i386,i486,i586,i686,noarch,athlon,x64}
+ADD .tito         /src/.tito/
+ADD auto          /src/auto/
+ADD conf          /src/conf/
+ADD contrib       /src/contrib/
+ADD debian        /src/debian/
+ADD docs          /src/docs/
+ADD mc_packaging  /src/mc_packaging/
+ADD misc          /src/misc/
+ADD src           /src/src/
+ADD .git          /src/.git/
+RUN cd /src && yum-builddep -y ./nginx.spec
+RUN cd src && export MAKEOPTS="-j4" && \
+    ln -sf mc_packaging/redhat/nginx.spec nginx.spec && \
+    tito build --srpm --test && \
+    tito build --tgz -rpm --test
+
+
+#    mk-build-deps -t "apt-get --no-install-recommends -y --force-yes" -ir debian/control
+#    if debuild -i -us -uc -b;then echo SUCCESS; else echo FAIL;fi
