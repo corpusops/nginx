@@ -1,5 +1,8 @@
 FROM ubuntu
-RUN apt-get update -qq && apt-get install -y --force-yes \
+ADD mc_packaging/sources.list /etc/apt/sources.list
+RUN id=$(lsb_release -sc) &&\
+    sed -i -re "s/xenial/$id/g" /etc/apt/sources.list &&\
+    apt-get update -qq && apt-get install -y --force-yes \
     devscripts equivs\
     dbconfig-common python-twisted-web daemon 
 ADD debian/control        /src/debian/control

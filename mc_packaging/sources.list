@@ -1,0 +1,23 @@
+#
+# Managed via salt, do not edit
+#
+
+
+deb http://mirror.ovh.net/ftp.ubuntu.com/ xenial main restricted universe multiverse
+deb-src http://mirror.ovh.net/ftp.ubuntu.com/ xenial main restricted universe multiverse
+
+deb http://mirror.ovh.net/ftp.ubuntu.com/ xenial-proposed main restricted universe multiverse
+deb-src http://mirror.ovh.net/ftp.ubuntu.com/ xenial-proposed main restricted universe multiverse
+
+deb http://mirror.ovh.net/ftp.ubuntu.com/ xenial-updates main restricted universe multiverse
+deb-src http://mirror.ovh.net/ftp.ubuntu.com/ xenial-updates main restricted universe multiverse
+
+deb http://mirror.ovh.net/ftp.ubuntu.com/ xenial-security main restricted universe multiverse
+deb-src http://mirror.ovh.net/ftp.ubuntu.com/ xenial-security main restricted universe multiverse
+
+deb http://archive.canonical.com/ubuntu xenial partner
+deb-src http://archive.canonical.com/ubuntu xenial partner
+
+deb http://mirror.ovh.net/ftp.ubuntu.com/ xenial-backports main restricted universe multiverse
+deb-src http://mirror.ovh.net/ftp.ubuntu.com/ xenial-backports main restricted universe multiverse
+

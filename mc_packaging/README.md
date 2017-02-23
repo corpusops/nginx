@@ -1,4 +1,4 @@
-# MakinaCorpus ppa upgrade workflow
+# CorpusOps ppa upgrade workflow
 ## INSTALL
 ```
 apt-get install devscripts

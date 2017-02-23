@@ -6,11 +6,11 @@ README for Modules versions
 
  headers-more-nginx-module
   Homepage: https://github.com/agentzh/headers-more-nginx-module
-  Version: v0.31
+  Version: v0.32
 
  nginx-development-kit
   Homepage: https://github.com/simpl/ngx_devel_kit/
-  Version: v0.3.0rc1
+  Version: v0.3.0
 
  nginx-auth-pam
   Homepage: https://github.com/stogh/ngx_http_auth_pam_module
@@ -22,7 +22,7 @@ README for Modules versions
 
  nginx-lua
   Homepage: https://github.com/openresty/lua-nginx-module
-  Version: v0.10.6
+  Version: v0.10.7
   Patch: openssl-1.1.0.patch
 
  nginx-upstream-fair
@@ -33,7 +33,7 @@ README for Modules versions
 
  nchan
   Homepage: https://github.com/slact/nchan
-  Version: 1.0.2
+  Version: 1.0.8
 
  nginx-upload-progress
   Homepage: https://github.com/masterzen/nginx-upload-progress-module

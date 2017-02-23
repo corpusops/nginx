@@ -8,7 +8,7 @@ export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
 export KEY="${KEY:-0x5616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
-export VER="1.10.2"
+export VER="1.10.3"
 export FLAVORS="vivid trusty precise"
 export FLAVORS="trusty xenial yakkety zesty"
 export RELEASES="${RELEASES:-"experimental|yakkety|zesty|stable|unstable|precise|trusty|utopic|vivid|oneric|wily|xenial"}"
@@ -35,7 +35,7 @@ fi
 # CUSTOM MERGE CODE HERE
 # <>
 ldap_url=https://github.com/kvspb/nginx-auth-ldap.git
-#lua_url=https://github.com/openresty/lua-nginx-module.git
+lua_url=https://github.com/openresty/lua-nginx-module.git
 if [ ! -e "${W}/../nginx-auth-ldap" ];then
     git clone https://github.com/kvspb/nginx-auth-ldap.git "${W}/../nginx-auth-ldap"
 fi
