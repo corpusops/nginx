@@ -91,7 +91,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}
 %prep
 %setup -q
 set -ex
-ls
+ls ..
 pwd
 
 %build
