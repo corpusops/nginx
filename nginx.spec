@@ -166,7 +166,7 @@ a mail proxy server.
 
 %prep
 #%setup -q -n nginx-git-0.d5caa44
-%setup -q -n %{repo}-%{commit}
+%setup -q -n %{repo}-%{version}
 
 %build
 auto/configure --with-debug %{configure_flags}
