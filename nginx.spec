@@ -1,7 +1,7 @@
 #
 Name: nginx
 Version: 1.10.3
-%global releasen 2
+%global releasen 3
 #Release: %{releasen}.git.0.d5caa44%{?dist}
 Release: %{releasen}%{?dist}
 Summary: High performance web server
@@ -395,3 +395,6 @@ getent passwd %{nginx_user} >/dev/null || \
 service nginx stop || /bin/true
 %postun
 %changelog
+* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>
+- init
+
