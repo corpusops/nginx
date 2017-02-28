@@ -395,6 +395,9 @@ getent passwd %{nginx_user} >/dev/null || \
 service nginx stop || /bin/true
 %postun
 %changelog
+* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.10.3-3
+- release (kiorky@cryptelium.net)
+
 * Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>
 - init
 
