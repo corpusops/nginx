@@ -1,7 +1,7 @@
 #
 Name: nginx
 Version: 1.10.3
-%global releasen 3
+%global releasen 4
 #Release: %{releasen}.git.0.d5caa44%{?dist}
 Release: %{releasen}%{?dist}
 Summary: High performance web server
@@ -395,6 +395,9 @@ getent passwd %{nginx_user} >/dev/null || \
 service nginx stop || /bin/true
 %postun
 %changelog
+* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>
+- fix setup source (kiorky@cryptelium.net)
+
 * Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.10.3-3
 - release (kiorky@cryptelium.net)
 
