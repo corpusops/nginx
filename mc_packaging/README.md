@@ -1,7 +1,7 @@
 # CorpusOps ppa upgrade workflow
 ## INSTALL
 ```
-apt-get install devscripts
+sudo apt-get install devscripts debhelper dh-systemd dput python-paramiko python-scp/xenial python3-paramiko python3-scp
 git clone https://github.com/makinacorpus/nginx.git nginxp/nginx
 cd nginxp/nginx
 git remote add nginx https://github.com/nginx/nginx.git

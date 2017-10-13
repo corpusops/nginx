@@ -5,10 +5,6 @@ export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 debian_cflags:=$(shell dpkg-buildflags --get CFLAGS) -fPIC $(shell dpkg-buildflags --get CPPFLAGS)
 debian_ldflags:=$(shell dpkg-buildflags --get LDFLAGS) -fPIC
 
-# export necessary perl hardenging flags
-#  # see: src/http/modules/perl/Makefile.PL
-DEBIAN_NGINX_PERL_LDFLAGS:=$(shell DEB_BUILD_MAINT_OPTIONS=hardening=+all,-pie dpkg-buildflags --get LDFLAGS)
-
 FLAVOURS := full light extras
 DYN_MODS := \
 	http-auth-pam \
@@ -128,6 +124,7 @@ full_configure_flags := \
 			--with-http_xslt_module=dynamic \
 			--with-stream=dynamic \
 			--with-stream_ssl_module \
+			--with-stream_ssl_preread_module \
 			--with-mail=dynamic \
 			--with-mail_ssl_module \
 			--add-dynamic-module=$(MODULESDIR)/nginx-auth-pam \
@@ -154,6 +151,7 @@ extras_configure_flags := \
 			--with-mail_ssl_module \
 			--with-stream=dynamic \
 			--with-stream_ssl_module \
+			--with-stream_ssl_preread_module \
 			--add-dynamic-module=$(MODULESDIR)/headers-more-nginx-module \
 			--add-dynamic-module=$(MODULESDIR)/nginx-auth-pam \
 			--add-dynamic-module=$(MODULESDIR)/nginx-cache-purge \

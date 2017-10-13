@@ -5,10 +5,11 @@ export W="${PWD}"
 export PACKAGE="nginx"
 export PPA="${PACKAGE}"
 export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
+export REPO="https://anonscm.debian.org/git/collab-maint/nginx.git"
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
 export KEY="${KEY:-0x5616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
-export VER="1.10.3"
+export VER="1.12.1"
 export FLAVORS="vivid trusty precise"
 export FLAVORS="trusty xenial yakkety zesty"
 export RELEASES="${RELEASES:-"experimental|yakkety|zesty|stable|unstable|precise|trusty|utopic|vivid|oneric|wily|xenial"}"
@@ -22,11 +23,15 @@ if [ "x${REPO}" != "x" ];then
     if [ ! -e "${W}/../debian-up" ];then
         git clone "${REPO}" "${W}/../debian-up";
     fi
-    cd "${W}/"../debian-up && rm -rf * && git fetch --all && git reset --hard $DEBIAN_REMOTE
+    cd "${W}/"../debian-up \
+    && git remote rm origin \
+    && git remote add origin "$REPO" \
+    && rm -rf * && git fetch --all && git reset --hard $DEBIAN_REMOTE
     rsync -av --delete --exclude="*.makina.*" \
         --exclude=po/\
         --exclude=changelog\
         "${W}/../debian-up/debian/" "${W}/debian/"
+    rm -rf "${W}/debian/modules/patches/nginx-lua/"
 fi
 if [ -e "${W}/mc_packaging/debian/" ];then
     rsync -av "${W}/mc_packaging/debian/" "${W}/debian/"
