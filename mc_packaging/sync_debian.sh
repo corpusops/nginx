@@ -41,20 +41,27 @@ fi
 # <>
 ldap_url=https://github.com/kvspb/nginx-auth-ldap.git
 lua_url=https://github.com/openresty/lua-nginx-module.git
+shib_url=https://github.com/nginx-shib/nginx-http-shibboleth.git
 if [ ! -e "${W}/../nginx-auth-ldap" ];then
-    git clone https://github.com/kvspb/nginx-auth-ldap.git "${W}/../nginx-auth-ldap"
+    git clone $ldap_urlt "${W}/../nginx-auth-ldap"
 fi
 if [ ! -e "${W}/../nginx-lua" ];then
-    git clone https://github.com/openresty/lua-nginx-module.git "${W}/../nginx-lua"
+    git clone $lua_url "${W}/../nginx-lua"
+fi
+if [ ! -e "${W}/../nginx-shib" ];then
+    git clone $shib_url "${W}/../nginx-shib"
 fi
 cd "${W}/../nginx-auth-ldap" && git config --replace-all remote.origin.url $ldap_url && git fetch --all && git reset --hard origin/master
 cd "${W}/../nginx-lua"       && git config --replace-all remote.origin.url $lua_url && git fetch --all && git reset --hard origin/master
+cd "${W}/../nginx-shib"      && git config --replace-all remote.origin.url $shib_url && git fetch --all && git reset --hard origin/master
 cd "${W}"
 rsync -azv --delete --delete-excluded --exclude=.git ../nginx-auth-ldap/ debian/modules/nginx-auth-ldap/
 rsync -azv --delete --delete-excluded --exclude=.git ../nginx-lua/ debian/modules/nginx-lua/
+rsync -azv --delete --delete-excluded --exclude=.git ../nginx-shib/ debian/modules/nginx-shib/
 rm -rf debian/modules/nginx-auth-ldap/.git
 rm -rf debian/nginx*upstart
 rm -rf debian/modules/nginx-lua/.git
+rm -rf debian/modules/nginx-shib/.git
 rm -rf debian/patches/modules/nginx-lua/
 /usr/bin/python << EOF
 TOADDpre = open('mc_packaging/makefile.in.pre').read().splitlines()
