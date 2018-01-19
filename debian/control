@@ -112,6 +112,7 @@ Depends: libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-http-subs-filter (= ${binary:Version}),
          libnginx-mod-http-upstream-fair (= ${binary:Version}),
          libnginx-mod-http-xslt-filter (= ${binary:Version}),
+         libnginx-mod-http-shibboleth (= ${binary:Version}),
          libnginx-mod-mail (= ${binary:Version}),
          libnginx-mod-stream (= ${binary:Version}),
          nginx-common (= ${source:Version}),
@@ -189,6 +190,7 @@ Depends: libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-http-uploadprogress (= ${binary:Version}),
          libnginx-mod-http-upstream-fair (= ${binary:Version}),
          libnginx-mod-http-xslt-filter (= ${binary:Version}),
+         libnginx-mod-shibboleth (= ${binary:Version}),
          libnginx-mod-mail (= ${binary:Version}),
          libnginx-mod-nchan (= ${binary:Version}),
          libnginx-mod-stream (= ${binary:Version}),
@@ -407,6 +409,15 @@ Description: Substitution filter module for Nginx
  substitutions on response bodies. The module is quite different from Nginx's
  native Substitution module. It scans the output chains buffer and
  matches string line by line, just like Apache's mod_substitute.
+
+Package: libnginx-mod-http-shibboleth
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: WebDAV missing commands support for Nginx
+ WebDAV Ext module complements the Nginx WebDAV module to provide a full
+ WebDAV support.
+ .
+ WebDAV Ext provides the missing PROPFIND & OPTIONS methods.
 
 Package: libnginx-mod-http-dav-ext
 Architecture: any

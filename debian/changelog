@@ -1,4 +1,28 @@
-nginx (1.12.1-zesty-debian0-ubuntu238) zesty; urgency=medium
+nginx (1.12.1-zesty-debian0-ubuntu242) zesty; urgency=medium
+
+  * packaging for zesty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:54 +0100
+
+nginx (1.12.1-zesty-debian0-ubuntu241) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:41 +0100
+
+nginx (1.12.1-yakkety-debian0-ubuntu240) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:27 +0100
+
+nginx (1.12.1-xenial-debian0-ubuntu239) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:14 +0100
+
+nginx (1.12.1-trusty-debian0-ubuntu238) trusty; urgency=medium
 
   * packaging for zesty
 
