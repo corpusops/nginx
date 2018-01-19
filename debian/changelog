@@ -1,4 +1,4 @@
-nginx (1.12.1-xenial-zesty-debian0-ubuntu248) xenial; urgency=medium
+nginx (1.12.1-xenial-debian0-ubuntu248) xenial; urgency=medium
 
   * packaging for xenial
 
