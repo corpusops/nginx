@@ -413,11 +413,9 @@ Description: Substitution filter module for Nginx
 Package: libnginx-mod-http-shibboleth
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: WebDAV missing commands support for Nginx
- WebDAV Ext module complements the Nginx WebDAV module to provide a full
- WebDAV support.
- .
- WebDAV Ext provides the missing PROPFIND & OPTIONS methods.
+Description: Nginx integration with Shibboleth
+ module allows Nginx to work with Shibboleth, by way of Shibboleth's FastCGI authorizer.
+ See https://github.com/nginx-shib/nginx-http-shibboleth.
 
 Package: libnginx-mod-http-dav-ext
 Architecture: any

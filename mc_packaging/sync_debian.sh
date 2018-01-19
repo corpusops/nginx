@@ -11,8 +11,8 @@ export KEY="${KEY:-0x5616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
 export VER="1.12.1"
 export FLAVORS="vivid trusty precise"
-export FLAVORS="trusty xenial yakkety zesty"
-export RELEASES="${RELEASES:-"experimental|yakkety|zesty|stable|unstable|precise|trusty|utopic|vivid|oneric|wily|xenial"}"
+export FLAVORS="trusty xenial artful bionic"
+export RELEASES="${RELEASES:-"experimental|stable|unstable|precise|trusty|utopic|vivid|oneric|wily|xenial|artful|bionic"}"
 if [ "x${VER}" = "x" ];then echo unknownversion;exit -1;fi
 if echo $VER | grep -q 1.10; then
     export DEBIAN_REMOTE=origin/master
