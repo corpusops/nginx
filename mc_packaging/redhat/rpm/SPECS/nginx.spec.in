@@ -1,6 +1,3 @@
-# packaging notes
-# we dont use main_version & main_release but directly the vars
-# as tito replace only those macros
 #
 %define nginx_home %{_localstatedir}/cache/nginx
 %define nginx_user nginx
@@ -49,85 +46,26 @@ BuildRequires: systemd
 %endif
 
 # end of distribution specific definitions
-%define main_version VERSION_NOTUSED
-%define main_release RELEASE_NOTUSED
 
-# tito: make a symlink not to have a big diff
-%define bdir %{_builddir}/nginx
+%define main_version %%MAIN_VERSION%%
+%define main_release %%MAIN_RELEASE%%%{?dist}.ngx
+
+%define bdir %{_builddir}/%{name}-%{main_version}
 
 %define WITH_CC_OPT $(echo %{optflags} $(pcre-config --cflags)) -fPIC
 %define WITH_LD_OPT -Wl,-z,relro -Wl,-z,now -pie
 
-%define BASE_CONFIGURE_ARGS --prefix=%{_sysconfdir}/nginx \\\
-  --prefix=%{_sysconfdir}/nginx \\\
-  --sbin-path=%{_sbindir}/nginx \\\
-  --modules-path=%{_libdir}/nginx/modules \\\
-  --conf-path=%{_sysconfdir}/nginx/nginx.conf \\\
-  --error-log-path=%{_localstatedir}/log/nginx/error.log \\\
-  --http-log-path=%{_localstatedir}/log/nginx/access.log \\\
-  --pid-path=%{_localstatedir}/run/nginx.pid \\\
-  --lock-path=%{_localstatedir}/run/nginx.lock \\\
-  --http-client-body-temp-path=%{_localstatedir}/cache/nginx/client_temp \\\
-  --http-proxy-temp-path=%{_localstatedir}/cache/nginx/proxy_temp \\\
-  --http-fastcgi-temp-path=%{_localstatedir}/cache/nginx/fastcgi_temp \\\
-  --http-uwsgi-temp-path=%{_localstatedir}/cache/nginx/uwsgi_temp \\\
-  --http-scgi-temp-path=%{_localstatedir}/cache/nginx/scgi_temp \\\
-  --user=%{nginx_user} \\\
-  --group=%{nginx_group} \\\
-  --with-threads \\\
-  --with-http_addition_module \\\
-  --with-http_auth_request_module \\\
-  --with-http_dav_module \\\
-  --with-http_flv_module \\\
-  --with-http_gunzip_module \\\
-  --with-http_gzip_static_module \\\
-  --with-http_mp4_module \\\
-  --with-http_random_index_module \\\
-  --with-http_realip_module \\\
-  --with-http_secure_link_module \\\
-  --with-http_slice_module \\\
-  --with-http_ssl_module \\\
-  --with-http_stub_status_module \\\
-  --with-http_sub_module \\\
-  --with-http_v2_module \\\
-  --with-mail=dynamic \\\
-  --with-mail_ssl_module \\\
-  --with-stream=dynamic \\\
-  --with-stream_ssl_module \\\
-  --with-stream_ssl_preread_module  \\\
-  --with-debug \\\
-  --with-pcre-jit \\\
-  --with-ipv6 \\\
-  --with-http_geoip_module=dynamic \\\
-  --with-http_image_filter_module=dynamic \\\
-  --with-http_perl_module=dynamic \\\
-  --with-http_xslt_module=dynamic \\\
-  --add-module="$PWD/debian/modules/nginx-auth-ldap" \\\
-  --add-dynamic-module="$PWD/debian/modules/headers-more-nginx-module" \\\
-  --add-dynamic-module="$PWD/debian/modules/nchan" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-auth-pam" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-cache-purge" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-dav-ext-module" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-development-kit" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-echo" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-lua" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-upload-progress" \\\
-  --add-dynamic-module="$PWD/debian/modules/nginx-upstream-fair" \\\
-  --add-dynamic-module="$PWD/debian/modules/ngx-fancyindex" \\\
-  --add-dynamic-module="$PWD/debian/modules/ngx_http_substitutions_filter_module"
-%{nil}
+%define BASE_CONFIGURE_ARGS $(echo "%%BASE_CONFIGURE_ARGS%%")
 
 Summary: High performance web server
 Name: nginx
-Version: 0.12.2
-Release: 2
+Version: %{main_version}
+Release: %{main_release}
 Vendor: Nginx, Inc.
 URL: http://nginx.org/
 Group: %{_group}
 
-%define nginx_home %{_localstatedir}/cache/nginx
-
-Source0: BUILDBYTITOLOCALLY
+Source0: http://nginx.org/download/%{name}-%{version}.tar.gz
 Source1: logrotate
 Source2: nginx.init.in
 Source3: nginx.sysconf
@@ -143,44 +81,9 @@ Source13: nginx.check-reload.sh
 
 License: 2-clause BSD-like license
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot: %{_tmppath}/%{name}-%{main_version}-%{main_release}-root
 BuildRequires: zlib-devel
 BuildRequires: pcre-devel
-BuildRequires: gcc
-BuildRequires: dpkg
-BuildRequires: perl-ExtUtils-Embed
-BuildRequires: mhash-devel
-BuildRequires: pam-devel
-BuildRequires: openldap-devel
-BuildRequires: openssl-devel
-BuildRequires: expat-devel
-BuildRequires: automake
-BuildRequires: autoconf
-BuildRequires: libxslt-devel
-BuildRequires: perl-devel
-BuildRequires: luajit-devel
-BuildRequires: hiredis-devel
-BuildRequires: GeoIP-devel
-BuildRequires: gd-devel
-Requires: openssl
-Requires: systemd-sysv
-Requires: dpkg
-Requires: expat
-Requires: openldap
-Requires: libxslt-python
-Requires: libxslt
-Requires: perl
-Requires: pcre
-Requires: pcre-tools
-Requires: pam
-Requires: mhash
-Requires: luajit
-Requires: luajit-fun
-Requires: hiredis
-Requires: GeoIP
-Requires: gd
-Requires: perl-ExtUtils-Embed
-Requires(pre): shadow-utils
 
 Provides: webserver
 
@@ -193,70 +96,32 @@ a mail proxy server.
 %endif
 
 %prep
-%setup -q -n %{name}-%{version}
-# tito: make a symlink not to have a big diff
-ln -s $PWD ../nginx
+%setup -q
 cp %{SOURCE2} .
 sed -e 's|%%DEFAULTSTART%%|2 3 4 5|g' -e 's|%%DEFAULTSTOP%%|0 1 6|g' \
     -e 's|%%PROVIDES%%|nginx|g' < %{SOURCE2} > nginx.init
 sed -e 's|%%DEFAULTSTART%%||g' -e 's|%%DEFAULTSTOP%%|0 1 2 3 4 5 6|g' \
     -e 's|%%PROVIDES%%|nginx-debug|g' < %{SOURCE2} > nginx-debug.init
-patch -Np1 debian/patches/0002-Make-sure-signature-stays-the-same-in-all-nginx-buil.patch
-patch -Np1 debian/patches/0003-define_gnu_source-on-other-glibc-based-platforms.patch
-cd debian/modules
-cd nginx-upstream-fair/
-patch -Np1 <../patches/nginx-upstream-fair/drop-default-port.patch
-patch -Np1 <../patches/nginx-upstream-fair/dynamic-module.patch
-patch -Np1 <../patches/nginx-upstream-fair/openssl-1.1.0.patch
-cd -
-cd nginx-echo
-patch -Np1 <../patches/nginx-echo/build-nginx-1.11.11.patch
-cd -
-cd ngx_http_substitutions_filter_module
-patch -Np1 <../patches/ngx_http_substitutions_filter_module/dynamic-module.patch
-cd -
-cd nginx-cache-purge
-patch -Np1 <../patches/nginx-cache-purge/dynamic-module.patch
-cd -
-cd nginx-dav-ext-module
-patch -Np1 <../patches/nginx-dav-ext-module/dynamic-module.patch
-cd -
-cd ../..
 
 %build
-auto/configure %{BASE_CONFIGURE_ARGS} \
+./configure %{BASE_CONFIGURE_ARGS} \
     --with-cc-opt="%{WITH_CC_OPT}" \
     --with-ld-opt="%{WITH_LD_OPT}" \
     --with-debug
 make %{?_smp_mflags}
 %{__mv} %{bdir}/objs/nginx \
     %{bdir}/objs/nginx-debug
-auto/configure %{BASE_CONFIGURE_ARGS} \
+./configure %{BASE_CONFIGURE_ARGS} \
     --with-cc-opt="%{WITH_CC_OPT}" \
     --with-ld-opt="%{WITH_LD_OPT}"
 make %{?_smp_mflags}
-make -f docs/GNUmakefile
+
 %install
 %{__rm} -rf $RPM_BUILD_ROOT
-vendorarch=$(perl -e "use Config;print substr(\$Config{vendorarch}, 1);")
-for i in \
- "$RPM_BUILD_ROOT/$vendorarch" \
- "$RPM_BUILD_ROOT/${vendorarch}/auto/nginx/" \
- "$RPM_BUILD_ROOT%{_libdir}/nginx" \
- "$RPM_BUILD_ROOT%{_libdir}/nginx/modules" \
- "$RPM_BUILD_ROOT%{_datadir}/vim/vimfiles" \
-    ;do \
-    %{__install} -m 755 -d "${i}"
-done
-for i in \
-  "$RPM_BUILD_ROOT%{_localstatedir}/lib/nginx" \
-;do
- %{__install} -m 770 -o root -g root -d "${i}"
-done
 %{__make} DESTDIR=$RPM_BUILD_ROOT INSTALLDIRS=vendor install
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/nginx
-%{__mv} docs/html $RPM_BUILD_ROOT%{_datadir}/nginx/
+%{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/html $RPM_BUILD_ROOT%{_datadir}/nginx/
 
 %{__rm} -f $RPM_BUILD_ROOT%{_sysconfdir}/nginx/*.default
 %{__rm} -f $RPM_BUILD_ROOT%{_sysconfdir}/nginx/fastcgi.conf
@@ -269,9 +134,9 @@ done
 cd $RPM_BUILD_ROOT%{_sysconfdir}/nginx && \
     %{__ln_s} ../..%{_libdir}/nginx/modules modules && cd -
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{main_version}
 %{__install} -m 644 -p %{SOURCE12} \
-    $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}/
+    $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{main_version}/
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d
 %{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/nginx.conf
@@ -321,12 +186,6 @@ cd $RPM_BUILD_ROOT%{_sysconfdir}/nginx && \
 %{__install} -m755 %{bdir}/objs/nginx-debug \
     $RPM_BUILD_ROOT%{_sbindir}/nginx-debug
 
-cp -rf contrib/vim/* "$RPM_BUILD_ROOT/%{_datadir}/vim/vimfiles"
-
-%{__install} -D -m644 objs/src/http/modules/perl/blib/arch/auto/nginx/* \
- "$RPM_BUILD_ROOT/${vendorarch}/auto/nginx/"
-%{__install} -D -m644 objs/src/http/modules/perl/blib/lib/nginx.pm \
- "$RPM_BUILD_ROOT/$vendorarch"
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
 
@@ -335,32 +194,6 @@ cp -rf contrib/vim/* "$RPM_BUILD_ROOT/%{_datadir}/vim/vimfiles"
 
 %{_sbindir}/nginx
 %{_sbindir}/nginx-debug
-/usr/lib%{__isa_bits}/nginx/modules/ndk_http_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_auth_pam_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_cache_purge_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_dav_ext_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_echo_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_fancyindex_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_geoip_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_headers_more_filter_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_image_filter_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_lua_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_perl_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_subs_filter_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_uploadprogress_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_upstream_fair_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_http_xslt_filter_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_mail_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_nchan_module.so
-/usr/lib%{__isa_bits}/nginx/modules/ngx_stream_module.so
-/usr/lib%{__isa_bits}/perl*/vendor_perl/auto/nginx/nginx.bs
-/usr/lib%{__isa_bits}/perl*/vendor_perl/auto/nginx/nginx.so
-/usr/lib%{__isa_bits}/perl*/vendor_perl/nginx.pm
-/usr/lib%{__isa_bits}/perl*/perllocal.pod
-/usr/lib%{__isa_bits}/perl*/vendor_perl/auto/nginx/.packlist
-
-%config(noreplace) %{_sysconfdir}/nginx/html/50x.html
-%config(noreplace) %{_sysconfdir}/nginx/html/index.html
 
 %dir %{_sysconfdir}/nginx
 %dir %{_sysconfdir}/nginx/conf.d
@@ -398,14 +231,9 @@ cp -rf contrib/vim/* "$RPM_BUILD_ROOT/%{_datadir}/vim/vimfiles"
 %attr(0755,root,root) %dir %{_localstatedir}/cache/nginx
 %attr(0755,root,root) %dir %{_localstatedir}/log/nginx
 
-%dir %{_datadir}/doc/%{name}-%{version}
-%doc %{_datadir}/doc/%{name}-%{version}/COPYRIGHT
-%{_mandir}/man3/nginx.3pm.gz
+%dir %{_datadir}/doc/%{name}-%{main_version}
+%doc %{_datadir}/doc/%{name}-%{main_version}/COPYRIGHT
 %{_mandir}/man8/nginx.8*
-%{_datadir}/vim/vimfiles/ftdetect/nginx.vim
-%{_datadir}/vim/vimfiles/ftplugin/nginx.vim
-%{_datadir}/vim/vimfiles/indent/nginx.vim
-%{_datadir}/vim/vimfiles/syntax/nginx.vim
 
 %pre
 # Add the "nginx" user
@@ -484,9 +312,6 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
-* Wed Jan 24 2018 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.12.2-2
-- bump version & stick to redhat packaging (bring only modules & patches from debian, remove shared conf)
-
 * Tue Dec 26 2017 Konstantin Pavlov <thresh@nginx.com>
 - 1.13.8
 
@@ -526,19 +351,6 @@ fi
 
 * Tue Mar 21 2017 Konstantin Pavlov <thresh@nginx.com>
 - 1.11.11
-
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.10.3-4
-- bump version (kiorky@cryptelium.net)
-- fix setup source (kiorky@cryptelium.net)
-
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>
-- fix setup source (kiorky@cryptelium.net)
-
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.10.3-3
-- release (kiorky@cryptelium.net)
-
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>
-- init
 
 * Tue Feb 14 2017 Konstantin Pavlov <thresh@nginx.com>
 - 1.11.10

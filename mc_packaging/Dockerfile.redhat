@@ -1,4 +1,5 @@
-FROM centos:7
+FROM corpusops/centos:7
+#FROM centos:7
 RUN yum update -y && yum install -y epel-release
 RUN yum install -y tito \
   openssl python-twisted expat openldap libxslt-python libxslt \
@@ -10,6 +11,7 @@ RUN yum install -y tito \
   cd ~/src/rpm &&\
   mkdir BUILD RPMS SOURCES SPECS SRPMS &&\
   mkdir RPMS/{i386,i486,i586,i686,noarch,athlon,x64}
+RUN yum install -y redhat-lsb-core systemd-sysv dpkg perl-ExtUtils-Embed shadow-utils
 ADD .tito         /src/.tito/
 ADD auto          /src/auto/
 ADD conf          /src/conf/
@@ -21,17 +23,59 @@ ADD misc          /src/misc/
 ADD src           /src/src/
 ADD nginx.spec    /src/nginx.spec
 RUN cd /src && yum-builddep -y ./nginx.spec
+ADD mc_packaging/redhat/rpm/SOURCES /src/SOURCES/
+ARG VERSION=0.12.2
+ARG RC=2
+ARG TITO_VER=$VERSION-$RC
+WORKDIR /src
 ADD .git          /src/.git/
-RUN cd src && export MAKEOPTS="-j4" && \
- if ( tito build --srpm --test && \
-      tito build --tgz --rpm --test \
-                 --no-cleanup --rpmbuild-options='--noclean'; );then \
-   echo SUCCESS>&2; \
- else \
-   echo FAIL >&2;fi
+RUN set -x\
+&& git reset --hard HEAD\
+&& cp  nginx.spec nginx.spec.orig\
+&& sed -i -re "s/%define main_version.*/%define main_version $VERSION/g" nginx.spec\
+&& sed -i -re "s/%define main_release.*/%define main_release $RC/g" nginx.spec\
+&& sed -i -re  "/^Source[1-9][0-9]?:/d" nginx.spec\
+&& sed -i -re  "/^Source[1-9][0-9]?:/d" nginx.spec\
+&& sed -i -re "s/%\{SOURCE10\}/SOURCES\/nginx.suse.logrotate/g" nginx.spec\
+&& sed -i -re "s/%\{SOURCE11\}/SOURCES\/nginx-debug.service/g" nginx.spec\
+&& sed -i -re "s/%\{SOURCE12\}/SOURCES\/COPYRIGHT/g" nginx.spec\
+&& sed -i -re "s/%\{SOURCE13\}/SOURCES\/nginx.check-reload.sh/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE1\}/SOURCES\/logrotate/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE2\}/SOURCES\/nginx.init.in/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE3\}/SOURCES\/nginx.sysconf/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE4\}/SOURCES\/nginx.conf/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE5\}/SOURCES\/nginx.vh.default.conf/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE7\}/SOURCES\/nginx-debug.sysconf/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE8\}/SOURCES\/nginx.service/g" nginx.spec\
+&& sed -i -re  "s/%\{SOURCE9\}/SOURCES\/nginx.upgrade.sh/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE9/SOURCES\/nginx.upgrade.sh/g" nginx.spec\
+&& sed -i -re "s/%SOURCE10/SOURCES\/nginx.suse.logrotate/g" nginx.spec\
+&& sed -i -re "s/%SOURCE11/SOURCES\/nginx-debug.service/g" nginx.spec\
+&& sed -i -re "s/%SOURCE12/SOURCES\/COPYRIGHT/g" nginx.spec\
+&& sed -i -re "s/%SOURCE13/SOURCES\/nginx.check-reload.sh/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE1/SOURCES\/logrotate/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE2/SOURCES\/nginx.init.in/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE3/SOURCES\/nginx.sysconf/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE4/SOURCES\/nginx.conf/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE5/SOURCES\/nginx.vh.default.conf/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE7/SOURCES\/nginx-debug.sysconf/g" nginx.spec\
+&& sed -i -re  "s/%SOURCE8/SOURCES\/nginx.service/g" nginx.spec\
+&& ( diff -u nginx.spec.orig nginx.spec ||:; ) \
+&& git add -f * \
+&& git commit -qam "TITO: add source" \
+&& : zip nginx-"$TITO_VER".zip -r . \
+&& : git add -f * \
+&& : git commit -qam "TITO: add zip" \
+&& ( : git tag -d "$TITO_VER" ||:; ) \
+&& : git tag "$TITO_VER" \
+&& rpm -q --specfile /src/nginx.spec \
+&&                          tito build --test --tgz  --no-cleanup \
+&&                          tito build --test --srpm --no-cleanup \
+&& export MAKEOPTS="-j4" && tito build --test --rpm  --no-cleanup
+RUN mv /tmp/tito/*.src.rpm /tmp/tito/*/*rpm /
 
 # To debug rpmbuild
-# - put a pdb to print the rpmbuild call and exit to shell 
+# - put a pdb to print the rpmbuild call and exit to shell
 #   in /usr/lib/python2.7/site-packages/tito/builder/main.py: 224 (def rpm(self))
 #
 # Use then:
