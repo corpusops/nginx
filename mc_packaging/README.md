@@ -31,3 +31,7 @@ mc_packaging/sync_debian.sh
 docker build -t nginxp  -f mc_packaging/Dockerfile .
 docker run --name=nginxp1 --rm -v /src_real -ti nginxp bash
 ```
+
+## redhat RPMS
+- [here](https://github.com/corpusops/nginx/releases/tag/redhat)
+
