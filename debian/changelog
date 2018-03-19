@@ -1,4 +1,10 @@
-nginx (1.12.2-bionic-debian0-ubuntu257) bionic; urgency=medium
+nginx (1.12.2-trusty-debian0-ubuntu258) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 19 Mar 2018 21:58:01 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu257) trusty; urgency=medium
 
   * packaging for bionic
 
