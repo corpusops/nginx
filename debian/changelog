@@ -1,4 +1,46 @@
-nginx (1.12.2-bionic-debian0-ubuntu262) bionic; urgency=medium
+nginx (1.12.2-bionic-debian0-ubuntu269) bionic; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:17:30 +0100
+
+nginx (1.12.2-bionic-debian0-ubuntu268) bionic; urgency=medium
+
+  * packaging for artful
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:17:18 +0100
+
+nginx (1.12.2-artful-debian0-ubuntu267) artful; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:17:06 +0100
+
+nginx (1.12.2-xenial-debian0-ubuntu266) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:16:48 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu265) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:14:55 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu264) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:14:00 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu263) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:11:50 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu262) trusty; urgency=medium
 
   * packaging for bionic
 

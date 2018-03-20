@@ -2,6 +2,7 @@
 set -ex
 cd "$(dirname $0)/.."
 export W="${PWD}"
+export GPG_AGENT_INFO=${GPG_AGENT_INFO:-${HOME}/.gnupg/S.gpg-agent:0:1}
 export PACKAGE="nginx"
 export PPA="${PACKAGE}"
 export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
