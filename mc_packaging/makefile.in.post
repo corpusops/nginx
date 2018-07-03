@@ -1,0 +1,8 @@
+
+# redefining instead of direct editing make diffs more readable
+light_configure_flags := $(common_configure_flags)
+
+full_configure_flags := $(common_configure_flags)
+
+extras_configure_flags := $(common_configure_flags)
+
