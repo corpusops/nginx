@@ -284,7 +284,7 @@ Nginx Compatibility
 
 The latest version of this module is compatible with the following versions of Nginx:
 
-* 1.17.x  (last tested: 1.17.4)
+* 1.17.x  (last tested: 1.17.8)
 * 1.15.x  (last tested: 1.15.8)
 * 1.14.x
 * 1.13.x  (last tested: 1.13.6)
@@ -1386,7 +1386,7 @@ Usually you can pre-load Lua modules at server start-up by means of this hook an
      location = /api {
          content_by_lua_block {
              -- the following require() will just  return
-             -- the alrady loaded module from package.loaded:
+             -- the already loaded module from package.loaded:
              ngx.say(require "cjson".encode{dog = 5, cat = 6})
          }
      }
@@ -1875,7 +1875,7 @@ can be implemented in ngx_lua as:
 
 Just as any other rewrite phase handlers, [rewrite_by_lua](#rewrite_by_lua) also runs in subrequests.
 
-Note that when calling `ngx.exit(ngx.OK)` within a [rewrite_by_lua](#rewrite_by_lua) handler, the Nginx request processing control flow will still continue to the content handler. To terminate the current request from within a [rewrite_by_lua](#rewrite_by_lua) handler, calling [ngx.exit](#ngxexit) with status >= 200 (`ngx.HTTP_OK`) and status < 300 (`ngx.HTTP_SPECIAL_RESPONSE`) for successful quits and `ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)` (or its friends) for failures.
+Note that when calling `ngx.exit(ngx.OK)` within a [rewrite_by_lua](#rewrite_by_lua) handler, the Nginx request processing control flow will still continue to the content handler. To terminate the current request from within a [rewrite_by_lua](#rewrite_by_lua) handler, call [ngx.exit](#ngxexit) with status >= 200 (`ngx.HTTP_OK`) and status < 300 (`ngx.HTTP_SPECIAL_RESPONSE`) for successful quits and `ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)` (or its friends) for failures.
 
 If the [ngx_http_rewrite_module](http://nginx.org/en/docs/http/ngx_http_rewrite_module.html)'s [rewrite](http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite) directive is used to change the URI and initiate location re-lookups (internal redirections), then any [rewrite_by_lua](#rewrite_by_lua) or [rewrite_by_lua_file](#rewrite_by_lua_file) code sequences within the current location will not be executed. For example,
 
@@ -2017,7 +2017,7 @@ can be implemented in ngx_lua as:
 
 As with other access phase handlers, [access_by_lua](#access_by_lua) will *not* run in subrequests.
 
-Note that when calling `ngx.exit(ngx.OK)` within a [access_by_lua](#access_by_lua) handler, the Nginx request processing control flow will still continue to the content handler. To terminate the current request from within a [access_by_lua](#access_by_lua) handler, calling [ngx.exit](#ngxexit) with status >= 200 (`ngx.HTTP_OK`) and status < 300 (`ngx.HTTP_SPECIAL_RESPONSE`) for successful quits and `ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)` (or its friends) for failures.
+Note that when calling `ngx.exit(ngx.OK)` within a [access_by_lua](#access_by_lua) handler, the Nginx request processing control flow will still continue to the content handler. To terminate the current request from within a [access_by_lua](#access_by_lua) handler, call [ngx.exit](#ngxexit) with status >= 200 (`ngx.HTTP_OK`) and status < 300 (`ngx.HTTP_SPECIAL_RESPONSE`) for successful quits and `ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)` (or its friends) for failures.
 
 Starting from the `v0.9.20` release, you can use the [access_by_lua_no_postpone](#access_by_lua_no_postpone)
 directive to control when to run this handler inside the "access" request-processing phase
@@ -4251,10 +4251,8 @@ to be returned when reading `ngx.header.Foo`.
 
 Note that `ngx.header` is not a normal Lua table and as such, it is not possible to iterate through it using the Lua `ipairs` function.
 
-Note: `HEADER` and `VALUE` will be truncated if they
-contain the `\r` or `\n` characters. The truncated values
-will contain all characters up to (and excluding) the first occurrence of
-`\r` or `\n`.
+Note: this function throws a Lua error if `HEADER` or
+`VALUE` contain unsafe characters (control characters).
 
 For reading *request* headers, use the [ngx.req.get_headers](#ngxreqget_headers) function instead.
 
@@ -4498,6 +4496,9 @@ which is functionally equivalent to
      proxy_pass http://my_backend;
  }
 ```
+
+Note: this function throws a Lua error if the `uri` argument
+contains unsafe characters (control characters).
 
 Note that it is not possible to use this interface to rewrite URI arguments and that [ngx.req.set_uri_args](#ngxreqset_uri_args) should be used for this instead. For instance, Nginx config
 
@@ -4914,6 +4915,9 @@ is equivalent to
  ngx.req.clear_header("X-Foo")
 ```
 
+Note: this function throws a Lua error if `header_name` or
+`header_value` contain unsafe characters (control characters).
+
 [Back to TOC](#nginx-api-for-lua)
 
 ngx.req.clear_header
@@ -5247,12 +5251,8 @@ ngx.redirect
 
 Issue an `HTTP 301` or `302` redirection to `uri`.
 
-Notice: the `uri` should not contains `\r` or `\n`, otherwise, the characters after `\r` or `\n` will be truncated, including the `\r` or `\n` bytes themself.
-
-The `uri` argument will be truncated if it contains the
-`\r` or `\n` characters. The truncated value will contain
-all characters up to (and excluding) the first occurrence of `\r` or
-`\n`.
+Note: this function throws a Lua error if the `uri` argument
+contains unsafe characters (control characters).
 
 The optional `status` parameter specifies the HTTP status code to be used. The following status codes are supported right now:
 
@@ -5554,7 +5554,7 @@ ngx.sleep
 
 **context:** *rewrite_by_lua&#42;, access_by_lua&#42;, content_by_lua&#42;, ngx.timer.&#42;, ssl_certificate_by_lua&#42;, ssl_session_fetch_by_lua&#42;*
 
-Sleeps for the specified seconds without blocking. One can specify time resolution up to 0.001 seconds (i.e., one milliseconds).
+Sleeps for the specified seconds without blocking. One can specify time resolution up to 0.001 seconds (i.e., one millisecond).
 
 Behind the scene, this method makes use of the Nginx timers.
 
@@ -6882,7 +6882,7 @@ ngx.shared.DICT.flush_all
 
 **context:** *init_by_lua&#42;, set_by_lua&#42;, rewrite_by_lua&#42;, access_by_lua&#42;, content_by_lua&#42;, header_filter_by_lua&#42;, body_filter_by_lua&#42;, log_by_lua&#42;, ngx.timer.&#42;, balancer_by_lua&#42;, ssl_certificate_by_lua&#42;, ssl_session_fetch_by_lua&#42;, ssl_session_store_by_lua&#42;*
 
-Flushes out all the items in the dictionary. This method does not actuall free up all the memory blocks in the dictionary but just marks all the existing items as expired.
+Flushes out all the items in the dictionary. This method does not actually free up all the memory blocks in the dictionary but just marks all the existing items as expired.
 
 This feature was first introduced in the `v0.5.0rc17` release.
 
@@ -7818,7 +7818,7 @@ All the Lua code chunks running by [rewrite_by_lua](#rewrite_by_lua), [access_by
 By default, the corresponding Nginx handler (e.g., [rewrite_by_lua](#rewrite_by_lua) handler) will not terminate until
 
 1. both the "entry thread" and all the user "light threads" terminates,
-1. a "light thread" (either the "entry thread" or a user "light thread" aborts by calling [ngx.exit](#ngxexit), [ngx.exec](#ngxexec), [ngx.redirect](#ngxredirect), or [ngx.req.set_uri(uri, true)](#ngxreqset_uri), or
+1. a "light thread" (either the "entry thread" or a user "light thread") aborts by calling [ngx.exit](#ngxexit), [ngx.exec](#ngxexec), [ngx.redirect](#ngxredirect), or [ngx.req.set_uri(uri, true)](#ngxreqset_uri), or
 1. the "entry thread" terminates with a Lua error.
 
 When the user "light thread" terminates with a Lua error, however, it will not abort other running "light threads" like the "entry thread" does.
@@ -8239,6 +8239,9 @@ Similar to the [ngx.timer.at](#ngxtimerat) API function, but
 1. `delay` *cannot* be zero,
 1. timer will be created every `delay` seconds until the current Nginx worker process starts exiting.
 
+Like [ngx.timer.at](#ngxtimerat), the `callback` argument will be called
+automatically with the arguments `premature`, `user_arg1`, `user_arg2`, etc.
+
 When success, returns a "conditional true" value (but not a `true`). Otherwise, returns a "conditional false" value and a string describing the error.
 
 This API also respect the [lua_max_pending_timers](#lua_max_pending_timers) and [lua_max_running_timers](#lua_max_running_timers).
@@ -8280,7 +8283,7 @@ ngx.config.subsystem
 
 **context:** *set_by_lua&#42;, rewrite_by_lua&#42;, access_by_lua&#42;, content_by_lua&#42;, header_filter_by_lua&#42;, body_filter_by_lua&#42;, log_by_lua&#42;, ngx.timer.&#42;, init_by_lua&#42;, init_worker_by_lua&#42;*
 
-This string field indicates the current Nginx subsystem the current Lua environment is based on. For this module, this field always takes the string value `"http"`. For
+This string field indicates the Nginx subsystem the current Lua environment is based on. For this module, this field always takes the string value `"http"`. For
 [ngx_stream_lua_module](https://github.com/openresty/stream-lua-nginx-module#readme), however, this field takes the value `"stream"`.
 
 This field was first introduced in the `0.10.1`.
@@ -8396,7 +8399,7 @@ This API was first introduced in the `0.9.20` release.
 ngx.worker.id
 -------------
 
-**syntax:** *count = ngx.worker.id()*
+**syntax:** *id = ngx.worker.id()*
 
 **context:** *set_by_lua&#42;, rewrite_by_lua&#42;, access_by_lua&#42;, content_by_lua&#42;, header_filter_by_lua&#42;, body_filter_by_lua&#42;, log_by_lua&#42;, ngx.timer.&#42;, init_worker_by_lua&#42;*
 

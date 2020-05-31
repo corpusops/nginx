@@ -232,6 +232,30 @@ ngx_http_lua_package_path(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 }
 
 
+char *
+ngx_http_lua_regex_cache_max_entries(ngx_conf_t *cf, ngx_command_t *cmd,
+    void *conf)
+{
+#if (NGX_PCRE)
+    return ngx_conf_set_num_slot(cf, cmd, conf);
+#else
+    return NGX_CONF_OK;
+#endif
+}
+
+
+char *
+ngx_http_lua_regex_match_limit(ngx_conf_t *cf, ngx_command_t *cmd,
+    void *conf)
+{
+#if (NGX_PCRE)
+    return ngx_conf_set_num_slot(cf, cmd, conf);
+#else
+    return NGX_CONF_OK;
+#endif
+}
+
+
 #if defined(NDK) && NDK
 char *
 ngx_http_lua_set_by_lua_block(ngx_conf_t *cf, ngx_command_t *cmd,
@@ -301,7 +325,7 @@ ngx_http_lua_set_by_lua(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 char *
 ngx_http_lua_set_by_lua_file(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 {
-    u_char              *cache_key;
+    u_char              *cache_key = NULL;
     ngx_str_t           *value;
     ngx_str_t            target;
     ndk_set_var_t        filter;
@@ -329,8 +353,6 @@ ngx_http_lua_set_by_lua_file(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         return NGX_CONF_ERROR;
     }
 
-    filter_data->size = filter.size;
-
     ngx_memzero(&ccv, sizeof(ngx_http_compile_complex_value_t));
     ccv.cf = cf;
     ccv.value = &value[2];
@@ -347,9 +369,11 @@ ngx_http_lua_set_by_lua_file(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         if (cache_key == NULL) {
             return NGX_CONF_ERROR;
         }
-
-        filter_data->key = cache_key;
     }
+
+    filter_data->key = cache_key;
+    filter_data->ref = LUA_REFNIL;
+    filter_data->size = filter.size;
 
     ngx_str_null(&filter_data->script);
 

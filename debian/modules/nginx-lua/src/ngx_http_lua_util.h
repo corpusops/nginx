@@ -241,20 +241,7 @@ void ngx_http_lua_cleanup_free(ngx_http_request_t *r,
 void ngx_http_lua_set_sa_restart(ngx_log_t *log);
 #endif
 
-
-static ngx_inline size_t
-ngx_http_lua_safe_header_value_len(u_char *str, size_t len)
-{
-    size_t i;
-
-    for (i = 0; i < len; i++, str++) {
-        if (*str == '\r' || *str == '\n') {
-            return i;
-        }
-    }
-
-    return len;
-}
+size_t ngx_http_lua_escape_log(u_char *dst, u_char *src, size_t size);
 
 
 static ngx_inline void
@@ -500,6 +487,59 @@ ngx_inet_get_port(struct sockaddr *sa)
     }
 }
 #endif
+
+
+static ngx_inline ngx_int_t
+ngx_http_lua_check_unsafe_string(ngx_http_request_t *r, u_char *str, size_t len,
+    const char *name)
+{
+    size_t           i, buf_len;
+    u_char           c;
+    u_char          *buf, *src = str;
+
+                     /* %00-%1F, %7F */
+
+    static uint32_t  unsafe[] = {
+        0xffffffff, /* 1111 1111 1111 1111  1111 1111 1111 1111 */
+
+                    /* ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
+        0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
+
+                    /* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
+        0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
+
+                    /*  ~}| {zyx wvut srqp  onml kjih gfed cba` */
+        0x80000000, /* 1000 0000 0000 0000  0000 0000 0000 0000 */
+
+        0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
+        0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
+        0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
+        0x00000000  /* 0000 0000 0000 0000  0000 0000 0000 0000 */
+    };
+
+    for (i = 0; i < len; i++, str++) {
+        c = *str;
+        if (unsafe[c >> 5] & (1 << (c & 0x1f))) {
+            buf_len = ngx_http_lua_escape_log(NULL, src, len);
+            buf = ngx_palloc(r->pool, buf_len);
+            if (buf == NULL) {
+                return NGX_ERROR;
+            }
+
+            ngx_http_lua_escape_log(buf, src, len);
+
+            ngx_log_error(NGX_LOG_ERR, r->connection->log, 0,
+                          "unsafe byte \"0x%uxd\" in %s \"%*s\"",
+                          (unsigned) c, name, buf_len, buf);
+
+            ngx_pfree(r->pool, buf);
+
+            return NGX_ERROR;
+        }
+    }
+
+    return NGX_OK;
+}
 
 
 extern ngx_uint_t  ngx_http_lua_location_hash;
