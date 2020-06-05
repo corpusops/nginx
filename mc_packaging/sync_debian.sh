@@ -8,7 +8,7 @@ export PPA="${PACKAGE}"
 export REPO="git://anonscm.debian.org/collab-maint/nginx.git"
 export REPO="https://anonscm.debian.org/git/collab-maint/nginx.git"
 export DEBEMAIL=${DEBEMAIL:-kiorky@cryptelium.net}
-export KEY="${KEY:-0x5616F8C2}"
+export KEY="${KEY:-0x4F01C4A0773018B2CD18F4F2C19BD8A95616F8C2}"
 export VER=${VER:-"$(grep "#define NGINX_VERSION" src/core/nginx.h 2>/dev/null|awk '{print $3}'|sed 's/"//g')"}
 export VER="1.18.0"
 export FLAVORS="vivid trusty precise"
@@ -100,7 +100,7 @@ for c, suf in (
 EOF
 cd debian
 sed "s/-lldap\"/-lldap -llber\"/g" -i ${W}/debian/modules/nginx-auth-ldap/config
-sed "s/FLAVOURS :=.*/FLAVOURS := full light extras/g" -i rules
+sed "s/FLAVOURS :=.*/FLAVOURS := core light extras/g" -i rules
 sed -re "s/\\$.CURDIR.\/configure/\$(CURDIR)\/auto\/configure/g" -i rules
 sed -re "s/\\$.CURDIR.\/man/\$(CURDIR)\/docs\/man/g" -i rules
 sed -re "s/\\$.CURDIR.\/html/\$(CURDIR)\/docs\/html/g" -i rules
@@ -136,7 +136,7 @@ done
 # make those packages, dummy packages
 # get one prerm for our global package
 cp nginx-light.prerm nginx-makina.prerm
-for j in doc full light extras;do
+for j in doc full light extras core;do
     for i in dirs postinstall prerm manpages\
                   docs examples install lintian-overrides \
                   manpages postrm preinst;do
