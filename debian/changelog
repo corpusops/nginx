@@ -1,4 +1,10 @@
-nginx (1.16.1-disco-debian0-ubuntu303) disco; urgency=medium
+nginx (1.18.0-xenial-debian0-ubuntu304) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 19:40:31 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu303) xenial; urgency=medium
 
   * packaging for disco
 
