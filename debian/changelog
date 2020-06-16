@@ -1,16 +1,70 @@
-nginx (1.18.0-xenial-debian0-ubuntu304) xenial; urgency=medium
+nginx (1.18.0-focal-debian0-ubuntu313) focal; urgency=medium
 
-  * packaging for xenial
+  * packaging for focal
 
- -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 19:40:31 +0200
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:58:40 +0200
 
-nginx (1.18.0-xenial-debian0-ubuntu303) xenial; urgency=medium
+nginx (1.18.0-focal-debian0-ubuntu312) focal; urgency=medium
 
   * packaging for disco
 
- -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:56:36 +0100
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:58:11 +0200
 
-nginx (1.16.1-disco-debian0-ubuntu302) disco; urgency=medium
+nginx (1.18.0-disco-debian0-ubuntu311) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:57:34 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu310) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:56:59 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu309) xenial; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:12:16 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu308) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:59 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu307) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:42 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu306) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:26 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu305) xenial; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:02 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu304) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:10:45 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu303) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:10:27 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu302) xenial; urgency=medium
 
   * packaging for bionic
 
