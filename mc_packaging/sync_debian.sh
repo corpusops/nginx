@@ -111,6 +111,7 @@ sed -re 's/dh_strip --package=libnginx-mod-\$\(\*\) --automatic-dbgsym/'\
 'dh_strip --package=libnginx-mod-$(*) --automatic-dbgsym'\
 ' || dh_strip --package=libnginx-mod-$(*)/g' -i rules
 
+sed -i -re "s/(dh_installinit --no-stop-on-upgrade --no-start --name=nginx)/\1 || dh_installinit --no-start --name=nginx/g" rules
 # assemble
 for i in postrm preinst;do
     ls ../../debian-up/debian/*.${i}|egrep -v 'libnginx|makina'|xargs cat|grep -v "exit 0" > nginx-makina.${i}.u

@@ -1,4 +1,76 @@
-nginx (1.18.0-focal-debian0-ubuntu313) focal; urgency=medium
+nginx (1.18.0-focal-debian0-ubuntu325) focal; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:24:22 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu324) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:24:01 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu323) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:22:52 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu322) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:22:26 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu321) xenial; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:12:18 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu320) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:11:43 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu319) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:11:09 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu318) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:10:46 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu317) xenial; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:07:21 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu316) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:06:44 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu315) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:05:38 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu314) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:05:20 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu313) xenial; urgency=medium
 
   * packaging for focal
 
