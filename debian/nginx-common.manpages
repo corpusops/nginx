@@ -1,0 +1,4 @@
+debian/build-core/objs/nginx.8
+debian/build-src/dh_nginx.1
+debian/build-extras/objs/nginx.8
+debian/build-light/objs/nginx.8

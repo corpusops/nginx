@@ -1,0 +1,28 @@
+diff --git a/debian/debhelper/nginx_mod.pm b/debian/debhelper/nginx_mod.pm
+index af37fda42..06050494b 100644
+--- a/debian/debhelper/nginx_mod.pm
++++ b/debian/debhelper/nginx_mod.pm
+@@ -35,7 +35,9 @@ sub new {
+ 
+ sub configure {
+ 	my $this=shift;
+-
++        
++	my $ngflags=`echo \$(nginx -V 2>&1|egrep configure|sed -re "s/configure arguments: //g")`;
++	$ngflags =~ s/(\n|--(add|with)[^ ]+module[^ ]* ?|--with[^=]+=dynamic)/ /g;
+     doit({
+         "chdir" => $this->_NGINX_SRC_DIR,
+         "update_env" => {
+@@ -43,11 +45,7 @@ sub configure {
+             "bld_dir" => $this->get_builddir,
+             "pwd_dir" => $this->{cwd},
+         },
+-    }, "bash", "-c", '. ./conf_flags
+-    ./configure \\
+-        --with-cc-opt="$(cd "$pwd_dir/$src_dir"; dpkg-buildflags --get CFLAGS) -fPIC $(cd "$pwd_dir/$src_dir"; dpkg-buildflags --get CPPFLAGS)" \\
+-        --with-ld-opt="$(cd "$pwd_dir/$src_dir"; dpkg-buildflags --get LDFLAGS) -fPIC" \\
+-        "${NGX_CONF_FLAGS[@]}" \\
++    }, "bash", "-xc", './configure '.$ngflags.' \\
+         --add-dynamic-module="$pwd_dir/$src_dir" \\
+         --builddir="$pwd_dir/$bld_dir" \\
+         "$@"', "dummy", @_);

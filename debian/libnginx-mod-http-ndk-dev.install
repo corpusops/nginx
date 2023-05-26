@@ -1,0 +1,5 @@
+debian/build-ndksrc/auto usr/share/nginx-ndk/src/
+debian/build-ndksrc/src usr/share/nginx-ndk/src/
+debian/build-ndksrc/objs usr/share/nginx-ndk/src/
+debian/build-ndksrc/config usr/share/nginx-ndk/src/
+debian/build-ndksrc/ngx_auto_lib_core usr/share/nginx-ndk/src/

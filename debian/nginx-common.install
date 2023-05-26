@@ -1,0 +1,18 @@
+#!/usr/bin/perl -w
+print "contrib/vim/* usr/share/vim/addons\n";
+print "debian/conf/* etc/nginx\n";
+print "debian/apport/source_nginx.py usr/share/apport/package-hooks\n";
+print "debian/ufw/nginx etc/ufw/applications.d\n";
+print "debian/vim/nginx.yaml usr/share/vim/registry\n";
+print "docs/html/index.html usr/share/nginx/html/\n";
+print "debian/build-core/objs/nginx usr/sbin\n";
+print "debian/build-src/auto usr/share/nginx/src/\n";
+print "debian/build-src/src usr/share/nginx/src/\n";
+print "debian/build-src/conf_flags usr/share/nginx/src/\n";
+print "debian/build-src/configure usr/share/nginx/src/\n";
+print "debian/debhelper/nginx.pm usr/share/perl5/Debian/Debhelper/Sequence/\n";
+print "debian/debhelper/dh_nginx usr/bin/\n";
+print "debian/debhelper/nginx_mod.pm usr/share/perl5/Debian/Debhelper/Buildsystem/\n";
+print "debian/autoscripts/* usr/share/debhelper/autoscripts/\n";
+print "debian/build-extras/objs/nginx usr/sbin\n";
+print "debian/build-light/objs/nginx usr/sbin\n";

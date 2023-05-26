@@ -1,0 +1,265 @@
+#!/usr/bin/make -f
+export DH_VERBOSE=1
+export LUAJIT_INC=/usr/include/luajit-2.1
+export LUAJIT_LIB=/usr/lib/x86_64-linux-gnu/libluajit-5.1.so
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+debian_cflags:=$(shell dpkg-buildflags --get CFLAGS) -fPIC $(shell dpkg-buildflags --get CPPFLAGS)
+debian_ldflags:=$(shell dpkg-buildflags --get LDFLAGS) -fPIC
+
+FLAVOURS := core light extras
+DYN_MODS := \
+	http-auth-pam \
+	http-cache-purge \
+	http-dav-ext \
+	http-echo \
+	http-fancyindex \
+	http-geoip \
+	http-geoip2 \
+	http-headers-more-filter \
+	http-image-filter \
+	http-ndk \
+	http-perl \
+	http-subs-filter \
+	http-uploadprogress \
+	http-upstream-fair \
+	http-xslt-filter \
+	mail \
+	nchan \
+	rtmp \
+	stream \
+	stream-geoip \
+	stream-geoip2
+
+MODULESDIR = $(CURDIR)/debian/modules
+BASEDIR = $(CURDIR)
+$(foreach flavour,$(FLAVOURS) src ndksrc,$(eval BUILDDIR_$(flavour) = $(CURDIR)/debian/build-$(flavour)))
+
+DEB_BUILD_ARCH ?=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+ifeq ($(DEB_BUILD_ARCH),sparc)
+	debian_cflags += -m32 -mcpu=ultrasparc
+endif
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	MAKEFLAGS += -j$(NUMJOBS)
+endif
+
+MODULESPATCHDIR = $(CURDIR)/debian/modules/patches
+modules_with_patches := $(notdir $(wildcard $(CURDIR)/debian/modules/patches/*))
+
+# configure flags
+basic_configure_flags := \
+			--with-compat \
+			--with-cc-opt="$(debian_cflags)" \
+			--with-ld-opt="$(debian_ldflags)" \
+			--prefix=/usr/share/nginx \
+			--conf-path=/etc/nginx/nginx.conf \
+			--http-log-path=/var/log/nginx/access.log \
+			--error-log-path=/var/log/nginx/error.log \
+			--lock-path=/var/lock/nginx.lock \
+			--pid-path=/run/nginx.pid \
+			--modules-path=/usr/lib/nginx/modules \
+			--http-client-body-temp-path=/var/lib/nginx/body \
+			--http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+			--http-proxy-temp-path=/var/lib/nginx/proxy \
+			--http-scgi-temp-path=/var/lib/nginx/scgi \
+			--http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
+			--with-compat \
+			--with-debug \
+			--with-pcre-jit \
+			--with-ipv6 \
+			--with-http_ssl_module \
+			--with-http_stub_status_module \
+			--with-http_realip_module \
+			--with-http_auth_request_module \
+			--with-http_v2_module \
+			--with-http_dav_module \
+			--with-http_slice_module \
+			--with-http_addition_module \
+			--with-http_flv_module \
+			--with-http_geoip_module=dynamic \
+			--with-http_gunzip_module \
+			--with-http_gzip_static_module \
+			--with-http_image_filter_module=dynamic \
+			--with-http_mp4_module \
+			--with-http_perl_module=dynamic \
+			--with-http_random_index_module \
+			--with-http_secure_link_module \
+			--with-stream=dynamic \
+			--with-stream_geoip_module=dynamic \
+			--with-stream_ssl_module \
+			--with-stream_ssl_preread_module \
+			--with-http_sub_module \
+			--with-http_xslt_module=dynamic \
+			--with-mail=dynamic \
+			--with-mail_ssl_module \
+			--add-dynamic-module=$(MODULESDIR)/http-headers-more-filter \
+			--add-dynamic-module=$(MODULESDIR)/http-auth-pam \
+			--add-dynamic-module=$(MODULESDIR)/http-cache-purge \
+			--add-dynamic-module=$(MODULESDIR)/http-dav-ext \
+			--add-dynamic-module=$(MODULESDIR)/http-ndk \
+			--add-dynamic-module=$(MODULESDIR)/http-echo \
+			--add-dynamic-module=$(MODULESDIR)/http-fancyindex \
+			--add-dynamic-module=$(MODULESDIR)/http-geoip2 \
+			--add-dynamic-module=$(MODULESDIR)/nchan \
+			--add-dynamic-module=$(MODULESDIR)/rtmp \
+			--add-dynamic-module=$(MODULESDIR)/http-uploadprogress \
+			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
+			--add-dynamic-module=$(MODULESDIR)/http-subs-filter \
+			--add-dynamic-module=$(MODULESDIR)/nginx-shib/ \
+			--with-threads
+#			--add-dynamic-module=$(MODULESDIR)/http-lua \
+
+light_configure_flags := \
+			$(common_configure_flags) \
+			--with-http_gzip_static_module \
+			--without-http_browser_module \
+			--without-http_geo_module \
+			--without-http_limit_req_module \
+			--without-http_limit_conn_module \
+			--without-http_memcached_module \
+			--without-http_referer_module \
+			--without-http_split_clients_module \
+			--without-http_userid_module
+
+core_configure_flags := \
+			$(common_configure_flags) \
+			--with-http_addition_module \
+			--with-http_gunzip_module \
+			--with-http_gzip_static_module \
+			--with-http_sub_module \
+
+extras_configure_flags := \
+			$(common_configure_flags) \
+			--with-http_addition_module \
+			--with-http_flv_module \
+			--with-http_geoip_module=dynamic \
+			--with-http_gunzip_module \
+			--with-http_gzip_static_module \
+			--with-http_image_filter_module=dynamic \
+			--with-http_mp4_module \
+			--with-http_perl_module=dynamic \
+			--with-http_random_index_module \
+			--with-http_secure_link_module \
+			--with-http_sub_module \
+			--with-http_xslt_module=dynamic \
+			--with-mail=dynamic \
+			--with-mail_ssl_module \
+			--with-stream=dynamic \
+			--with-stream_geoip_module=dynamic \
+			--with-stream_ssl_module \
+			--with-stream_ssl_preread_module \
+			--add-dynamic-module=$(MODULESDIR)/http-headers-more-filter \
+			--add-dynamic-module=$(MODULESDIR)/http-auth-pam \
+			--add-dynamic-module=$(MODULESDIR)/http-cache-purge \
+			--add-dynamic-module=$(MODULESDIR)/http-dav-ext \
+			--add-dynamic-module=$(MODULESDIR)/http-ndk \
+			--add-dynamic-module=$(MODULESDIR)/http-echo \
+			--add-dynamic-module=$(MODULESDIR)/http-fancyindex \
+			--add-dynamic-module=$(MODULESDIR)/http-geoip2 \
+			--add-dynamic-module=$(MODULESDIR)/nchan \
+			--add-dynamic-module=$(MODULESDIR)/rtmp \
+			--add-dynamic-module=$(MODULESDIR)/http-uploadprogress \
+			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
+			--add-dynamic-module=$(MODULESDIR)/http-subs-filter
+
+
+# redefining instead of direct editing make diffs more readable
+light_configure_flags := $(basic_configure_flags)
+
+core_configure_flags := $(basic_configure_flags)
+
+extras_configure_flags := $(basic_configure_flags)
+
+common_configure_flags := $(basic_configure_flags)
+%:
+	dh $@ --without autoreconf
+
+override_dh_auto_configure: config_patch_modules $(foreach flavour,$(FLAVOURS),config.arch.$(flavour)) config.src config.ndksrc
+override_dh_auto_build:     $(foreach flavour,$(FLAVOURS),build.arch.$(flavour)) build.src build.ndksrc
+override_dh_strip:          $(foreach flavour,$(FLAVOURS),strip.arch.$(flavour)) $(foreach mod,$(DYN_MODS),strip.mods.$(mod))
+override_dh_clean:          clean_patch_modules $(foreach flavour,$(FLAVOURS),clean.$(flavour)) clean.src clean.ndksrc
+	dh_clean
+
+override_dh_install:
+	dh_install
+	DH_AUTOSCRIPTDIR=$(CURDIR)/debian/autoscripts debian/debhelper/dh_nginx --in-nginx-tree
+
+override_dh_installinit:
+	dh_installinit --no-stop-on-upgrade --no-start --name=nginx || dh_installinit --no-start --name=nginx
+
+override_dh_installsystemd:
+	dh_installsystemd --name=nginx
+
+override_dh_installlogrotate:
+	dh_installlogrotate --package nginx-common --name=nginx
+
+build.arch.%:
+	$(MAKE) -C $(BUILDDIR_$*) build
+
+build.src:
+	cp -Pa $(CURDIR)/auto $(BUILDDIR_src)/
+	sed -i '/^# create Makefile/,/^END$$/d' $(BUILDDIR_src)/auto/make $(BUILDDIR_src)/auto/init $(BUILDDIR_src)/auto/install
+	find $(CURDIR)/src -type f -name '*.h' -printf 'src/%P\0' | tar -C $(CURDIR) --null --files-from - -c | tar -C $(BUILDDIR_src)/ -x
+	if [ -e $(CURDIR)/auto/configure ]; then cp $(CURDIR)/auto/configure $(BUILDDIR_src)/; fi
+	echo "NGX_CONF_FLAGS=(" $(basic_configure_flags) ")" > $(BUILDDIR_src)/conf_flags
+	pod2man debian/debhelper/dh_nginx > $(BUILDDIR_src)/dh_nginx.1
+
+build.ndksrc:
+	cp -Pa $(CURDIR)/debian/modules/http-ndk/auto \
+	       $(CURDIR)/debian/modules/http-ndk/config \
+		   $(CURDIR)/debian/modules/http-ndk/ngx_auto_lib_core $(BUILDDIR_ndksrc)/
+	for i in src objs; do \
+	  find $(CURDIR)/debian/modules/http-ndk/$$i -type f -name '*.h' -printf "$$i/%P\0" | \
+	    tar -C $(CURDIR)/debian/modules/http-ndk --null --files-from - -c | tar -C $(BUILDDIR_ndksrc)/ -x; \
+	done
+	chmod +x $(CURDIR)/debian/build-ndksrc/auto/build
+
+strip.arch.%:
+	dh_strip --package=nginx-$(*) -O--dbgsym-migration='nginx-$(*)-dbg (<< 1.10.1-3~)'
+
+strip.mods.%:
+	dh_strip --package=libnginx-mod-$(*) -O--automatic-dbgsym
+
+config_patch_modules: $(foreach mod,$(modules_with_patches),config.patch.$(mod))
+config.patch.%:
+	cd $(MODULESDIR)/$* && QUILT_PATCHES=$(MODULESPATCHDIR)/$* quilt push -a
+
+clean_patch_modules: $(foreach mod,$(modules_with_patches),clean.patch.$(mod))
+clean.patch.%:
+	if [ -s $(MODULESDIR)/$*/.pc/applied-patches ]; then \
+		cd $(MODULESDIR)/$* && QUILT_PATCHES=$(MODULESPATCHDIR)/$* quilt pop -q -a; \
+		rm -rf $(MODULESDIR)/$*/.pc; \
+	fi
+
+config.arch.%:
+	dh_testdir
+	mkdir -p $(BUILDDIR_$*)
+	cp -Pa $(CURDIR)/auto $(BUILDDIR_$*)/
+	cp -Pa $(CURDIR)/conf $(BUILDDIR_$*)/
+	cp -Pa $(CURDIR)/auto/configure $(BUILDDIR_$*)/
+	cp -Pa $(CURDIR)/contrib $(BUILDDIR_$*)/
+	cp -Pa $(CURDIR)/src $(BUILDDIR_$*)/
+	cp -Pa $(CURDIR)/docs/man $(BUILDDIR_$*)/
+	cd $(BUILDDIR_$*) && ./auto/configure $($*_configure_flags)
+	if ( true || [ "$(BUILDDIR_$*)" = "$(BUILDDIR_extras)" ] ); then \
+	  have="NDK_SET_VAR"; \
+	  /bin/echo -e "#ifndef $$have\n#define $$have  1\n#endif" >> $(BUILDDIR_$*)/objs/ngx_auto_config.h; \
+	fi
+
+config.src:
+	dh_testdir
+	mkdir -p $(BUILDDIR_src)
+
+config.ndksrc:
+	dh_testdir
+	mkdir -p $(BUILDDIR_ndksrc)
+
+clean.%:
+	rm -rf $(BUILDDIR_$*)
+
+.PHONY: config_patch_modules clean_patch_modules
+
+override_dh_usrlocal:
+	echo disabling
