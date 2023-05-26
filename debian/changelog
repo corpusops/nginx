@@ -1,0 +1,1140 @@
+nginx (1.20.2-xenial-debian0-ubuntu374) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sat, 01 Oct 2022 20:03:41 +0200
+
+nginx (1.20.2-xenial-debian0-ubuntu373) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sat, 01 Oct 2022 20:03:34 +0200
+
+nginx (1.20.2-xenial-debian0-ubuntu372) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sat, 01 Oct 2022 20:02:20 +0200
+
+nginx (1.20.2-xenial-debian0-ubuntu351) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 23 Dec 2021 16:57:29 +0100
+
+nginx (1.20.2-xenial-debian0-ubuntu350) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:22:26 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu321) xenial; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:12:18 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu320) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:11:43 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu319) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:11:09 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu318) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:10:46 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu317) xenial; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:07:21 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu316) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:06:44 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu315) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:05:38 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu314) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 21:05:20 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu313) xenial; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:58:40 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu312) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:58:11 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu311) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:57:34 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu310) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:56:59 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu309) xenial; urgency=medium
+
+  * packaging for focal
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:12:16 +0200
+
+nginx (1.18.0-focal-debian0-ubuntu308) focal; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:59 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu307) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:42 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu306) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:26 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu305) xenial; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:11:02 +0200
+
+nginx (1.18.0-disco-debian0-ubuntu304) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:10:45 +0200
+
+nginx (1.18.0-bionic-debian0-ubuntu303) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 16 Jun 2020 20:10:27 +0200
+
+nginx (1.18.0-xenial-debian0-ubuntu302) xenial; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:56:24 +0100
+
+nginx (1.16.1-bionic-debian0-ubuntu301) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:56:13 +0100
+
+nginx (1.16.1-xenial-debian0-ubuntu300) xenial; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:55:23 +0100
+
+nginx (1.16.1-disco-debian0-ubuntu283) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:55:12 +0100
+
+nginx (1.16.1-bionic-debian0-ubuntu282) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:54:54 +0100
+
+nginx (1.16.1-xenial-debian0-ubuntu281) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:38:42 +0100
+
+nginx (1.16.1-xenial-debian0-ubuntu280) xenial; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:30:37 +0100
+
+nginx (1.16.1-disco-debian0-ubuntu279) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:30:26 +0100
+
+nginx (1.16.1-bionic-debian0-ubuntu278) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:30:15 +0100
+
+nginx (1.16.1-xenial-debian0-ubuntu277) xenial; urgency=medium
+
+  * packaging for disco
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:27:28 +0100
+
+nginx (1.16.1-disco-debian0-ubuntu276) disco; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:27:17 +0100
+
+nginx (1.16.1-bionic-debian0-ubuntu275) bionic; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Sun, 24 Nov 2019 20:27:04 +0100
+
+nginx (1.16.1-xenial-debian0-ubuntu274) xenial; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 03 Jul 2018 15:59:53 +0200
+
+nginx (1.14.0-bionic-debian0-ubuntu273) bionic; urgency=medium
+
+  * packaging for artful
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 03 Jul 2018 15:59:43 +0200
+
+nginx (1.14.0-artful-debian0-ubuntu272) artful; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 03 Jul 2018 15:59:12 +0200
+
+nginx (1.14.0-xenial-debian0-ubuntu271) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 03 Jul 2018 15:58:04 +0200
+
+nginx (1.14.0-trusty-debian0-ubuntu270) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 03 Jul 2018 15:51:12 +0200
+
+nginx (1.12.2-trusty-debian0-ubuntu269) trusty; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:17:30 +0100
+
+nginx (1.12.2-bionic-debian0-ubuntu268) bionic; urgency=medium
+
+  * packaging for artful
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:17:18 +0100
+
+nginx (1.12.2-artful-debian0-ubuntu267) artful; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:17:06 +0100
+
+nginx (1.12.2-xenial-debian0-ubuntu266) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:16:48 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu265) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:14:55 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu264) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:14:00 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu263) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Tue, 20 Mar 2018 13:11:50 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu262) trusty; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 19 Mar 2018 22:01:20 +0100
+
+nginx (1.12.2-bionic-debian0-ubuntu261) bionic; urgency=medium
+
+  * packaging for artful
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 19 Mar 2018 22:01:06 +0100
+
+nginx (1.12.2-artful-debian0-ubuntu260) artful; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 19 Mar 2018 22:00:52 +0100
+
+nginx (1.12.2-xenial-debian0-ubuntu259) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 19 Mar 2018 22:00:36 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu258) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Mon, 19 Mar 2018 21:58:01 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu257) trusty; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:36:41 +0100
+
+nginx (1.12.2-bionic-debian0-ubuntu256) bionic; urgency=medium
+
+  * packaging for artful
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:36:21 +0100
+
+nginx (1.12.2-artful-debian0-ubuntu255) artful; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:36:04 +0100
+
+nginx (1.12.2-xenial-debian0-ubuntu254) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:35:36 +0100
+
+nginx (1.12.2-trusty-debian0-ubuntu253) trusty; urgency=medium
+
+  * packaging for bionic
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:33:49 +0100
+
+nginx (1.12.1-bionic-debian0-ubuntu252) bionic; urgency=medium
+
+  * packaging for artful
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:33:33 +0100
+
+nginx (1.12.1-artful-debian0-ubuntu251) artful; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:33:14 +0100
+
+nginx (1.12.1-xenial-debian0-ubuntu250) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Thu, 25 Jan 2018 04:31:51 +0100
+
+nginx (1.12.1-trusty-debian0-ubuntu249) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 15:36:59 +0100
+
+nginx (1.12.1-trusty-debian0-ubuntu248) trusty; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 15:19:39 +0100
+
+nginx (1.12.1-xenial-zesty-debian0-ubuntu247) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 15:19:07 +0100
+
+nginx (1.12.1-zesty-debian0-ubuntu246) zesty; urgency=medium
+
+  * packaging for zesty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 15:16:07 +0100
+
+nginx (1.12.1-zesty-debian0-ubuntu245) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 15:15:49 +0100
+
+nginx (1.12.1-yakkety-debian0-ubuntu244) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 15:15:37 +0100
+
+nginx (1.12.1-xenial-debian0-ubuntu243) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 15:15:20 +0100
+
+nginx (1.12.1-trusty-debian0-ubuntu242) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:54 +0100
+
+nginx (1.12.1-zesty-debian0-ubuntu241) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:41 +0100
+
+nginx (1.12.1-yakkety-debian0-ubuntu240) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:27 +0100
+
+nginx (1.12.1-xenial-debian0-ubuntu239) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 13:45:14 +0100
+
+nginx (1.12.1-trusty-debian0-ubuntu238) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 01:07:24 +0100
+
+nginx (1.12.1-zesty-debian0-ubuntu237) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 01:07:12 +0100
+
+nginx (1.12.1-yakkety-debian0-ubuntu236) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 01:07:00 +0100
+
+nginx (1.12.1-xenial-debian0-ubuntu235) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 19 Jan 2018 01:06:34 +0100
+
+nginx (1.12.1-trusty-debian0-ubuntu234) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 13 Oct 2017 14:03:20 +0200
+
+nginx (1.12.1-zesty-debian0-ubuntu233) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 13 Oct 2017 14:03:12 +0200
+
+nginx (1.12.1-yakkety-debian0-ubuntu232) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 13 Oct 2017 14:03:04 +0200
+
+nginx (1.12.1-xenial-debian0-ubuntu231) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- kiorky <kiorky@cryptelium.net>  Fri, 13 Oct 2017 14:02:56 +0200
+
+nginx (1.12.1-trusty-debian0-ubuntu230) trusty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Thu, 23 Feb 2017 13:49:49 +0100
+
+nginx (1.10.3-yakkety-debian0-ubuntu229) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Thu, 23 Feb 2017 13:49:37 +0100
+
+nginx (1.10.3-xenial-debian0-ubuntu228) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Thu, 23 Feb 2017 13:49:22 +0100
+
+nginx (1.10.3-trusty-debian0-ubuntu227) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Thu, 23 Feb 2017 12:12:12 +0100
+
+nginx (1.10.3-zesty-debian0-ubuntu226) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Thu, 23 Feb 2017 12:12:03 +0100
+
+nginx (1.10.3-yakkety-debian0-ubuntu225) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Thu, 23 Feb 2017 12:11:52 +0100
+
+nginx (1.10.3-xenial-debian0-ubuntu224) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Thu, 23 Feb 2017 12:11:35 +0100
+
+nginx (1.10.3-trusty-debian0-ubuntu223) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:39:44 +0100
+
+nginx (1.10.2-zesty-debian0-ubuntu222) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:39:35 +0100
+
+nginx (1.10.2-yakkety-debian0-ubuntu221) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:39:25 +0100
+
+nginx (1.10.2-xenial-debian0-ubuntu220) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:39:16 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu219) trusty; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:38:40 +0100
+
+nginx (1.10.2-xenial-debian0-ubuntu218) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:38:31 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu217) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:34:55 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu216) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:19:59 +0100
+
+nginx (1.10.2-zesty-debian0-ubuntu215) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:19:49 +0100
+
+nginx (1.10.2-yakkety-debian0-ubuntu214) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:19:39 +0100
+
+nginx (1.10.2-xenial-debian0-ubuntu213) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 23:19:22 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu212) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:17:30 +0100
+
+nginx (1.10.2-zesty-debian0-ubuntu211) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:17:04 +0100
+
+nginx (1.10.2-yakkety-debian0-ubuntu210) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:16:53 +0100
+
+nginx (1.10.2-xenial-debian0-ubuntu209) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 29 Nov 2016 19:16:37 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu208) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:54:36 +0100
+
+nginx (1.10.2-zesty-debian0-ubuntu207) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:54:27 +0100
+
+nginx (1.10.2-yakkety-debian0-ubuntu206) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:54:18 +0100
+
+nginx (1.10.2-xenial-debian0-ubuntu205) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:54:09 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu204) trusty; urgency=medium
+
+  * packaging for zesty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:35:00 +0100
+
+nginx (1.10.2-zesty-debian0-ubuntu203) zesty; urgency=medium
+
+  * packaging for yakkety
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:34:43 +0100
+
+nginx (1.10.2-yakkety-debian0-ubuntu202) yakkety; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:34:31 +0100
+
+nginx (1.10.2-xenial-debian0-ubuntu201) xenial; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 25 Nov 2016 18:34:21 +0100
+
+nginx (1.10.2-trusty-debian0-ubuntu200) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:42:25 +0200
+
+nginx (1.10.0-wily-debian0-ubuntu129) wily; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:42:06 +0200
+
+nginx (1.10.0-wily-debian0-ubuntu128) wily; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:36:48 +0200
+
+nginx (1.10.0-xenial-debian0-ubuntu127) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:36:36 +0200
+
+nginx (1.10.0-wily-debian0-ubuntu126) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:36:24 +0200
+
+nginx (1.10.0-vivid-debian0-ubuntu125) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:36:15 +0200
+
+nginx (1.10.0-trusty-debian0-ubuntu124) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:35:55 +0200
+
+nginx (1.10.0-trusty-debian0-ubuntu123) trusty; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:20:32 +0200
+
+nginx (1.10.0-wily-debian0-ubuntu123) wily; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:20:32 +0200
+
+nginx (1.10.0-vivid-debian0-ubuntu123) vivid; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:20:32 +0200
+
+nginx (1.10.0-trusty-debian0-ubuntu123) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:20:32 +0200
+
+nginx (1.10.0-trusty-xenial-xenial-debian0-ubuntu122) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:19:33 +0200
+
+nginx (1.10.0-trusty-xenial-xenial-debian0-ubuntu121) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:18:06 +0200
+
+nginx (1.10.0-xenial-xenial-debian0-ubuntu120) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:14:28 +0200
+
+nginx (1.10.0-xenial-xenial-debian0-ubuntu119) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:14:20 +0200
+
+nginx (1.10.0-wily-xenial-debian0-ubuntu118) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:14:13 +0200
+
+nginx (1.10.0-vivid-xenial-debian0-ubuntu117) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:14:05 +0200
+
+nginx (1.10.0-xenial-debian0-ubuntu116) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:01:00 +0200
+
+nginx (1.10.0-xenial-debian0-ubuntu115) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:00:52 +0200
+
+nginx (1.10.0-wily-debian0-ubuntu114) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:00:44 +0200
+
+nginx (1.10.0-vivid-debian0-ubuntu113) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 21:00:32 +0200
+
+nginx (1.10.0-trusty-debian0-ubuntu112) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 20:52:32 +0200
+
+nginx (1.9.14-trusty-xenial-xenial-debian0-ubuntu112) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 20:52:32 +0200
+
+nginx (1.9.14-trusty-xenial-xenial-debian0-ubuntu111) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 20 May 2016 20:48:02 +0200
+
+nginx (1.9.14-xenial-xenial-debian0-ubuntu110) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:38:20 +0200
+
+nginx (1.9.14-xenial-xenial-debian0-ubuntu109) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:38:12 +0200
+
+nginx (1.9.14-wily-xenial-debian0-ubuntu108) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:38:03 +0200
+
+nginx (1.9.14-vivid-xenial-debian0-ubuntu107) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:55 +0200
+
+nginx (1.9.14-trusty-xenial-debian0-ubuntu106) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:51 +0200
+
+nginx (1.9.14-vivid-xenial-debian0-ubuntu105) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:43 +0200
+
+nginx (1.9.14-trusty-xenial-debian0-ubuntu104) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:20 +0200
+
+nginx (1.9.14-vivid-xenial-debian0-ubuntu103) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:37:08 +0200
+
+nginx (1.9.14-trusty-xenial-debian0-ubuntu102) trusty; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:32:57 +0200
+
+nginx (1.9.14-wily-xenial-debian0-ubuntu101) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:32:49 +0200
+
+nginx (1.9.14-vivid-xenial-debian0-ubuntu100) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:32:32 +0200
+
+nginx (1.9.14-trusty-xenial-debian0-ubuntu99) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Fri, 08 Apr 2016 17:31:57 +0200
+
+nginx (1.9.9-xenial-debian0-ubuntu98) xenial; urgency=medium
+
+  * packaging for xenial
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:32:24 +0100
+
+nginx (1.9.9-xenial-debian0-ubuntu97) xenial; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:32:15 +0100
+
+nginx (1.9.9-wily-debian0-ubuntu96) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:32:05 +0100
+
+nginx (1.9.9-vivid-debian0-ubuntu95) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sat, 20 Feb 2016 21:31:49 +0100
+
+nginx (1.9.9-trusty-debian0-ubuntu94) trusty; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:14:45 +0100
+
+nginx (1.9.9-wily-debian0-ubuntu93) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:14:37 +0100
+
+nginx (1.9.9-vivid-debian0-ubuntu92) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:14:27 +0100
+
+nginx (1.9.9-trusty-debian0-ubuntu91) trusty; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:08:25 +0100
+
+nginx (1.9.9-wily-debian0-ubuntu90) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:08:16 +0100
+
+nginx (1.9.9-vivid-debian0-ubuntu89) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:08:07 +0100
+
+nginx (1.9.9-trusty-debian0-ubuntu88) trusty; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:00:17 +0100
+
+nginx (1.9.9-wily-debian0-ubuntu87) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 23:00:07 +0100
+
+nginx (1.9.9-vivid-debian0-ubuntu86) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 22:59:57 +0100
+
+nginx (1.9.9-trusty-debian0-ubuntu85) trusty; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 22:59:06 +0100
+
+nginx (1.9.6-wily-debian0-ubuntu84) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 22:58:56 +0100
+
+nginx (1.9.6-vivid-debian0-ubuntu83) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 22:58:42 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu82) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Sun, 17 Jan 2016 22:58:06 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu81) trusty; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:49:48 +0100
+
+nginx (1.9.6-wily-debian0-ubuntu80) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:49:39 +0100
+
+nginx (1.9.6-vivid-debian0-ubuntu79) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:49:29 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu78) trusty; urgency=medium
+
+  * packaging for wily
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:44:34 +0100
+
+nginx (1.9.6-wily-debian0-ubuntu77) wily; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:44:25 +0100
+
+nginx (1.9.6-vivid-debian0-ubuntu76) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:44:16 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu75) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:42:49 +0100
+
+nginx (1.9.6-vivid-debian0-ubuntu74) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:42:41 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu73) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:41:27 +0100
+
+nginx (1.9.6-vivid-debian0-ubuntu72) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:41:18 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu71) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:34:01 +0100
+
+nginx (1.9.6-vivid-debian0-ubuntu70) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:33:42 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu69) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:33:13 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu68) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:26:18 +0100
+
+nginx (1.9.6-vivid-debian0-ubuntu67) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:25:52 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu66) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:25:33 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu65) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:25:17 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu64) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:24:28 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu63) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:23:41 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu62) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:19:17 +0100
+
+nginx (1.9.6-trusty-debian0-ubuntu61) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:17:16 +0100
+
+nginx (1.9.7-trusty-debian0-ubuntu60) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Tue, 10 Nov 2015 20:16:46 +0100
+
+nginx (1.9.7-trusty-debian0-ubuntu59) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Mon, 25 May 2015 17:39:16 +0200
+
+nginx (1.9.0-vivid-debian0-ubuntu58) vivid; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Mon, 25 May 2015 17:39:08 +0200
+
+nginx (1.9.0-trusty-debian0-ubuntu57) trusty; urgency=medium
+
+  * packaging for trusty
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Mon, 25 May 2015 16:39:31 +0200
+
+nginx (1.9.0-trusty-debian0-ubuntu56) trusty; urgency=medium
+
+  * packaging for vivid
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Mon, 25 May 2015 16:39:14 +0200
+
+nginx (1.9.0-vivid-debian0-ubuntu55) vivid; urgency=medium
+
+  * packaging for precise
+
+ -- Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>  Mon, 25 May 2015 16:34:33 +0200
+

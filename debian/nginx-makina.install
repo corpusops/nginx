@@ -1,0 +1,9 @@
+#!/usr/bin/perl -w
+print "contrib/vim/* usr/share/vim/addons\n";
+print "debian/conf/* etc/nginx\n";
+print "debian/ufw/nginx etc/ufw/applications.d\n";
+print "debian/vim/nginx.yaml usr/share/vim/registry\n";
+print "docs/html/index.html usr/share/nginx/html/\n";
+print "debian/build-core/objs/nginx usr/sbin\n";
+print "debian/build-extras/objs/nginx usr/sbin\n";
+print "debian/build-light/objs/nginx usr/sbin\n";

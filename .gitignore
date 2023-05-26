@@ -1,0 +1,10 @@
+debian/nginx-makina.install.in
+/nginx.spec
+debian/nginx-common.install.in
+.pc
+debian/modules/nginx-lua/.gitignore
+debian/modules/nginx-lua/.gitmodules
+mc_packaging/redhat/tip.tar.gz
+#debian/modules/nginx-auth-ldap/
+/local
+debian/files
