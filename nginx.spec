@@ -484,7 +484,7 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
-* Wed Jan 24 2018 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.12.2-2
+* Wed Jan 24 2018 Makina Corpus <freesoftware@makina-corpus.com> 1.12.2-2
 - bump version & stick to redhat packaging (bring only modules & patches from debian, remove shared conf)
 
 * Tue Dec 26 2017 Konstantin Pavlov <thresh@nginx.com>
@@ -527,17 +527,17 @@ fi
 * Tue Mar 21 2017 Konstantin Pavlov <thresh@nginx.com>
 - 1.11.11
 
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.10.3-4
-- bump version (kiorky@cryptelium.net)
-- fix setup source (kiorky@cryptelium.net)
+* Tue Feb 28 2017 Makina Corpus <freesoftware@makina-corpus.com> 1.10.3-4
+- bump version (freesoftware@makina-corpus.com)
+- fix setup source (freesoftware@makina-corpus.com)
 
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>
-- fix setup source (kiorky@cryptelium.net)
+* Tue Feb 28 2017 Makina Corpus <freesoftware@makina-corpus.com>
+- fix setup source (freesoftware@makina-corpus.com)
 
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net> 1.10.3-3
-- release (kiorky@cryptelium.net)
+* Tue Feb 28 2017 Makina Corpus <freesoftware@makina-corpus.com> 1.10.3-3
+- release (freesoftware@makina-corpus.com)
 
-* Tue Feb 28 2017 Mathieu Le Marec - Pasquet <kiorky@cryptelium.net>
+* Tue Feb 28 2017 Makina Corpus <freesoftware@makina-corpus.com>
 - init
 
 * Tue Feb 14 2017 Konstantin Pavlov <thresh@nginx.com>
